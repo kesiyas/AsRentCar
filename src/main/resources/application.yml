@@ -6,6 +6,6 @@ spring:
       suffix: .jsp
   datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/AsRentCar
+      url: jdbc:mysql://localhost:3306/instagram
       username: root
       password: root
