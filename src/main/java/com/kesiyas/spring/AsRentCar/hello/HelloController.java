@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/hello")
 public class HelloController {
 
-	@GetMapping("/view")
 	public String hello() {
 		return "user/hello";
+	}
+	
+	@GetMapping("/view")
+	public String jsp_test() {
+		return "test/hello";
 	}
 	
 	

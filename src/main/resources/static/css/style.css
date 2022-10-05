@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+header {
+	width:1200px;
+	height:80px;
+}
+
+.contents {
+	width:1200px;
+	height:700px;
+}
+
+footer {
+	width:1200px;
+	height:130px;
+}
