@@ -24,15 +24,15 @@
 				<h2 class="text-center">기본 정보 입력</h2>
 
 				<div class="mt-5">
-					<input type="text" class="signup-input form-control" placeholder="아이디 입력 (띄어쓰기 없이 영문 소문자,숫자 포함 4~20자 이내)">
-					<input type="password" class="mt-3 signup-input form-control" placeholder="비밀번호 입력 (띄어쓰기 없이 영문,숫자,특수문자 포함 10~20자 이내)">
-					<input type="password" class="mt-3 signup-input form-control" placeholder="비밀번호 재입력">
-					<input type="text" class="mt-3 signup-input form-control" placeholder="이름">
-					<input type="text" class="mt-3 signup-input form-control" placeholder="휴대폰 번호">
-					<input type="text" class="mt-3 signup-input form-control" placeholder="이메일 주소">					
+					<input type="text" class="signup-input form-control" id="loginId_Input" placeholder="아이디 입력 (띄어쓰기 없이 영문 소문자,숫자 포함 4~20자 이내)">
+					<input type="password" class="mt-3 signup-input form-control" id="password_Input" placeholder="비밀번호 입력 (띄어쓰기 없이 영문,숫자,특수문자 포함 10~20자 이내)">
+					<input type="password" class="mt-3 signup-input form-control" id="check_Input" placeholder="비밀번호 재입력">
+					<input type="text" class="mt-3 signup-input form-control" id="name_Input" placeholder="이름">
+					<input type="text" class="mt-3 signup-input form-control" id="phoneNumber_Input" placeholder="휴대폰 번호">
+					<input type="text" class="mt-3 signup-input form-control" id="email_Input" placeholder="이메일 주소">					
 				</div>
 				
-				<button class="btn btn-style">가입 완료</button>
+				<button class="btn btn-style" id="signup-btn">가입 완료</button>
 				
 				<div class="info text-center mt-4">
 					회원가입이 어려우신 경우 AS렌터카 고객센터로 연락주시기 바랍니다.<br>
@@ -43,6 +43,75 @@
 	
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"></c:import>
 	</div>
+	
+	<script>
+		$(document).ready(function(){
+			
+			$("#signup-btn").on("click", function(){
+				
+				let loginId = $("#loginId_Input").val();
+				let password = $("#password_Input").val();
+				let checkPassword = $("#check_Input").val();
+				let name = $("#name_Input").val();
+				let phoneNumber = $("#phoneNumber_Input").val();
+				let email = $("#email_Input").val();
+				
+				if(loginId == "") {
+					alert("아이디를 입력하세요.")
+					return ;
+				}
+				
+				if(password == "") {
+					alert("비밀번호를 입력하세요.")
+					return ;
+				}
+				
+				if(password != checkPassword) {
+					alert("비밀번호를 확인해주세요.")
+					return ;
+				}
+				
+				if(name == "") {
+					alert("이름을 입력하세요.")
+					return ;
+				}
+				
+				if(phoneNumber == "") {
+					alert("휴대폰 번호를 입력하세요.")
+					return ;
+				}
+				
+				if(email == "") {
+					alert("이메일 주소를 입력하세요.")
+					return ;
+				}
+				
+				$.ajax({
+					type:"post"
+					, url:"/rent/user/signup"
+					, data:{"loginId":loginId, "password":password, "name":name, "phoneNumber":phoneNumber, "email":email}
+					, success:function(){
+						if(data.result == "success") {
+							alert("회원가입 성공");
+						}else {
+							alert("회원가입 실패");
+						}
+					}
+					, error:function(data){
+						alert("회원가입 에러");
+					}
+					
+					
+				});
+				
+			});
+			
+			
+			
+		});
+	
+	
+	</script>
 
 </body>
 </html>
