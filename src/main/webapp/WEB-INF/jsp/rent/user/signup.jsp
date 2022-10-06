@@ -16,25 +16,32 @@
 <body>
 
 	<div class="container">
-		<header class="bg-dark">
-			<div class="d-flex">
-				<div class="d-flex align-items-center">
-					<h2 class="text-danger">AS</h2>
-					<h2 class="text-info">렌터카</h2>
+		<c:import url="/WEB-INF/jsp/include/header.jsp"></c:import>
+		
+		<section class="contents d-flex align-items-center justify-content-center">
+			<div class="d-flex flex-column box">			
+
+				<h2 class="text-center">기본 정보 입력</h2>
+
+				<div class="mt-5">
+					<input type="text" class="signup-input form-control" placeholder="아이디 입력 (띄어쓰기 없이 영문 소문자,숫자 포함 4~20자 이내)">
+					<input type="password" class="mt-3 signup-input form-control" placeholder="비밀번호 입력 (띄어쓰기 없이 영문,숫자,특수문자 포함 10~20자 이내)">
+					<input type="password" class="mt-3 signup-input form-control" placeholder="비밀번호 재입력">
+					<input type="text" class="mt-3 signup-input form-control" placeholder="이름">
+					<input type="text" class="mt-3 signup-input form-control" placeholder="휴대폰 번호">
+					<input type="text" class="mt-3 signup-input form-control" placeholder="이메일 주소">					
+				</div>
+				
+				<button class="btn btn-style">가입 완료</button>
+				
+				<div class="info text-center mt-4">
+					회원가입이 어려우신 경우 AS렌터카 고객센터로 연락주시기 바랍니다.<br>
+					<span class="point_1">고객센터 1234-5678</span> (월 ~ 금 08:30 ~ 18:00/토요일 및 공휴일 휴무)
 				</div>
 			</div>
-		</header>
-		
-		<section class="contents bg-primary">
-			<div>
-			
-			</div>
-		</section>
-		
-		<footer class="bg-warning">
-		
-		</footer>
+		</section>		
 	
+		<c:import url="/WEB-INF/jsp/include/footer.jsp"></c:import>
 	</div>
 
 </body>

@@ -1,16 +1,99 @@
 @charset "UTF-8";
 
+body {
+	min-width: 1200px;
+    max-width: 1920px;
+}
+
 header {
-	width:1200px;
-	height:80px;
+	width:1200px;	
+	height:90px;
+	border-bottom: 1px solid #ada6a0;
+}
+
+header > .main-style {
+	height:100%;
+	align-items:center;
+	margin-left: 79px;
+	margin-right: 60px;	
+}
+
+header .main-menu{
+	font-size: 18px;
+	font-weight: normal;
+}
+
+header .util {
+	color: #e67a15;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+header .util_2  {
+	color: #4287f5;
+	font-size: 14px;
+	font-weight: bold;
 }
 
 .contents {
 	width:1200px;
-	height:700px;
+	margin-bottom: 40px;
 }
+
+.contents > .box {
+	width: 540px;
+	margin-top: 60px;
+}
+
+.box .signup-input {
+	border: 1px solid #ddd;
+	font-size: 14px;
+	height: 52px;
+}
+
+.box > .btn-style {
+	height: 50px;
+    font-size: 18px;
+    color: #fff;
+    background: #f68121;
+    margin-top: 36px;
+}
+
+
 
 footer {
 	width:1200px;
-	height:130px;
+	background: #333;
+}
+
+footer > .footer-info {
+	height:100%;
+	align-items:center;
+	margin-left: 79px;
+	margin-right: 170px;	
+}
+
+.footer-info .footer-logo-color_1 {
+	color:#969695;
+}
+
+.footer-info .footer-logo-color_2 {
+	color:#85857f;
+}
+
+.footer-info .info-font-style {
+	color: #aaa;
+	font-size: 14px;
+}	
+
+.main-logo-style {
+	font-family: fantasy;
+}
+
+.info {
+	font-size: 14px;
+}
+
+.info > .point_1 {
+	color: #f68121!important;
 }
