@@ -7,7 +7,7 @@
 <mapper namespace="com.kesiyas.spring.AsRentCar.user.dao.UserDAO">
 	<insert id="insertUser" parameterType="map">
 		INSERT INTO
-			`rent_user`
+			`user`
 		(
 			`loginId`
 			, `password`
@@ -28,5 +28,15 @@
 			, now()
 		)
 	</insert>
+	
+	<select id="selectLoginId" parameterType="String" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+	
+	</select>
 
 </mapper>

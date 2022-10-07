@@ -5,19 +5,19 @@ import java.security.NoSuchAlgorithmException;
 
 public class EncryptUtils {
 
-	public static String md5(String message) {
+	public static String sha(String message) {
 		String resultData = "";
 		
 		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-1");
+			MessageDigest sha = MessageDigest.getInstance("SHA-256");
 			
 			byte[] bytes = message.getBytes();
-			md.update(bytes);
+			sha.update(bytes);
 			
-			byte[] digest = md.digest();
+			byte[] digest = sha.digest();
 			
 			for(int i = 0; i < digest.length; i++) {
-				resultData += Integer.toHexString(digest[i] & 0xff); // 비트연산
+				resultData += Integer.toHexString(digest[i] & 0xff);
 			}
 			
 		} catch (NoSuchAlgorithmException e) {

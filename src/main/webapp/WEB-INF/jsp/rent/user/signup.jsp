@@ -25,7 +25,16 @@
 
 				<div class="mt-5">
 					<input type="text" class="signup-input form-control" id="loginId_Input" placeholder="아이디 입력 (띄어쓰기 없이 영문 소문자,숫자 포함 4~20자 이내)">
+						<div class="d-none text-danger ml-2" id="userIdchk"><small>필수 정보입니다.</small></div>
+						<div class="d-none text-warning ml-2" id="userIdchk_2"><small>4~16자 이내의 영문 소문자, 숫자만 입력 가능합니다.</small></div>
+						<div class="d-none text-warning ml-2" id="userIdchk_3"><small>이미 가입된 정보입니다.</small></div>
+						<div class="d-none text-info ml-2" id="userIdchk_4"><small>사용 가능한 아이디입니다.</small></div>
+
 					<input type="password" class="mt-3 signup-input form-control" id="password_Input" placeholder="비밀번호 입력 (띄어쓰기 없이 영문,숫자,특수문자 포함 10~20자 이내)">
+						<div class="d-none text-danger ml-2" id="passwordChk"><small>필수 정보입니다.</small></div>
+						<div class="d-none text-warning ml-2" id="passwordChk_2"><small>영문, 숫자, 특수문자(! @ # $ % ^ & + =) 포함 8~20자 이내로 등록해 주십시오.</small></div>
+						<div class="d-none text-info ml-2" id="passwordChk_3"><small>사용 가능한 비밀번호입니다.</small></div>
+						
 					<input type="password" class="mt-3 signup-input form-control" id="check_Input" placeholder="비밀번호 재입력">
 					<input type="text" class="mt-3 signup-input form-control" id="name_Input" placeholder="이름">
 					<input type="text" class="mt-3 signup-input form-control" id="phoneNumber_Input" placeholder="휴대폰 번호">
@@ -47,70 +56,210 @@
 	<script>
 		$(document).ready(function(){
 			
-			$("#signup-btn").on("click", function(){
+			// 중복 체크 확인 상태 저장 변수
+			var isCheck = false;
+			// 중복 상태 저장 변수
+			var isDuplicateLoginId = true;
+			
+			// 로그인 아이디 중복 검사
+			$("#loginId_Input").on("change", function(){	
+				
+				isCheck = false;
+				isDuplicateLoginId = true;
 				
 				let loginId = $("#loginId_Input").val();
-				let password = $("#password_Input").val();
-				let checkPassword = $("#check_Input").val();
-				let name = $("#name_Input").val();
-				let phoneNumber = $("#phoneNumber_Input").val();
-				let email = $("#email_Input").val();
-				
-				if(loginId == "") {
-					alert("아이디를 입력하세요.")
+				let loginIdLength = loginId.length;
+				let checkId = /^[a-z0-9]{4,16}$/;
+								
+				if(loginIdLength == 0 ) {					
+					
+					$("#userIdchk").removeClass("d-none");
+					
+					$("#userIdchk_2").addClass("d-none");	
+					$("#userIdchk_3").addClass("d-none");
+					$("#userIdchk_4").addClass("d-none");
 					return ;
-				}
+				} 
 				
-				if(password == "") {
-					alert("비밀번호를 입력하세요.")
-					return ;
-				}
-				
-				if(password != checkPassword) {
-					alert("비밀번호를 확인해주세요.")
-					return ;
-				}
-				
-				if(name == "") {
-					alert("이름을 입력하세요.")
-					return ;
-				}
-				
-				if(phoneNumber == "") {
-					alert("휴대폰 번호를 입력하세요.")
-					return ;
-				}
-				
-				if(email == "") {
-					alert("이메일 주소를 입력하세요.")
+				if(!checkId.test(loginId)) {
+					
+					$("#userIdchk_2").removeClass("d-none");	
+					
+					$("#userIdchk").addClass("d-none");
+					$("#userIdchk_3").addClass("d-none");
+					$("#userIdchk_4").addClass("d-none");
 					return ;
 				}
 				
 				$.ajax({
-					type:"post"
-					, url:"/rent/user/signup"
-					, data:{"loginId":loginId, "password":password, "name":name, "phoneNumber":phoneNumber, "email":email}
-					, success:function(){
-						if(data.result == "success") {
-							alert("회원가입 성공");
-						}else {
-							alert("회원가입 실패");
-						}
+					type:"get"
+					, url:"/rent/user/is_duplicate"
+					, data:{"loginId":loginId}
+					, success:function(data){
+						isCheck = true;
+						
+						if(data.result) {							
+							$("#userIdchk_3").removeClass("d-none");
+							
+							$("#userIdchk").addClass("d-none");
+							$("#userIdchk_2").addClass("d-none");
+							$("#userIdchk_4").addClass("d-none");
+							
+							isDuplicateLoginId = true;
+						} else {							
+							$("#userIdchk_4").removeClass("d-none");
+							
+							$("#userIdchk").addClass("d-none");
+							$("#userIdchk_2").addClass("d-none");
+							$("#userIdchk_3").addClass("d-none");
+							
+							isDuplicateLoginId = false;
+						}					
 					}
-					, error:function(data){
-						alert("회원가입 에러");
-					}
-					
-					
+					, error:function(){
+						
+						alert("아이디 중복체크 에러");
+					}					
 				});
-				
 			});
 			
+			// 비밀번호 정규식 검사
+			$("#password_Input").on("change", function(){
 			
+			let loginId = $("#loginId_Input").val();
+			let loginIdLength = loginId.length;
 			
+			let password = $("#password_Input").val();
+			let pswLength = password.length;
+			let checkPsw = /^[a-z0-9!@$!%*#^?&\\(\\)\-_=+]{8,20}$/;
+							
+			if(loginIdLength == 0 ) {					
+				
+				$("#userIdchk").removeClass("d-none");
+				
+				$("#userIdchk_2").addClass("d-none");	
+				$("#userIdchk_3").addClass("d-none");
+				$("#userIdchk_4").addClass("d-none");
+				return ;
+			} 
+			
+			if(pswLength == 0) {
+				
+				$("#passwordChk").removeClass("d-none");	
+				
+				$("#passwordChk_2").addClass("d-none");
+				$("#passwordChk_3").addClass("d-none");
+				return ;
+			} 
+			
+			if(!checkPsw.test(password)) {
+				
+				$("#passwordChk_2").removeClass("d-none");	
+				
+				$("#passwordChk").addClass("d-none");
+				$("#passwordChk3").addClass("d-none");
+				return ; 
+			} else {
+				
+				$("#passwordChk_3").removeClass("d-none");	
+				
+				$("#passwordChk").addClass("d-none");
+				$("#passwordChk_2").addClass("d-none");		
+				return ;
+			}
+		});
+			
+		// 회원 가입
+		$("#signup-btn").on("click", function(){
+			
+			let loginId = $("#loginId_Input").val();
+			let password = $("#password_Input").val();
+			let checkPassword = $("#check_Input").val();
+			let name = $("#name_Input").val();
+			let phoneNumber = $("#phoneNumber_Input").val();
+			let email = $("#email_Input").val();
+			
+			// 정규식(로그인 아이디, 패스워드, 연락처, 이메일 주소)
+			let checkId = /^[a-z0-9]{4,16}$/;
+			let checkPsw = /^[a-z0-9!@$!%*#^?&\\(\\)\-_=+]{8,20}$/;
+			let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+			let checkEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+			
+			if(loginId == "") {
+				alert("아이디를 입력하세요.")
+				return ;
+			}
+			
+			if(password == "") {
+				alert("비밀번호를 입력하세요.")
+				return ;
+			}
+			
+			if(password != checkPassword) {
+				alert("비밀번호를 확인해주세요.")
+				return ;
+			}
+			
+			if(name == "") {
+				alert("이름을 입력하세요.")
+				return ;
+			}
+			
+			if(phoneNumber == "") {
+				alert("휴대폰 번호를 입력하세요.")
+				return ;
+			}
+			
+			if(email == "") {
+				alert("이메일 주소를 입력하세요.")
+				return ;
+			}
+			
+			if(!checkId.test(loginId)) {				
+				return ;
+			}
+			
+			if(!checkPsw.test(password)) {				
+				return ; 
+			} 
+			
+			if(!checkPhone.test(phoneNumber)) {				
+				alert("휴대폰 번호가 올바른 형식이 아닙니다.")				
+				return;
+			}
+			
+			if(!checkEmail.test(email)) {			
+				alert("이메일 주소가 올바른 형식이 아닙니다.")				
+				return;
+			}
+			
+			if(!isCheck) {				
+				alert("아이디 중복 확인을 해주세요.");
+				return ; 
+			}
+			
+			if(isDuplicateLoginId) {				
+				return ; 
+			}
+						
+			$.ajax({
+				type:"post"
+				, url:"/rent/user/signup"
+				, data:{"loginId":loginId, "password":password, "name":name, "phoneNumber":phoneNumber, "email":email}
+				, success:function(data){
+					if(data.result == "success") {
+						alert("회원가입 성공");
+					}else {
+						alert(data.result);
+					}
+				}
+				, error:function(){
+					alert("회원가입 에러");
+				}						
+			});				
 		});
 	
-	
+	});	
 	</script>
 
 </body>
