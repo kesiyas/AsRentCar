@@ -14,4 +14,9 @@ public class UserController {
 		return "rent/user/signup";
 	}
 
+	@GetMapping("/signin/view")
+	public String signin() {
+		
+		return "rent/user/signin";
+	}
 }

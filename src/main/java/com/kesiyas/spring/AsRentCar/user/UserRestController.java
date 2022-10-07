@@ -20,6 +20,7 @@ public class UserRestController {
 	@Autowired
 	private UserBO userBO;
 	
+	// 회원가입 기능
 	@PostMapping("/signup")
 	public Map<String, String> addUser(
 			@RequestParam("loginId") String loginId
@@ -41,6 +42,7 @@ public class UserRestController {
 		return result;
 	}
 	
+	// 아이디 중복 체크
 	@GetMapping("/is_duplicate")
 	public Map<String, Boolean> is_duplicate(@RequestParam("loginId") String loginId){
 		
@@ -55,5 +57,23 @@ public class UserRestController {
 		return result;
 	}
 	
+	// 로그인 기능
+	@PostMapping("/signin")
+	public Map<String, String> signin(
+			@RequestParam("loginId") String loginId
+			, @RequestParam("password") String password)	{
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(user != nul
+				) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+		
+	}
 
 }

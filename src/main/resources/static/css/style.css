@@ -45,21 +45,37 @@ header .util_2  {
 	margin-top: 60px;
 }
 
-.box .signup-input {
+.box .input_style {
 	border: 1px solid #ddd;
 	font-size: 14px;
 	height: 52px;
 }
 
 .box > .btn-style {
-	height: 50px;
+	height: 49px;
     font-size: 18px;
     color: #fff;
     background: #f68121;
     margin-top: 36px;
 }
 
+.box > .signin-btn {
+	height: 49px;
+    font-size: 18px;
+	background: #ed441a;
+	color: #fff;
+	margin-top: 36px;
+}
 
+.box > .signin-menu {
+	margin-left: 120px;
+	margin-top: 32px;
+}
+
+.signin-menu > .signin-menu-style {
+	font-size: 14px;
+	color: #666;
+}
 
 footer {
 	width:1200px;
@@ -91,9 +107,22 @@ footer > .footer-info {
 }
 
 .info {
+	
 	font-size: 14px;
 }
 
 .info > .point_1 {
 	color: #f68121!important;
 }
+
+.radio_input {
+	font-size: 20px;
+	margin-top: 33px;
+}
+
+.radio_input_style {
+	margin-top: -10px;
+	width: 21px;
+	height: 21px;
+}
+

@@ -24,21 +24,21 @@
 				<h2 class="text-center">기본 정보 입력</h2>
 
 				<div class="mt-5">
-					<input type="text" class="signup-input form-control" id="loginId_Input" placeholder="아이디 입력 (띄어쓰기 없이 영문 소문자,숫자 포함 4~20자 이내)">
+					<input type="text" class="input_style form-control" id="loginId_Input" placeholder="아이디 입력 (띄어쓰기 없이 영문 소문자,숫자 포함 4~20자 이내)">
 						<div class="d-none text-danger ml-2" id="userIdchk"><small>필수 정보입니다.</small></div>
 						<div class="d-none text-warning ml-2" id="userIdchk_2"><small>4~16자 이내의 영문 소문자, 숫자만 입력 가능합니다.</small></div>
 						<div class="d-none text-warning ml-2" id="userIdchk_3"><small>이미 가입된 정보입니다.</small></div>
 						<div class="d-none text-info ml-2" id="userIdchk_4"><small>사용 가능한 아이디입니다.</small></div>
 
-					<input type="password" class="mt-3 signup-input form-control" id="password_Input" placeholder="비밀번호 입력 (띄어쓰기 없이 영문,숫자,특수문자 포함 10~20자 이내)">
+					<input type="password" class="mt-3 input_style form-control" id="password_Input" placeholder="비밀번호 입력 (띄어쓰기 없이 영문,숫자,특수문자 포함 10~20자 이내)">
 						<div class="d-none text-danger ml-2" id="passwordChk"><small>필수 정보입니다.</small></div>
 						<div class="d-none text-warning ml-2" id="passwordChk_2"><small>영문, 숫자, 특수문자(! @ # $ % ^ & + =) 포함 8~20자 이내로 등록해 주십시오.</small></div>
 						<div class="d-none text-info ml-2" id="passwordChk_3"><small>사용 가능한 비밀번호입니다.</small></div>
 						
-					<input type="password" class="mt-3 signup-input form-control" id="check_Input" placeholder="비밀번호 재입력">
-					<input type="text" class="mt-3 signup-input form-control" id="name_Input" placeholder="이름">
-					<input type="text" class="mt-3 signup-input form-control" id="phoneNumber_Input" placeholder="휴대폰 번호">
-					<input type="text" class="mt-3 signup-input form-control" id="email_Input" placeholder="이메일 주소">					
+					<input type="password" class="mt-3 input_style form-control" id="check_Input" placeholder="비밀번호 재입력">
+					<input type="text" class="mt-3 input_style form-control" id="name_Input" placeholder="이름">
+					<input type="text" class="mt-3 input_style form-control" id="phoneNumber_Input" placeholder="휴대폰 번호">
+					<input type="text" class="mt-3 input_style form-control" id="email_Input" placeholder="이메일 주소">					
 				</div>
 				
 				<button class="btn btn-style" id="signup-btn">가입 완료</button>
