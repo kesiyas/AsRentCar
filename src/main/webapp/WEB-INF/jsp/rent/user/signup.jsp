@@ -69,7 +69,7 @@
 				
 				let loginId = $("#loginId_Input").val();
 				let loginIdLength = loginId.length;
-				let checkId = /^[a-z0-9]{4,16}$/;
+				let checkId = /^[a-z0-9A-Z]{4,16}$/;
 								
 				if(loginIdLength == 0 ) {					
 					
@@ -248,7 +248,7 @@
 				, data:{"loginId":loginId, "password":password, "name":name, "phoneNumber":phoneNumber, "email":email}
 				, success:function(data){
 					if(data.result == "success") {
-						alert("회원가입 성공");
+						location.href = "/rent/user/signin/view";
 					}else {
 						alert(data.result);
 					}

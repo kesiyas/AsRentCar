@@ -1,13 +1,11 @@
 package com.kesiyas.spring.AsRentCar.user.bo;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kesiyas.spring.AsRentCar.common.EncryptUtils;
 import com.kesiyas.spring.AsRentCar.user.dao.UserDAO;
+import com.kesiyas.spring.AsRentCar.user.model.User;
 
 @Service
 public class UserBO {
@@ -31,6 +29,13 @@ public class UserBO {
 	public boolean is_duplicate(String loginId){
 		
 		return (userDAO.selectLoginId(loginId) != 0)?true:false;
+	}
+	
+	public User signin(String loginId, String password) {
+		
+		String encryptPassword = EncryptUtils.sha(password);
+		
+		return userDAO.selectUser(loginId, encryptPassword);
 	}
 
 }

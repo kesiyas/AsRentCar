@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 		<header>
 			<div class="d-flex justify-content-between main-style">
 				<div class="d-flex main-logo-style">
@@ -16,8 +17,16 @@
 				</nav>
 				
 				<div class="mt-4">
-					<a href=# class="util">로그인</a>
-					<span><a href=# class="util_2">My렌터카</a></span>
+					<c:choose>
+						<c:when test="${empty userId }">
+							<a href="/rent/user/signin/view" class="util">로그인</a>
+							<span><a href="/rent/user/signin/view" class="util_2">My렌터카</a></span>
+						</c:when>
+						<c:otherwise>
+							<a href="/rent/user/signout" class="util">로그 아웃</a>
+							<span><a href=# class="util_2">My렌터카</a></span>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
 		</header>
