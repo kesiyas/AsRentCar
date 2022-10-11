@@ -45,7 +45,7 @@
 				
 				<div class="d-flex justify-content-between col-7 signin-menu">
 					<a href="/rent/user/signup/view" class="signin-menu-style">회원가입</a>
-					<a href=# class="signin-menu-style">아이디 찾기</a>
+					<a href="/rent/user/id_search/view" class="signin-menu-style">아이디 찾기</a>
 					<a href=# class="signin-menu-style">비밀번호 찾기</a>
 				</div>
 			</div>
@@ -53,7 +53,6 @@
 		</section>
 		
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"></c:import>
-
 	</div>
 	
 	<script>

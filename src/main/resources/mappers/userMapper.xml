@@ -29,7 +29,7 @@
 		)
 	</insert>
 	
-	<select id="selectLoginId" parameterType="String" resultType="int">
+	<select id="selectCheckLoginId" parameterType="String" resultType="int">
 		SELECT
 			count(1)
 		FROM
@@ -54,4 +54,19 @@
 			`password` = #{password}
 	</select>
 
+	<select id="selectLoginId" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.user.model.User">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+		FROM
+			`user`
+		WHERE
+			`name` = #{name}
+			AND
+			`phoneNumber` = #{phoneNumber}
+	</select>
 </mapper>

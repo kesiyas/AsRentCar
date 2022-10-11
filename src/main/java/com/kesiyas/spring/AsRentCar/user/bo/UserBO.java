@@ -28,7 +28,7 @@ public class UserBO {
 	
 	public boolean is_duplicate(String loginId){
 		
-		return (userDAO.selectLoginId(loginId) != 0)?true:false;
+		return (userDAO.selectCheckLoginId(loginId) != 0)?true:false;
 	}
 	
 	public User signin(String loginId, String password) {
@@ -37,5 +37,9 @@ public class UserBO {
 		
 		return userDAO.selectUser(loginId, encryptPassword);
 	}
-
+	
+	public User searchId(String name, String phoneNumber) {
+		
+		return userDAO.selectLoginId(name, phoneNumber);
+	}
 }

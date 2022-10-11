@@ -86,4 +86,22 @@ public class UserRestController {
 		
 	}
 
+	// 아이디 찾기 기능
+	@PostMapping("/id_search")
+	public  Map<String, String> searchId(
+			@RequestParam("name") String name
+			, @RequestParam("phoneNumber") String phoneNumber){
+		
+		User user = userBO.searchId(name, phoneNumber);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(user != null) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
 }

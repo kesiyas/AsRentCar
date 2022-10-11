@@ -77,6 +77,10 @@ header .util_2  {
 	color: #666;
 }
 
+.box .font-color {
+	color: #eb8c34;
+}
+
 footer {
 	width:1200px;
 	background: #333;

@@ -37,7 +37,7 @@
 						
 					<input type="password" class="mt-3 input_style form-control" id="check_Input" placeholder="비밀번호 재입력">
 					<input type="text" class="mt-3 input_style form-control" id="name_Input" placeholder="이름">
-					<input type="text" class="mt-3 input_style form-control" id="phoneNumber_Input" placeholder="휴대폰 번호">
+					<input type="text" class="mt-3 input_style form-control" id="phoneNumber_Input" placeholder="전화번호">
 					<input type="text" class="mt-3 input_style form-control" id="email_Input" placeholder="이메일 주소">					
 				</div>
 				
@@ -206,7 +206,7 @@
 			}
 			
 			if(phoneNumber == "") {
-				alert("휴대폰 번호를 입력하세요.")
+				alert("전화번호를 입력하세요.")
 				return ;
 			}
 			
