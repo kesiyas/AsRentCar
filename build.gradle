@@ -27,9 +27,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
 	// JSP 연동 라이브러리
-	 implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-     implementation 'javax.servlet:jstl'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'javax.servlet:jstl'
      
+    // 이메일 인증 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
  
 }
 

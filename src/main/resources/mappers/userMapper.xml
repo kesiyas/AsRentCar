@@ -69,4 +69,13 @@
 			AND
 			`phoneNumber` = #{phoneNumber}
 	</select>
+	
+	<select id="selectEmail" parameterType="String" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`user`
+		WHERE
+			`email` = #{email}
+	</select>
 </mapper>

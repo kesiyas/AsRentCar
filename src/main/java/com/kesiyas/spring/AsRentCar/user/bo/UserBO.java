@@ -31,6 +31,7 @@ public class UserBO {
 		return (userDAO.selectCheckLoginId(loginId) != 0)?true:false;
 	}
 	
+	// 로그인
 	public User signin(String loginId, String password) {
 		
 		String encryptPassword = EncryptUtils.sha(password);
@@ -38,8 +39,20 @@ public class UserBO {
 		return userDAO.selectUser(loginId, encryptPassword);
 	}
 	
+	// 아이디 찾기
 	public User searchId(String name, String phoneNumber) {
 		
 		return userDAO.selectLoginId(name, phoneNumber);
+	}
+	
+	// 비밀번호 찾기
+	public int emailChek(String email) {
+		
+		return userDAO.selectEmail(email);
+	}
+	
+	public int searchPw(String loginId) {
+		
+		return userDAO.selectCheckLoginId(loginId);
 	}
 }

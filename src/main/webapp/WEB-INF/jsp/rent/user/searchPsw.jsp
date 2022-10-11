@@ -27,12 +27,145 @@
 				<div class="mt-4">
 					<input type="text" class="input_style form-control" id="loginId_Input" placeholder="아이디 입력">
 					<input type="text" class="mt-3 input_style form-control" id="email_Input" placeholder="이메일">
+					
+					<div class="d-none" id="checkMail-div">
+						<div class="d-flex align-items-center mt-2">
+							<label class="mr-2 info text-success">인증번호 : </label>
+							<input type="text" class="form-control col-4" id="code_Input">
+							<span id="time"></span>
+							<button class="btn ml-2 btn-primary info" id="confirm-btn">확인</button>
+						</div>
+					</div>
+					
+					<div class="text-primary info d-none mt-2" id="checkedEmail">인증 완료</div>
+					<button class="btn mt-2 info" id="mailCheck-btn">인증하기</button>
 				</div>
+				
+				<button class="btn signin-btn btn-danger" id="pw_search-btn">비밀번호 찾기</button>
 			</div>
 		</section>
 		
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"></c:import>
 	</div>
 
+	<script>
+		$(document).ready(function(){
+			
+			is_EmailCheck = false;
+			is_CodeCheck = false;
+			
+			$("#pw_search-btn").on("click",function(){
+				
+				let loginId = $("#loginId_Input").val();
+				
+				if(loginId == "") {
+					alert("아이디를 입력하세요.");
+					return ;
+				}
+				
+				if(!is_EmailCheck) {
+					alert("이메일이 인증되지 않았습니다.");
+				}
+				
+				if(!is_CodeCheck) {
+					alert("이메일이 인증되지 않았습니다.");
+				}
+				
+				$.ajax({
+					type:"get"
+					, url:"/rent/user/pw_search"
+					, data:{"loginId":loginId}
+					, success:function(data){
+						
+						if(data.result == "success") {
+							alert("비밀번호 찾기 성공");
+						}else {
+							alert("비밀번호 찾기 실패");
+						}
+					}
+					, error:function(){
+						alert("비밀번호 찾기 에러");
+					}
+				});
+				
+			});
+					
+			// 이메일 코드 인증
+			$("#confirm-btn").on("click",function(){				
+				is_CodeCheck = false;
+				
+				let code = $("#code_Input").val();
+				
+				if(code == "") {
+					
+					alert("인증코드를 입력해주세요.");
+					return;
+				}
+				
+				$.ajax({
+					type:"post"
+					, url:"/rent/user/codeCheck"
+					, data:{"code":code}
+					, success:function(data) {
+						
+						if(data.result == "success") {
+							
+							$("#checkedEmail").removeClass("d-none");	
+							$("#checkMail-div").addClass("d-none");
+							
+							alert("인증되었습니다.");	
+							
+							is_CodeCheck = true;
+						} else {						
+							alert("이메일 인증 실패");						
+						}
+					} 
+					, error:function(){
+						alert("이메일 코드 인증 에러");
+					}
+				});
+				
+			});
+			
+			$("#mailCheck-btn").on("click",function(){
+				is_EmailCheck = false;
+				
+				let email = $("#email_Input").val();
+				let checkEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+				
+				if(email == "") {
+					alert("이메일 주소를 입력하세요.")
+					return ;
+				}
+				
+				if(!checkEmail.test(email)) {			
+					alert("이메일 주소가 올바른 형식이 아닙니다.")				
+					return;
+				}
+				
+				$.ajax({
+					type:"post"
+					, url:"/rent/user/mailCheck"
+					, data:{"email":email}
+					, success:function(data){
+						if(data.result == "success"){
+							alert("인증번호가 전송되었습니다.")
+							
+							$("#checkMail-div").removeClass("d-none");
+							$("#mailCheck-btn").addClass("d-none");
+							
+							is_EmailCheck = true;
+						}else {
+							alert("가입된 이메일 주소가 아닙니다.");
+						}						
+					}
+					, error:function(){
+						alert("인증 에러");
+					}
+				});
+			});
+		
+		});
+	</script>
 </body>
 </html>

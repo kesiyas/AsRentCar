@@ -1,8 +1,10 @@
 package com.kesiyas.spring.AsRentCar.user;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kesiyas.spring.AsRentCar.user.bo.EmailService;
 import com.kesiyas.spring.AsRentCar.user.bo.UserBO;
 import com.kesiyas.spring.AsRentCar.user.model.User;
 
@@ -22,6 +25,9 @@ public class UserRestController {
 	
 	@Autowired
 	private UserBO userBO;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	// 회원가입 기능
 	@PostMapping("/signup")
@@ -68,8 +74,7 @@ public class UserRestController {
 			, HttpServletRequest request)	{
 		
 		User user = userBO.signin(loginId, password);		
-		
-			
+				
 		Map<String, String> result = new HashMap<>();
 		
 		if(user != null) {
@@ -88,7 +93,7 @@ public class UserRestController {
 
 	// 아이디 찾기 기능
 	@PostMapping("/id_search")
-	public  Map<String, String> searchId(
+	public Map<String, String> searchId(
 			@RequestParam("name") String name
 			, @RequestParam("phoneNumber") String phoneNumber){
 		
@@ -104,4 +109,71 @@ public class UserRestController {
 		
 		return result;
 	}
+	
+	@PostMapping("/mailCheck")
+	public Map<String, String> mailCheck(
+			HttpServletRequest request
+			, @RequestParam("email") String email) throws UnsupportedEncodingException, MessagingException{
+		
+		HttpSession session = request.getSession();
+		
+		int count = userBO.emailChek(email);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count != 0) {
+			
+			String authNum = emailService.createEmailForm(email);
+			
+			session.setAttribute("authNum", authNum);
+			result.put("result", "success");		
+		} else {
+			
+			result.put("result", "fail");
+		}
+								
+		return result;
+	}
+	
+	@PostMapping("/codeCheck")
+	public Map<String, String> codeCheck(HttpServletRequest request
+			, @RequestParam("code") int code){
+		
+		HttpSession session = request.getSession();
+		int authNum = Integer.parseInt(String.valueOf(session.getAttribute("authNum")));
+		
+		Map<String, String> result = new HashMap<>();
+	
+		if(code == authNum) {
+			
+			result.put("result", "success");
+		} else {
+			
+			result.put("result", "fail");
+		}
+	
+		session.removeAttribute("authNum");
+		
+		return result;
+	}
+	
+	@GetMapping("/pw_search")
+	public Map<String, String> searchPw(@RequestParam("loginId") String loginId){
+		
+		int count = userBO.searchPw(loginId);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count != 0) {
+			result.put("result", "success");
+		}else {
+			
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
+	
 }
+
+
