@@ -18,6 +18,12 @@ public class UserController {
 		
 		return "rent/user/signup";
 	}
+	
+	@GetMapping("/admin_signup/view")
+	public String adminSignup() {
+		
+		return "rent/user/admin/signup";
+	}
 
 	// 로그인
 	@GetMapping("/signin/view")

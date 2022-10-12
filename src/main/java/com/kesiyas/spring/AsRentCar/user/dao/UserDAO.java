@@ -14,6 +14,8 @@ public interface UserDAO {
 			, @Param("phoneNumber") String phoneNumber
 			, @Param("email") String email);
 	
+	public int insertAdmin(@Param("loginId") String loginId, @Param("authority") String authority);
+	
 	public int selectCheckLoginId(@Param("loginId") String loginId);
 
 	public User selectUser(@Param("loginId") String loginId

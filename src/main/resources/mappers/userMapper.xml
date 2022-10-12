@@ -29,6 +29,24 @@
 		)
 	</insert>
 	
+	<insert id="insertAdmin" parameterType="String">
+		INSERT INTO
+			`admin`
+		(
+			`loginId`
+			, `authority`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUES 
+		(
+			#{loginId}
+			, #{authority}
+			, now()
+			, now()
+		)	
+	</insert>
+	
 	<select id="selectCheckLoginId" parameterType="String" resultType="int">
 		SELECT
 			count(1)

@@ -1,5 +1,6 @@
 package com.kesiyas.spring.AsRentCar.user.bo;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,11 @@ public class UserBO {
 		
 		return userDAO.insertUser(loginId, encryptPassword, name, phoneNumber, email);
 		
+	}
+	
+	public int addAdmin(String loginId, String authority) {
+		
+		return userDAO.insertAdmin(loginId, authority);
 	}
 	
 	public boolean is_duplicate(String loginId){

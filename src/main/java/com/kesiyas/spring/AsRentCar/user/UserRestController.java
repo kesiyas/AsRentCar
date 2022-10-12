@@ -49,7 +49,31 @@ public class UserRestController {
 		}
 		
 		return result;
-	}
+	 }
+	
+	@PostMapping("/admin_signup")
+	public Map<String, String> addAdmin(
+			@RequestParam("loginId") String loginId
+			, @RequestParam("password") String password
+			, @RequestParam("name") String name
+			, @RequestParam("phoneNumber") String phoneNumber
+			, @RequestParam("email") String email) {
+		
+		String authority = "admin";
+				
+		int count = userBO.addUser(loginId, password, name, phoneNumber, email);
+		int count2 = userBO.addAdmin(loginId, authority);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	 }
 	
 	// 아이디 중복 체크
 	@GetMapping("/is_duplicate")
