@@ -23,7 +23,7 @@
 
 				<h2 class="text-center">관리자 정보 입력</h2>
 
-				<div class="mt-5">
+				<div class="mt-4">
 					<input type="text" class="input_style form-control" id="loginId_Input" placeholder="아이디 입력 (띄어쓰기 없이 영문 소문자,숫자 포함 4~20자 이내)">
 						<div class="d-none text-danger ml-2" id="userIdchk"><small>필수 정보입니다.</small></div>
 						<div class="d-none text-warning ml-2" id="userIdchk_2"><small>4~16자 이내의 영문 소문자, 숫자만 입력 가능합니다.</small></div>

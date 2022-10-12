@@ -64,4 +64,11 @@ public class UserController {
 		
 		return "rent/user/updatedPsw";
 	}
+	
+	// 지점 등록
+	@GetMapping("/admin/branch")
+	public String branchRegist() {
+		
+		return "rent/user/admin/branch_registration";
+	}
 }
