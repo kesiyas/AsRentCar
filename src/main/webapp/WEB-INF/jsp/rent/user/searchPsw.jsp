@@ -67,10 +67,12 @@
 				
 				if(!is_EmailCheck) {
 					alert("이메일이 인증되지 않았습니다.");
+					return;
 				}
 				
 				if(!is_CodeCheck) {
 					alert("이메일이 인증되지 않았습니다.");
+					return;
 				}
 				
 				$.ajax({
@@ -80,7 +82,7 @@
 					, success:function(data){
 						
 						if(data.result == "success") {
-							alert("비밀번호 찾기 성공");
+							location.href="/rent/user/pw_update/view";
 						}else {
 							alert("비밀번호 찾기 실패");
 						}

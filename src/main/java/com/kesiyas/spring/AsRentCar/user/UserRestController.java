@@ -158,18 +158,46 @@ public class UserRestController {
 	}
 	
 	@GetMapping("/pw_search")
-	public Map<String, String> searchPw(@RequestParam("loginId") String loginId){
+	public Map<String, String> searchPw(HttpServletRequest request
+			, @RequestParam("loginId") String loginId){
 		
-		int count = userBO.searchPw(loginId);
+		HttpSession session = request.getSession();
+		
+		User user = userBO.searchPw(loginId);
 		
 		Map<String, String> result = new HashMap<>();
 		
-		if(count != 0) {
+		if(user != null) {
+			
+			session.setAttribute("userId", user.getId());
 			result.put("result", "success");
 		}else {
 			
 			result.put("result", "fail");
 		}
+		
+		return result;
+	}
+	
+	// 비밀번호 변경
+	@PostMapping("/pw_update")
+	public Map<String, String> updatePw(HttpServletRequest request,
+			@RequestParam("password") String password) {
+		
+		HttpSession session = request.getSession();
+		int userId = (Integer)session.getAttribute("userId");
+		
+		int count = userBO.updatePw(userId, password);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		}else {			
+			result.put("result", "fail");
+		}
+		
+		session.removeAttribute("userId");
 		
 		return result;
 	}

@@ -78,4 +78,29 @@
 		WHERE
 			`email` = #{email}
 	</select>
+	
+	<select id="selectPassowrdByLoginId" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.user.model.User">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+	</select>
+		
+	
+	<update id="updatePassword" parameterType="map">
+		UPDATE
+			`user`
+		SET 
+			`password` = #{password}
+			, `updatedAt` = now()
+		WHERE
+			`id` = #{userId}
+	</update>
 </mapper>

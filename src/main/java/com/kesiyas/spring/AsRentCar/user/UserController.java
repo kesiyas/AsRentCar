@@ -52,4 +52,10 @@ public class UserController {
 		return "rent/user/searchPsw";
 	}
 	
+	// 비밀번호 변경
+	@GetMapping("/pw_update/view") 
+	public String updatePassword() {
+		
+		return "rent/user/updatedPsw";
+	}
 }

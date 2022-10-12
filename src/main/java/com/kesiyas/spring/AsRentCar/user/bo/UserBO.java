@@ -45,14 +45,23 @@ public class UserBO {
 		return userDAO.selectLoginId(name, phoneNumber);
 	}
 	
-	// 비밀번호 찾기
+	// 이메일 인증
 	public int emailChek(String email) {
 		
 		return userDAO.selectEmail(email);
 	}
 	
-	public int searchPw(String loginId) {
+	// 비밀번호 찾기
+	public User searchPw(String loginId) {
 		
-		return userDAO.selectCheckLoginId(loginId);
+		return userDAO.selectPassowrdByLoginId(loginId);
+	}
+	
+	// 비밀번호 변경
+	public int updatePw(int userId, String password) {
+		
+		String encryptPassword = EncryptUtils.sha(password);
+		
+		return userDAO.updatePassword(userId, encryptPassword);
 	}
 }

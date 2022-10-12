@@ -126,47 +126,47 @@
 			// 비밀번호 정규식 검사
 			$("#password_Input").on("change", function(){
 			
-			let loginId = $("#loginId_Input").val();
-			let loginIdLength = loginId.length;
-			
-			let password = $("#password_Input").val();
-			let pswLength = password.length;
-			let checkPsw = /^[a-z0-9!@$!%*#^?&\\(\\)\-_=+]{8,20}$/;
-							
-			if(loginIdLength == 0 ) {					
+				let loginId = $("#loginId_Input").val();
+				let loginIdLength = loginId.length;
 				
-				$("#userIdchk").removeClass("d-none");
+				let password = $("#password_Input").val();
+				let pswLength = password.length;
+				let checkPsw = /^[a-z0-9!@$!%*#^?&\\(\\)\-_=+]{8,20}$/;
+								
+				if(loginIdLength == 0 ) {					
+					
+					$("#userIdchk").removeClass("d-none");
+					
+					$("#userIdchk_2").addClass("d-none");	
+					$("#userIdchk_3").addClass("d-none");
+					$("#userIdchk_4").addClass("d-none");
+					return ;
+				} 
 				
-				$("#userIdchk_2").addClass("d-none");	
-				$("#userIdchk_3").addClass("d-none");
-				$("#userIdchk_4").addClass("d-none");
-				return ;
-			} 
-			
-			if(pswLength == 0) {
+				if(pswLength == 0) {
+					
+					$("#passwordChk").removeClass("d-none");	
+					
+					$("#passwordChk_2").addClass("d-none");
+					$("#passwordChk_3").addClass("d-none");
+					return ;
+				} 
 				
-				$("#passwordChk").removeClass("d-none");	
-				
-				$("#passwordChk_2").addClass("d-none");
-				$("#passwordChk_3").addClass("d-none");
-				return ;
-			} 
-			
-			if(!checkPsw.test(password)) {
-				
-				$("#passwordChk_2").removeClass("d-none");	
-				
-				$("#passwordChk").addClass("d-none");
-				$("#passwordChk3").addClass("d-none");
-				return ; 
-			} else {
-				
-				$("#passwordChk_3").removeClass("d-none");	
-				
-				$("#passwordChk").addClass("d-none");
-				$("#passwordChk_2").addClass("d-none");		
-				return ;
-			}
+				if(!checkPsw.test(password)) {
+					
+					$("#passwordChk_2").removeClass("d-none");	
+					
+					$("#passwordChk").addClass("d-none");
+					$("#passwordChk_3").addClass("d-none");
+					return ; 
+				} else {
+					
+					$("#passwordChk_3").removeClass("d-none");	
+					
+					$("#passwordChk").addClass("d-none");
+					$("#passwordChk_2").addClass("d-none");		
+					return ;
+				}
 		});
 			
 		// 회원 가입
