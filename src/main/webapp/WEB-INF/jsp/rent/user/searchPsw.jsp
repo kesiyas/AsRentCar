@@ -30,10 +30,10 @@
 					
 					<div class="d-none" id="checkMail-div">
 						<div class="d-flex align-items-center mt-2">
-							<label class="mr-2 info text-success">인증번호 : </label>
+							<label class="mr-2 mt-1 info text-success">인증번호 : </label>
 							<input type="text" class="form-control col-4" id="code_Input">
-							<span id="time"></span>
-							<button class="btn ml-2 btn-primary info" id="confirm-btn">확인</button>
+							<span class="text-primary ml-2" id="time"></span>
+							<button class="btn ml-2 btn-secondary info" id="confirm-btn">확인</button>
 						</div>
 					</div>
 					
@@ -51,9 +51,11 @@
 	<script>
 		$(document).ready(function(){
 			
+			var timer = null;
+			
 			is_EmailCheck = false;
 			is_CodeCheck = false;
-			
+						
 			$("#pw_search-btn").on("click",function(){
 				
 				let loginId = $("#loginId_Input").val();
@@ -163,7 +165,40 @@
 						alert("인증 에러");
 					}
 				});
+									    
+			  var display = $("#time");
+			  var leftSec = 180;
+			
+			  // 인증시간 타이머
+			  startTimer(leftSec, display);
+			  
 			});
+			
+			function startTimer(count, display) {  
+				 
+				  let minutes;
+				  let seconds;
+				  
+				  timer = setInterval(function () {
+				    minutes = parseInt(count / 60, 10);
+				    seconds = parseInt(count % 60, 10);
+
+				    minutes = minutes < 10 ? "0" + minutes : minutes;
+				    seconds = seconds < 10 ? "0" + seconds : seconds;
+				    
+				    let time = minutes + ":" + seconds;
+
+				    display.html(minutes + ":" + seconds);
+
+				    // 타이머 종료
+				    if (--count < 0) {
+				      clearInterval(timer);
+				      alert("인증 시간이 초과되었습니다.");
+					  location.reload();
+				      
+				    }
+				  }, 1000);			 
+			}
 		
 		});
 	</script>
