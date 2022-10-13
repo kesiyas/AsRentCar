@@ -19,8 +19,44 @@
 		<c:import url="/WEB-INF/jsp/include/header.jsp"></c:import>
 		
 		<section class="contents d-flex align-items-center justify-content-center">
-			<div class="d-flex flex-column box">		
+			<div class="d-flex flex-column box">	
 			
+				<h2 class="text-center">지점정보 입력</h2>	
+				
+				<div class="mt-4">
+					<label class="info">지점 명<span class="font-color ml-1">*</span></label>
+					<input type="text" class="form-control center_input_style" placeholder="지점 명" id="centerName_Input">
+					
+					<div class="d-flex flex-column">
+						<label class="info mt-3">장/단기<span class="font-color ml-1">*</span></label>
+						<select class="center_selectBox_style form-control w-25" name="term">
+							<option>단기렌터카</option>
+							<option>장기렌터카</option>
+							<option>장/단기렌터카</option>
+						</select>
+					</div>
+					
+					<div class="d-flex flex-column">
+						<label class="info mt-3">지역<span class="font-color ml-1">*</span></label>
+						<select class="center_selectBox_style form-control" name="city">
+							<option>서울</option>
+							<option>경기도</option>
+							<option>제주도</option>
+							<option>인천</option>
+						</select>
+					</div>
+					
+					<label class="info mt-3">상세주소<span class="font-color ml-1">*</span></label>
+					<input type="text" class="form-control center_input_style" placeholder="상세 주소" id="address_Input">
+					
+					<label class="info mt-3">대표자 명<span class="font-color ml-1">*</span></label>
+					<input type="text" class="form-control center_input_style" placeholder="이름" id="name_Input">
+					
+					<label class="info mt-3">대표 번호<span class="font-color ml-1">*</span></label>
+					<input type="text" class="form-control center_input_style" placeholder="대표 번호" id="phoneNumber_Input">
+				</div>
+				
+				<button class="btn mt-3 col-4" id="next-btn">다음</button>
 			</div>
 		
 		</section>
@@ -28,5 +64,74 @@
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"></c:import>
 	</div>	
 
+	<script>
+		$(document).ready(function(){
+			$("#next-btn").on("click", function(){
+				let centerName = $("#centerName_Input").val();
+				let term = $("select[name = 'term']").val();
+				let city = $("select[name = 'city']").val();
+				let address = $("#address_Input").val();
+				let name = $("#name_Input").val();
+				let phoneNumber = $("#phoneNumber_Input").val();
+				
+				let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+				
+				if(centerName == "") {
+					alert("지점 명을 입력해주세요.");
+					return ;
+				}
+				
+				if(term == "") {
+					alert("장/단기 여부를 지정해주세요.");
+					return ;
+				}
+				
+				if(city == "") {
+					alert("도시명을 선택해주세요.");
+					return ;
+				}
+				
+				if(address == "") {
+					alert("상세 주소를 입력해주세요.");
+					return ;
+				}
+				
+				if(name == "") {
+					alert("이름을 입력하세요.")
+					return ;
+				}
+				
+				if(phoneNumber == "") {
+					alert("전화번호를 입력하세요.")
+					return ;
+				}
+				
+				if(!checkPhone.test(phoneNumber)) {				
+					alert("전화 번호가 올바른 형식이 아닙니다.")				
+					return;
+				}
+			}); 
+		
+			$.ajax({
+				type:"post"
+				, url:"/rent/user/admin/branch"
+				, data:{"centerName":centerName, "term":term, "city":city, "address":address, "name":name, "phoneNumber":phoneNumber}
+				, success:function(data) {
+					if(data.result == "success") {
+						alert("지점등록 성공");
+					}else {
+						alert("지점등록 실패");
+					}
+				}
+				, error:function(){
+					alert("지점등록 에러");
+				}
+			});	
+		
+		
+		});
+	
+	
+	</script>
 </body>
 </html>

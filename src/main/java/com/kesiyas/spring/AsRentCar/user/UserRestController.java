@@ -57,16 +57,21 @@ public class UserRestController {
 			, @RequestParam("password") String password
 			, @RequestParam("name") String name
 			, @RequestParam("phoneNumber") String phoneNumber
-			, @RequestParam("email") String email) {
+			, @RequestParam("email") String email
+			, HttpServletRequest request) {
 		
-		String authority = "admin";
+		String authority = "admin";	
 				
 		int count = userBO.addUser(loginId, password, name, phoneNumber, email);
 		int count2 = userBO.addAdmin(loginId, authority);
 		
 		Map<String, String> result = new HashMap<>();
 		
-		if(count == 1) {
+		if(count == 1 && count2 == 1) {
+			User user = new User();
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("userId", user.getId());
 			result.put("result", "success");
 		} else {
 			result.put("result", "fail");
@@ -224,6 +229,34 @@ public class UserRestController {
 		session.removeAttribute("userId");
 		
 		return result;
+	}
+	
+	// 지점 등록
+	@PostMapping("/admin/branch")
+	public Map<String, String> addBranch(
+			@RequestParam("centernName") String centerName
+			, @RequestParam("term") String term	
+			, @RequestParam("city") String city
+			, @RequestParam("address") String address
+			, @RequestParam("name") String name
+			, @RequestParam("phoneNumber") String phoneNumber
+			, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		int userId = (Integer)session.getAttribute("userId");
+		
+		int count = userBO.addBranch(userId, centerName, term, city, address, name, phoneNumber);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		}else {			
+			result.put("result", "fail");
+		}
+		
+		return result;
+		
 	}
 	
 }

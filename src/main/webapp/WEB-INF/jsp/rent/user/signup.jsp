@@ -224,7 +224,7 @@
 			} 
 			
 			if(!checkPhone.test(phoneNumber)) {				
-				alert("휴대폰 번호가 올바른 형식이 아닙니다.")				
+				alert("전화 번호가 올바른 형식이 아닙니다.")				
 				return;
 			}
 			

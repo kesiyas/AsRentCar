@@ -19,7 +19,8 @@ public class UserController {
 		return "rent/user/signup";
 	}
 	
-	@GetMapping("/admin_signup/view")
+	// 관리자 회원가입
+	@GetMapping("/admin/signup/view")
 	public String adminSignup() {
 		
 		return "rent/user/admin/signup";

@@ -3,6 +3,7 @@ package com.kesiyas.spring.AsRentCar.user.bo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kesiyas.spring.AsRentCar.common.EncryptUtils;
 import com.kesiyas.spring.AsRentCar.user.dao.UserDAO;
@@ -69,5 +70,18 @@ public class UserBO {
 		String encryptPassword = EncryptUtils.sha(password);
 		
 		return userDAO.updatePassword(userId, encryptPassword);
+	}
+	
+	// 지점 등록
+	public int addBranch(
+			int userId
+			, String centerName
+			, String term
+			, String city
+			, String address
+			, String name
+			, String phoneNumber) {
+		
+		return userDAO.insertBranch(userId, centerName, term, city, address, name, phoneNumber);
 	}
 }

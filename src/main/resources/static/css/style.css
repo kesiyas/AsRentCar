@@ -81,6 +81,17 @@ header .util_2  {
 	color: #eb8c34;
 }
 
+.box .center_input_style {
+	border: 1px solid #ddd;
+	font-size: 13px;
+	height: 39px;
+}
+
+.box .center_selectBox_style {
+	width: 90px;
+	font-size: 14px;
+}
+
 footer {
 	width:1200px;
 	background: #333;
@@ -130,3 +141,8 @@ footer > .footer-info {
 	height: 21px;
 }
 
+#next-btn {
+	margin-left: 359px;
+	background: #555555;
+	color: white;
+}

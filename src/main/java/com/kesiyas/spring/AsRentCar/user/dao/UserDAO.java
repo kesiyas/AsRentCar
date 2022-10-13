@@ -2,6 +2,7 @@ package com.kesiyas.spring.AsRentCar.user.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kesiyas.spring.AsRentCar.user.model.User;
 
@@ -29,5 +30,14 @@ public interface UserDAO {
 	public User selectPassowrdByLoginId(@Param("loginId") String loginId);
 	
 	public int updatePassword(@Param("userId") int userId, @Param("password") String password);
+	
+	public int insertBranch(
+			@Param("userId") int userId
+			, @Param("centernName") String centerName
+			, @Param("term") String term
+			, @Param("city") String city
+			, @Param("address") String address
+			, @Param("name") String name
+			, @Param("phoneNumber") String phoneNumber);
 	
 }
