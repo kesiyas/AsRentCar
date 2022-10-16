@@ -1,9 +1,7 @@
 package com.kesiyas.spring.AsRentCar.user.bo;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kesiyas.spring.AsRentCar.common.EncryptUtils;
 import com.kesiyas.spring.AsRentCar.user.dao.UserDAO;
@@ -28,9 +26,20 @@ public class UserBO {
 		
 	}
 	
-	public int addAdmin(String loginId, String authority) {
+	public int addAdminUser(
+			User user
+			, String password) {
+				
+		String encryptPassword =  EncryptUtils.sha(password);
+		user.setPassword(encryptPassword);
 		
-		return userDAO.insertAdmin(loginId, authority);
+		return userDAO.insertAdminUser(user);
+		
+	}
+	
+	public int addAdmin(int userId, String authority) {
+		
+		return userDAO.insertAdmin(userId, authority);
 	}
 	
 	public boolean is_duplicate(String loginId){

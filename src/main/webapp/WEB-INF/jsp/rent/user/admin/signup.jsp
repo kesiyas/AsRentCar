@@ -244,11 +244,11 @@
 						
 			$.ajax({
 				type:"post"
-				, url:"/rent/user/admin_signup"
+				, url:"/rent/user/admin/signup"
 				, data:{"loginId":loginId, "password":password, "name":name, "phoneNumber":phoneNumber, "email":email}
 				, success:function(data){
 					if(data.result == "success") {
-						location.href = "/rent/user/signin/view";
+						location.href = "/rent/user/admin/branch";
 					}else {
 						alert(data.result);
 					}

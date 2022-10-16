@@ -67,7 +67,7 @@ public class UserController {
 	}
 	
 	// 지점 등록
-	@GetMapping("/admin/branch")
+	@GetMapping("/admin/branch/view")
 	public String branchRegist() {
 		
 		return "rent/user/admin/branch_registration";

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kesiyas.spring.AsRentCar.user.bo.EmailService;
 import com.kesiyas.spring.AsRentCar.user.bo.UserBO;
+import com.kesiyas.spring.AsRentCar.user.model.Admin;
 import com.kesiyas.spring.AsRentCar.user.model.User;
 
 @RestController
@@ -51,27 +52,38 @@ public class UserRestController {
 		return result;
 	 }
 	
-	@PostMapping("/admin_signup")
+	@PostMapping("/admin/signup")
 	public Map<String, String> addAdmin(
 			@RequestParam("loginId") String loginId
 			, @RequestParam("password") String password
 			, @RequestParam("name") String name
 			, @RequestParam("phoneNumber") String phoneNumber
 			, @RequestParam("email") String email
-			, HttpServletRequest request) {
+			, HttpServletRequest request
+			, User user) {
 		
 		String authority = "admin";	
+		
+		user = new User();	
+		user.setLoginId(loginId);
+		user.setName(name);
+		user.setPhoneNumber(phoneNumber);
+		user.setEmail(email);
 				
-		int count = userBO.addUser(loginId, password, name, phoneNumber, email);
-		int count2 = userBO.addAdmin(loginId, authority);
+		int addUserCount = userBO.addAdminUser(user, password);
+		
+		int userId = user.getId(); 
+		int addAdminCount = userBO.addAdmin(userId, authority);
 		
 		Map<String, String> result = new HashMap<>();
 		
-		if(count == 1 && count2 == 1) {
-			User user = new User();
-			
+		if(addUserCount == 1 && addAdminCount == 1) {
+			Admin admin = new Admin();
+						
 			HttpSession session = request.getSession();
-			session.setAttribute("userId", user.getId());
+			session.setAttribute("userId", userId);
+			session.setAttribute("authority", admin.getAuthority());
+			
 			result.put("result", "success");
 		} else {
 			result.put("result", "fail");

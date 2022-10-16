@@ -5,7 +5,31 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.kesiyas.spring.AsRentCar.user.dao.UserDAO">
-	<insert id="insertUser" parameterType="com.kesiyas.spring.AsRentCar.user.model.User" 
+	<insert id="insertUser" parameterType="map">
+		INSERT INTO
+			`user`
+		(
+			`loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`			
+		)
+		VALUES
+		(
+			#{loginId }
+			, #{password }
+			, #{name }
+			, #{phoneNumber }
+			, #{email }
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<insert id="insertAdminUser" parameterType="com.kesiyas.spring.AsRentCar.user.model.User" 
 		useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO
 			`user`
@@ -30,18 +54,18 @@
 		)
 	</insert>
 	
-	<insert id="insertAdmin" parameterType="String">
+	<insert id="insertAdmin" parameterType="map">
 		INSERT INTO
 			`admin`
 		(
-			`loginId`
+			`userId`
 			, `authority`
 			, `createdAt`
 			, `updatedAt`
 		)
 		VALUES 
 		(
-			#{loginId}
+			#{userId}
 			, #{authority}
 			, now()
 			, now()
