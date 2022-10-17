@@ -1,4 +1,4 @@
-package com.kesiyas.spring.AsRentCar.user.model;
+package com.kesiyas.spring.AsRentCar.user.admin.model;
 
 import java.util.Date;
 
@@ -43,3 +43,4 @@ public class Admin {
 	
 	
 }
+

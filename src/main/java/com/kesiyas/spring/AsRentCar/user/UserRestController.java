@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kesiyas.spring.AsRentCar.user.bo.EmailService;
 import com.kesiyas.spring.AsRentCar.user.bo.UserBO;
-import com.kesiyas.spring.AsRentCar.user.model.Admin;
 import com.kesiyas.spring.AsRentCar.user.model.User;
 
 @RestController
@@ -51,47 +50,7 @@ public class UserRestController {
 		
 		return result;
 	 }
-	
-	@PostMapping("/admin/signup")
-	public Map<String, String> addAdmin(
-			@RequestParam("loginId") String loginId
-			, @RequestParam("password") String password
-			, @RequestParam("name") String name
-			, @RequestParam("phoneNumber") String phoneNumber
-			, @RequestParam("email") String email
-			, HttpServletRequest request
-			, User user) {
 		
-		String authority = "admin";	
-		
-		user = new User();	
-		user.setLoginId(loginId);
-		user.setName(name);
-		user.setPhoneNumber(phoneNumber);
-		user.setEmail(email);
-				
-		int addUserCount = userBO.addAdminUser(user, password);
-		
-		int userId = user.getId(); 
-		int addAdminCount = userBO.addAdmin(userId, authority);
-		
-		Map<String, String> result = new HashMap<>();
-		
-		if(addUserCount == 1 && addAdminCount == 1) {
-			Admin admin = new Admin();
-						
-			HttpSession session = request.getSession();
-			session.setAttribute("userId", userId);
-			session.setAttribute("authority", admin.getAuthority());
-			
-			result.put("result", "success");
-		} else {
-			result.put("result", "fail");
-		}
-		
-		return result;
-	 }
-	
 	// 아이디 중복 체크
 	@GetMapping("/is_duplicate")
 	public Map<String, Boolean> is_duplicate(@RequestParam("loginId") String loginId){
@@ -243,33 +202,6 @@ public class UserRestController {
 		return result;
 	}
 	
-	// 지점 등록
-	@PostMapping("/admin/branch")
-	public Map<String, String> addBranch(
-			@RequestParam("centernName") String centerName
-			, @RequestParam("term") String term	
-			, @RequestParam("city") String city
-			, @RequestParam("address") String address
-			, @RequestParam("name") String name
-			, @RequestParam("phoneNumber") String phoneNumber
-			, HttpServletRequest request) {
-		
-		HttpSession session = request.getSession();
-		int userId = (Integer)session.getAttribute("userId");
-		
-		int count = userBO.addBranch(userId, centerName, term, city, address, name, phoneNumber);
-		
-		Map<String, String> result = new HashMap<>();
-		
-		if(count == 1) {
-			result.put("result", "success");
-		}else {			
-			result.put("result", "fail");
-		}
-		
-		return result;
-		
-	}
 	
 }
 

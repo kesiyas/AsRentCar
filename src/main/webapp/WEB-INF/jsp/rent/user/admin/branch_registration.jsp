@@ -56,7 +56,7 @@
 					<input type="text" class="form-control center_input_style" placeholder="대표 번호" id="phoneNumber_Input">
 				</div>
 				
-				<button class="btn mt-3 col-4" id="next-btn">다음</button>
+				<button class="btn mt-3 col-4 branch-btn" id="next-btn">다음</button>
 			</div>
 		
 		</section>
@@ -66,7 +66,9 @@
 
 	<script>
 		$(document).ready(function(){
+			
 			$("#next-btn").on("click", function(){
+		
 				let centerName = $("#centerName_Input").val();
 				let term = $("select[name = 'term']").val();
 				let city = $("select[name = 'city']").val();
@@ -74,7 +76,7 @@
 				let name = $("#name_Input").val();
 				let phoneNumber = $("#phoneNumber_Input").val();
 				
-				let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+				let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;				
 				
 				if(centerName == "") {
 					alert("지점 명을 입력해주세요.");
@@ -110,15 +112,15 @@
 					alert("전화 번호가 올바른 형식이 아닙니다.")				
 					return;
 				}
-			}); 
-		
+				
 			$.ajax({
 				type:"post"
 				, url:"/rent/user/admin/branch"
 				, data:{"centerName":centerName, "term":term, "city":city, "address":address, "name":name, "phoneNumber":phoneNumber}
 				, success:function(data) {
+					
 					if(data.result == "success") {
-						alert("지점등록 성공");
+						location.href = "/rent/user/admin/car/view";
 					}else {
 						alert("지점등록 실패");
 					}
@@ -128,9 +130,9 @@
 				}
 			});	
 		
-		
-		});
+			}); 
 	
+		});
 	
 	</script>
 </body>

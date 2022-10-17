@@ -29,49 +29,6 @@
 		)
 	</insert>
 	
-	<insert id="insertAdminUser" parameterType="com.kesiyas.spring.AsRentCar.user.model.User" 
-		useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO
-			`user`
-		(
-			`loginId`
-			, `password`
-			, `name`
-			, `phoneNumber`
-			, `email`
-			, `createdAt`
-			, `updatedAt`			
-		)
-		VALUES
-		(
-			#{loginId }
-			, #{password }
-			, #{name }
-			, #{phoneNumber }
-			, #{email }
-			, now()
-			, now()
-		)
-	</insert>
-	
-	<insert id="insertAdmin" parameterType="map">
-		INSERT INTO
-			`admin`
-		(
-			`userId`
-			, `authority`
-			, `createdAt`
-			, `updatedAt`
-		)
-		VALUES 
-		(
-			#{userId}
-			, #{authority}
-			, now()
-			, now()
-		)	
-	</insert>
-	
 	<select id="selectCheckLoginId" parameterType="String" resultType="int">
 		SELECT
 			count(1)
@@ -147,31 +104,4 @@
 			`id` = #{userId}
 	</update>
 	
-	<insert id="insertBranch" parameterType="map">
-		INSERT INTO
-			`branch`
-		(
-			`userId`
-			, `centerName`
-			, `term`
-			, `city`
-			, `address`
-			, `name`
-			, `phoneNumber`
-			, `createdAt`
-			, `updatedAt`			
-		)
-		VALUES
-		(
-			#{userId }
-			, #{centerName }
-			, #{term }
-			, #{city}
-			, #{address}
-			, #{name }
-			, #{phoneNumber }
-			, now()
-			, now()
-		)
-	</insert>
 </mapper>

@@ -248,9 +248,9 @@
 				, data:{"loginId":loginId, "password":password, "name":name, "phoneNumber":phoneNumber, "email":email}
 				, success:function(data){
 					if(data.result == "success") {
-						location.href = "/rent/user/admin/branch";
+						location.href = "/rent/user/admin/branch/view";
 					}else {
-						alert(data.result);
+						alert("회원가입 실패");
 					}
 				}
 				, error:function(){

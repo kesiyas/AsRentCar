@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kesiyas.spring.AsRentCar.user.admin.dao.AdminDAO">
+
+	<insert id="insertAdminUser" parameterType="com.kesiyas.spring.AsRentCar.user.model.User" 
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+			`user`
+		(
+			`loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`			
+		)
+		VALUES
+		(
+			#{loginId }
+			, #{password }
+			, #{name }
+			, #{phoneNumber }
+			, #{email }
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<insert id="insertAdmin" parameterType="map">
+		INSERT INTO
+			`admin`
+		(
+			`userId`
+			, `authority`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUES 
+		(
+			#{userId}
+			, #{authority}
+			, now()
+			, now()
+		)	
+	</insert>
+
+	<insert id="insertBranch" parameterType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch"
+	useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+			`branch`
+		(
+			`centerUserId`
+			, `centerName`
+			, `term`
+			, `city`
+			, `address`
+			, `name`
+			, `phoneNumber`
+			, `createdAt`
+			, `updatedAt`			
+		)
+		VALUES
+		(
+			#{userId }
+			, #{centerName }
+			, #{term }
+			, #{city}
+			, #{address}
+			, #{name }
+			, #{phoneNumber }
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<insert id="insertBranchCar" parameterType="map">
+		INSERT INTO
+			`rentalcar`
+		(
+			`centerUserId`
+			, `centerId`
+			, `carGrade`
+			, `modelName`
+			, `carNumber`
+			, `modelYear`
+			, `rentalFee`
+			, `imgPath`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUES
+		(
+			#{centerUserId}
+			,#{centerId}
+			,#{carGrade}
+			,#{modelName}
+			,#{carNumber}
+			,#{modelYear}
+			,#{rentalFee}
+			,#{imgPath}
+			,now()
+			,now()
+		)
+		
+	</insert>
+</mapper>

@@ -22,24 +22,7 @@ public class UserBO {
 				
 		String encryptPassword =  EncryptUtils.sha(password);
 		
-		return userDAO.insertUser(loginId, encryptPassword, name, phoneNumber, email);
-		
-	}
-	
-	public int addAdminUser(
-			User user
-			, String password) {
-				
-		String encryptPassword =  EncryptUtils.sha(password);
-		user.setPassword(encryptPassword);
-		
-		return userDAO.insertAdminUser(user);
-		
-	}
-	
-	public int addAdmin(int userId, String authority) {
-		
-		return userDAO.insertAdmin(userId, authority);
+		return userDAO.insertUser(loginId, encryptPassword, name, phoneNumber, email);		
 	}
 	
 	public boolean is_duplicate(String loginId){
@@ -81,16 +64,4 @@ public class UserBO {
 		return userDAO.updatePassword(userId, encryptPassword);
 	}
 	
-	// 지점 등록
-	public int addBranch(
-			int userId
-			, String centerName
-			, String term
-			, String city
-			, String address
-			, String name
-			, String phoneNumber) {
-		
-		return userDAO.insertBranch(userId, centerName, term, city, address, name, phoneNumber);
-	}
 }

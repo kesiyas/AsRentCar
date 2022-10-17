@@ -15,10 +15,6 @@ public interface UserDAO {
 			, @Param("phoneNumber") String phoneNumber
 			, @Param("email") String email);
 	
-	public int insertAdminUser(User user);
-	
-	public int insertAdmin(@Param("userId") int userId, @Param("authority") String authority);
-	
 	public int selectCheckLoginId(@Param("loginId") String loginId);
 
 	public User selectUser(@Param("loginId") String loginId
@@ -33,13 +29,5 @@ public interface UserDAO {
 	
 	public int updatePassword(@Param("userId") int userId, @Param("password") String password);
 	
-	public int insertBranch(
-			@Param("userId") int userId
-			, @Param("centernName") String centerName
-			, @Param("term") String term
-			, @Param("city") String city
-			, @Param("address") String address
-			, @Param("name") String name
-			, @Param("phoneNumber") String phoneNumber);
 	
 }

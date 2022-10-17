@@ -19,13 +19,6 @@ public class UserController {
 		return "rent/user/signup";
 	}
 	
-	// 관리자 회원가입
-	@GetMapping("/admin/signup/view")
-	public String adminSignup() {
-		
-		return "rent/user/admin/signup";
-	}
-
 	// 로그인
 	@GetMapping("/signin/view")
 	public String signin() {
@@ -66,10 +59,5 @@ public class UserController {
 		return "rent/user/updatedPsw";
 	}
 	
-	// 지점 등록
-	@GetMapping("/admin/branch/view")
-	public String branchRegist() {
-		
-		return "rent/user/admin/branch_registration";
-	}
+
 }
