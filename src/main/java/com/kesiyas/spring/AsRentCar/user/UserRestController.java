@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kesiyas.spring.AsRentCar.user.admin.bo.AdminBO;
+import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
 import com.kesiyas.spring.AsRentCar.user.bo.EmailService;
 import com.kesiyas.spring.AsRentCar.user.bo.UserBO;
 import com.kesiyas.spring.AsRentCar.user.model.User;
@@ -25,6 +27,9 @@ public class UserRestController {
 	
 	@Autowired
 	private UserBO userBO;
+	
+	@Autowired
+	private AdminBO adminBO;
 	
 	@Autowired
 	private EmailService emailService;
@@ -73,7 +78,9 @@ public class UserRestController {
 			, @RequestParam("password") String password
 			, HttpServletRequest request)	{
 		
-		User user = userBO.signin(loginId, password);		
+		User user = userBO.signin(loginId, password);	
+		
+		int count = adminBO.selectAuthority(user.getId());
 				
 		Map<String, String> result = new HashMap<>();
 		
@@ -82,7 +89,15 @@ public class UserRestController {
 			session.setAttribute("userId", user.getId());
 			session.setAttribute("loginId", loginId);
 			
-			result.put("result", "success");
+			if(count == 1) {
+				Branch branch = adminBO.selectCenterId(user.getId());		
+				session.setAttribute("centerId", branch.getId());
+				
+				result.put("result", "success");
+			} else {
+				result.put("result", "success");
+			}			
+					
 		} else {
 			result.put("result", "fail");
 		}

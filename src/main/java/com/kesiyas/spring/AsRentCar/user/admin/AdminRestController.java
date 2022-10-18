@@ -45,17 +45,16 @@ public class AdminRestController {
 				
 		int addUserCount = adminBO.addAdminUser(user, password);
 		
-		int adminUserId = user.getId(); 
-		int addAdminCount = adminBO.addAdmin(userId, authority);
+		int centerUserId = user.getId(); 
+		// 관리자 계정 권한 부여
+		int addAdminCount = adminBO.addAdmin(centerUserId, authority);
 		
 		Map<String, String> result = new HashMap<>();
 		
 		if(addUserCount == 1 && addAdminCount == 1) {
-			Admin admin = new Admin();
 						
 			HttpSession session = request.getSession();
-			session.setAttribute("adminUserId", adminUserId);
-			session.setAttribute("authority", admin.getAuthority());
+			session.setAttribute("centerUserId", centerUserId);
 			
 			result.put("result", "success");
 		} else {
@@ -74,27 +73,18 @@ public class AdminRestController {
 			, @RequestParam("address") String address
 			, @RequestParam("name") String name
 			, @RequestParam("phoneNumber") String phoneNumber
-			, HttpServletRequest request
-			, Branch branch) {
+			, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		int adminUserId = (Integer)session.getAttribute("adminUserId");
+		int centerUserId = (Integer)session.getAttribute("centerUserId");
 		
-		branch = new Branch();
-		branch.setUserId(adminUserId);
-		branch.setCenterName(centerName);
-		branch.setTerm(term);
-		branch.setCity(city);
-		branch.setAddress(address);
-		branch.setName(name);
-		branch.setPhoneNumber(phoneNumber);
-		
-		int count = adminBO.addBranch(branch);
+		int count = adminBO.addBranch(centerUserId, centerName, term, city, address, name, phoneNumber);
 		
 		Map<String, String> result = new HashMap<>();
 		
 		if(count == 1) {
-			session.setAttribute("centerId", branch.getId());
+			session.removeAttribute("centerUserId");
+			
 			result.put("result", "success");
 		}else {			
 			result.put("result", "fail");
@@ -115,18 +105,15 @@ public class AdminRestController {
 			, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		int adminUserId = (Integer)session.getAttribute("adminUserId");
+		int centerUserId = (Integer)session.getAttribute("userId");
 		int centerId = (Integer)session.getAttribute("centerId");
 				
-		int count = adminBO.addBranch_Car(adminUserId, centerId, carGrade, modelName, carNumber, modelYear, rentalFee, file);
+		int count = adminBO.addBranch_Car(centerUserId, centerId, carGrade, modelName, carNumber, modelYear, rentalFee, file);
 		
 		Map<String, String> result = new HashMap<>();
 		
 		if(count == 1) {
 			
-			session.removeAttribute("adminUserId");
-			session.removeAttribute("centerId");
-			session.removeAttribute("authority");
 			result.put("result", "success");			
 		}else {			
 			result.put("result", "fail");

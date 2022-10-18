@@ -21,7 +21,7 @@
 		<section class="contents d-flex align-items-center justify-content-center">
 			<div class="d-flex flex-column box">	
 				
-				<h2 class="text-center">챠량정보 입력</h2>	
+				<h2 class="text-center">차량정보 입력</h2>	
 				
 				<div class="mt-4">
 					<div class="d-flex flex-column">

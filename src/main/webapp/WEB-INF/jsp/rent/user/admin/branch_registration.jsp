@@ -56,7 +56,7 @@
 					<input type="text" class="form-control center_input_style" placeholder="대표 번호" id="phoneNumber_Input">
 				</div>
 				
-				<button class="btn mt-3 col-4 branch-btn" id="next-btn">다음</button>
+				<button class="btn mt-3 col-4 branch-btn" id="next-btn">등록</button>
 			</div>
 		
 		</section>
@@ -76,7 +76,7 @@
 				let name = $("#name_Input").val();
 				let phoneNumber = $("#phoneNumber_Input").val();
 				
-				let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;				
+				let checkPhone = /^(0(2|3[1|2]|6[4]))-?([0-9]{3,4})-?([0-9]{4})$/;				
 				
 				if(centerName == "") {
 					alert("지점 명을 입력해주세요.");
@@ -104,12 +104,12 @@
 				}
 				
 				if(phoneNumber == "") {
-					alert("전화번호를 입력하세요.")
+					alert("대표 번호를 입력하세요.")
 					return ;
 				}
 				
 				if(!checkPhone.test(phoneNumber)) {				
-					alert("전화 번호가 올바른 형식이 아닙니다.")				
+					alert("대표 번호가 올바른 형식이 아닙니다.")				
 					return;
 				}
 				
@@ -120,7 +120,7 @@
 				, success:function(data) {
 					
 					if(data.result == "success") {
-						location.href = "/rent/user/admin/car/view";
+						location.href = "/rent/user/signin/view";
 					}else {
 						alert("지점등록 실패");
 					}

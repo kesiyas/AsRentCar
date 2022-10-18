@@ -2,6 +2,7 @@ package com.kesiyas.spring.AsRentCar.user.admin.bo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kesiyas.spring.AsRentCar.common.EncryptUtils;
@@ -33,9 +34,16 @@ public class AdminBO {
 	}
 	
 	// 지점 등록
-	public int addBranch(Branch branch) {
+	public int addBranch(
+			int centerUserId
+			, String centerName
+			, String term	
+			, String city
+			, String address
+			, String name
+			, String phoneNumber) {
 		
-		return adminDAO.insertBranch(branch);
+		return adminDAO.insertBranch(centerUserId, centerName, term, city, address, name, phoneNumber);
 	}
 	
 	// 지점 차량 등록
@@ -62,5 +70,16 @@ public class AdminBO {
 		}
 		
 		return adminDAO.insertBranchCar(centerUserId, centerId, carGrade, modelName, carNumber, modelYear, rentalFee, imgPath);
+	}
+	
+	// 권한설정 여부
+	public int selectAuthority(int centerUserId) {
+		
+		return adminDAO.selectAuthority(centerUserId);
+	}
+	
+	public Branch selectCenterId(int centerUserId) {
+		
+		return adminDAO.selectCenterId(centerUserId);
 	}
 }

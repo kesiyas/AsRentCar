@@ -49,8 +49,7 @@
 		)	
 	</insert>
 
-	<insert id="insertBranch" parameterType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch"
-	useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertBranch" parameterType="map">
 		INSERT INTO
 			`branch`
 		(
@@ -66,7 +65,7 @@
 		)
 		VALUES
 		(
-			#{userId }
+			#{centerUserId }
 			, #{centerName }
 			, #{term }
 			, #{city}
@@ -105,7 +104,33 @@
 			,#{imgPath}
 			,now()
 			,now()
-		)
-		
+		)	
 	</insert>
+	
+	<select id="selectAuthority" parameterType="int" resultType="int">
+		SELECT 
+			count(1)
+		FROM
+			`admin`
+		WHERE
+			`userId` = #{centerUserId}
+	</select>
+	
+	<select id="selectCenterId" parameterType="int" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch">
+		SELECT
+			`id`
+			, `centerUserId`
+			, `centerName`
+			, `term`
+			, `city`
+			, `address`
+			, `name`
+			, `phoneNumber`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`branch`
+		WHERE
+			`centerUserId` = #{	centerUserId}
+	</select>
 </mapper>
