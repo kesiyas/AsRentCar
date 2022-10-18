@@ -59,5 +59,13 @@ public class UserController {
 		return "rent/user/updatedPsw";
 	}
 	
+	
+	// 메인 화면
+	@GetMapping("/home/view")
+	public String home() {
+		
+		return "rent/user/home";
+	}
+	
 
 }

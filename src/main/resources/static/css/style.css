@@ -5,8 +5,8 @@ body {
     max-width: 1920px;
 }
 
-header {
-	width:1200px;	
+header {	
+	width:1200px;
 	height:90px;
 	border-bottom: 1px solid #ada6a0;
 }
@@ -43,12 +43,6 @@ header .util_2  {
 .contents > .box {
 	width: 540px;
 	margin-top: 60px;
-}
-
-.box .input_style {
-	border: 1px solid #ddd;
-	font-size: 14px;
-	height: 52px;
 }
 
 .box > .btn-style {
@@ -92,6 +86,26 @@ header .util_2  {
 	font-size: 14px;
 }
 
+.contents .content {
+	height: calc(50% - 16px);
+	width : 572px;
+}
+
+.content > .main_banner {
+	height:320px;
+	border-radius: 3px;
+}
+
+.datePop {	
+	width : 640px;
+	height: auto;
+	z-index : 10;
+	margin-top :-40px;
+	margin-left: -140px;
+	border: 1px solid #666;
+	background-color: #fff;
+}
+
 footer {
 	width:1200px;
 	background: #333;
@@ -121,6 +135,12 @@ footer > .footer-info {
 	font-family: fantasy;
 }
 
+.input_style {
+	border: 1px solid #ddd;
+	font-size: 14px;
+	height: 52px;
+}
+
 .info {
 	
 	font-size: 14px;
@@ -145,4 +165,11 @@ footer > .footer-info {
 	margin-left: 359px;
 	background: #555555;
 	color: white;
+}
+
+.txt01 {
+	margin-bottom: 5px;
+    color: #000;
+    font-size: 40px;
+    line-height: 48px;
 }
