@@ -11,11 +11,12 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		
-	<link rel="stylesheet" href="css/jquery.datetimepicker.min.css" />
+	<!-- 플러그인에서 제공해주는 css 로딩 -->
+	<link rel="stylesheet" href="/static/css/jquery.datetimepicker.min.css" />
 	<!-- jquery 로딩 -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<!-- 플러그인 javascript 로딩 -->
-	<script src="js/jquery.datetimepicker.full.min.js"></script>
+	<script src="/static/js/jquery.datetimepicker.full.min.js"></script>
 			
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 	
@@ -27,8 +28,8 @@
 	
 		<c:import url="/WEB-INF/jsp/include/header.jsp"></c:import>
 		
-		<section class="contents">
-			<div class="m-5">
+		<section class="contents home-bg">
+			<div class="p-5">
 				<div class="d-flex">
 					<div class="content">
 						<div class="txt01">
@@ -38,24 +39,20 @@
 						<img class="main_banner mt-5 ml-4" src="/static/img/main_banner.jpg" src="메인 배너 사진">
 					</div>
 				
-					<div class="content d-flex flex-column">
+					<div class="reservation d-flex flex-column">
+						
 						<div class="d-flex">
-							<div class="btn" id="jeju">제주</div>
-							<div class="btn" id="inland">내륙</div>
+							<div class="btn firsttab-font w-50" id="jeju">제주</div>
+							<div class="btn secondtab-font w-50" id="inland">내륙</div>
 						</div>
-						<div>
-							<div><i class="bi bi-calendar2-check mr-2"></i>언제 필요하세요?</div>
-							<a href="#" class="input_style btn form-control mt-3" id="datePopup"></a>
-						</div>
-						<div class="datePop d-none" id="rentDate">
-							<div class="d-flex">
-								<div id="datePicker_pop">
-								
-								</div>
-								
-								
+						
+						<div class="p-5">
+							<div class="font-weight-bold">
+								<i class="bi bi-calendar2-check mr-2"></i>언제 필요하세요?
 							</div>
-						</div>
+							<input class="input_style btn form-control mt-3 text-left" id="sDate" placeholder="대여일시">
+							<input class="input_style btn form-control mt-3 text-left" id="eDate" placeholder="반납일시">
+						</div>						
 					</div>
 				</div>
 			</div>
@@ -67,21 +64,43 @@
 
 	<script>
 		$(document).ready(function(){
-						
-			$("#datePicker_pop").datetimepicker({
-						    
-				
+			
+			$("#sDate").datetimepicker({
+				format: "Y년 m월 d일 H:i"
+				,allowTimes:[
+					  '08:00', '08:30', '09:00', '09:30','10:00', '10:30',
+					  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
+					  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+					  '17:00', '17:30', '18:00', '18:30', '19:00', '19:30',
+					  '20:00', '20:30', '21:00', '21:30', '22:00']	
+				,minDateTime : 0 // 시작 날짜, 시간을 현재 날짜, 시간으로	
+				,onShow:function(ct){
+					this.setOptions({
+						maxTime:jQuery('#eDate').val()?jQuery('#eDate').val():false
+					})
+				}
 			});
 			
-			
-			
-			$("#datePopup").on("click", function(e){
-				
-				e.preventDefault();
-				
-				$("#rentDate").removeClass("d-none");
-							
+			$("#eDate").datetimepicker({
+				format: "Y년 m월 d일 H:i"	
+				,allowTimes:[
+					  '08:00', '08:30', '09:00', '09:30','10:00', '10:30',
+					  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
+					  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+					  '17:00', '17:30', '18:00', '18:30', '19:00', '19:30',
+					  '20:00', '20:30', '21:00', '21:30', '22:00']
+				,minDate:0
+				,onShow:function(ct){
+					this.setOptions({
+						minDateTime:jQuery('#sDate').val()?jQuery('#sDate').val():false
+					})
+				}
 			});
+			
+			$.datetimepicker.setLocale('kr');
+
+			
+			
 
 			
 			

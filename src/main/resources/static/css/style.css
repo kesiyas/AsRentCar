@@ -37,7 +37,10 @@ header .util_2  {
 
 .contents {
 	width:1200px;
-	margin-bottom: 40px;
+}
+
+.home-bg {
+	background: #f3f3f3;
 }
 
 .contents > .box {
@@ -91,19 +94,16 @@ header .util_2  {
 	width : 572px;
 }
 
+.contents .reservation {
+	height: calc(50% - 16px);
+	width : 572px;
+	background:  #fff;
+	border-radius: 15px;
+}
+
 .content > .main_banner {
 	height:320px;
 	border-radius: 3px;
-}
-
-.datePop {	
-	width : 640px;
-	height: auto;
-	z-index : 10;
-	margin-top :-40px;
-	margin-left: -140px;
-	border: 1px solid #666;
-	background-color: #fff;
 }
 
 footer {
@@ -172,4 +172,17 @@ footer > .footer-info {
     color: #000;
     font-size: 40px;
     line-height: 48px;
+}
+
+.firsttab-font {
+	font-size: 20px;
+	font-weight: bold;
+	color:#ffc107;
+}
+
+.secondtab-font {
+	font-size: 20px;
+	font-weight: bold;
+	color: rgba(255,255,255,0.7);
+	background: #785e4c;
 }
