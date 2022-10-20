@@ -5,6 +5,10 @@ body {
     max-width: 1920px;
 }
 
+.container a {
+	text-decoration: none;
+}
+
 header {	
 	width:1200px;
 	height:90px;
@@ -106,6 +110,40 @@ header .util_2  {
 	border-radius: 3px;
 }
 
+.reservation .layerPopWrap {
+	position:absolute;
+    background-color: #fff;
+    border: 1px solid #666;
+    box-shadow: 8px 8px 16px rgb(0 0 0 / 4%);
+    border-radius: 4px;
+    width: 420px;
+    height: 370px;
+    z-index: 10;
+}
+
+.layerPopWrap > .selectWrap {
+	padding: 24px 0px 0px 30px;
+}
+
+.selectDepth1 {
+    width: 115px;
+    height: 100%;
+    border-right: 1px solid #eee;
+}
+
+.selectDepth2 {
+    flex: 1;
+    height: 100%;
+}
+
+.selectDepth1 .tabBtn {
+    color: #222;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: -0.04em;
+}
+
 footer {
 	width:1200px;
 	background: #333;
@@ -186,3 +224,8 @@ footer > .footer-info {
 	color: rgba(255,255,255,0.7);
 	background: #785e4c;
 }
+
+ul	{
+	list-style: none;
+}
+

@@ -1,9 +1,12 @@
 package com.kesiyas.spring.AsRentCar.user.bo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kesiyas.spring.AsRentCar.common.EncryptUtils;
+import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
 import com.kesiyas.spring.AsRentCar.user.dao.UserDAO;
 import com.kesiyas.spring.AsRentCar.user.model.User;
 
@@ -64,4 +67,9 @@ public class UserBO {
 		return userDAO.updatePassword(userId, encryptPassword);
 	}
 	
+	// 지역 선택
+	public List<Branch> selectCity(String city) {
+		
+		return userDAO.selectCity(city);
+	}
 }

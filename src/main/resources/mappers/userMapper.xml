@@ -91,8 +91,7 @@
 			`user`
 		WHERE
 			`loginId` = #{loginId}
-	</select>
-		
+	</select>	
 	
 	<update id="updatePassword" parameterType="map">
 		UPDATE
@@ -104,4 +103,12 @@
 			`id` = #{userId}
 	</update>
 	
+	<select id="selectCity" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch">
+		SELECT
+			`centerName`
+		FROM 
+			`branch`
+		WHERE
+			`city` = #{city}
+	</select>
 </mapper>

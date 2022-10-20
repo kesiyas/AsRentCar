@@ -52,7 +52,34 @@
 							</div>
 							<input class="input_style btn form-control mt-3 text-left" id="sDate" placeholder="대여일시">
 							<input class="input_style btn form-control mt-3 text-left" id="eDate" placeholder="반납일시">
-						</div>						
+						
+							<div class="font-weight-bold mt-4">
+								<i class="bi bi-geo-alt ㅡmr-2"></i>어디에서 이용하세요?
+							</div>
+							
+							<div class="layerPopWrap">
+								<div class="selectWrap">
+									<h5 class="font-weight-bold">대여지점 선택</h5>
+									<div class="d-flex mt-5">
+										<!-- 지역 선택-->
+										<div class="selectDepth1">
+											<ul>
+												<li><a href="/rent/user/home/selectCity?city=서울" class="tabBtn">서울</a></li>
+												<li class="mt-4"><a href="/rent/user/home/selectCity?city=경기도" class="tabBtn">경기</a></li>
+												<li class="mt-4"><a href="/rent/user/home/selectCity?city=인천" class="tabBtn">인천</a></li>
+											</ul>
+										</div>
+										
+										<!-- 지점 선택-->
+										<div class="ml-4">
+											<c:forEach var="regionList" items="${regionList }">
+												<div class="mb-3">${regionList.centerName }</div>
+											</c:forEach>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>											
 					</div>
 				</div>
 			</div>
@@ -64,6 +91,11 @@
 
 	<script>
 		$(document).ready(function(){
+			
+			$(".tabBtn").on("click", function(){
+				
+				
+			});
 			
 			$("#sDate").datetimepicker({
 				format: "Y년 m월 d일 H:i"
