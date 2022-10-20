@@ -2,6 +2,7 @@ package com.kesiyas.spring.AsRentCar.user;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -9,11 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kesiyas.spring.AsRentCar.user.admin.bo.AdminBO;
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
@@ -217,7 +220,23 @@ public class UserRestController {
 		return result;
 	}
 	
+	@PostMapping("/home/selectCity")
+	public Map<String, String> selectCity(@RequestParam("city") String city, Model model) {
+		
+		List<Branch> regionList = userBO.selectCity(city);
+		Branch branch = new Branch();
+				
+		Map<String, String> result = new HashMap<>();
+		
+		for(int i = 0; i < regionList.size(); i++) {
+			branch = regionList.get(i);
+			String centerName = branch.getCenterName();
+		
+			result.put("centerName" + i, centerName);
+		}
 	
+		return result;
+	}
 }
 
 

@@ -1,27 +1,24 @@
 package com.kesiyas.spring.AsRentCar.user;
 
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
-import com.kesiyas.spring.AsRentCar.user.bo.UserBO;
 
 @Controller
 @RequestMapping("/rent/user")
 public class UserController {
-	
-	@Autowired
-	private UserBO userBO;
 	
 	// 회원가입
 	@GetMapping("/signup/view")
@@ -74,16 +71,6 @@ public class UserController {
 	// 메인 화면
 	@GetMapping("/home/view")
 	public String home() {
-		
-		return "rent/user/home";
-	}
-	
-	@GetMapping("/home/selectCity")
-	public String selectCity(Model model, @RequestParam("city") String city) {
-		
-		List<Branch> regionList = userBO.selectCity(city);
-		
-		model.addAttribute("regionList", regionList);
 		
 		return "rent/user/home";
 	}
