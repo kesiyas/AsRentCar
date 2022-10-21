@@ -97,10 +97,7 @@ public class UserRestController {
 				session.setAttribute("centerId", branch.getId());
 				
 				result.put("result", "success");
-			} else {
-				result.put("result", "success");
-			}			
-					
+			} else {}							
 		} else {
 			result.put("result", "fail");
 		}

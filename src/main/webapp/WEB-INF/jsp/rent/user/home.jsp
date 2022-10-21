@@ -72,7 +72,7 @@
 										</div>
 										
 										<div id="region_box">
-											<ul class="region_lis"></ul>
+											<ul id="region_lis"></ul>
 										</div>
 									</div>
 								</div>
@@ -89,7 +89,15 @@
 
 	<script>
 		$(document).ready(function(){
+			
+			$(document).mouseup(function(e){
 				
+				if($("#branchSelectPop").has(e.target).length == 0){
+					
+					$("#branchSelectPop").addClass("d-none");
+				}
+			});
+						
 			$(".tabBtn").on("click", function(e){
 				
 				e.preventDefault();			
@@ -106,11 +114,11 @@
 						// 새로 고침
 						// $("#region_box").load(location.href + " #region_box");
 						
-						$(".region_lis").html("");
+						$("#region_lis").html("");
 						
-						$.each(result, function() {
+						$.each(result, function(){
 		
-							$(".region_lis").append("<li class=mb-3>"+ this + "</li>");
+							$("#region_lis").append("<li class=mb-3>"+ this + "</li>");
 			            });
 						
 					}
@@ -120,22 +128,23 @@
 				});			
 			});
 			
+			var popupOpen = false; // 팝업이 열려있는지 확인
 			$("#branch_select").on("click", function(e){
 				
 				e.preventDefault();
 				
-				$("#branchSelectPop").removeClass("d-none");		
-			});
-			
-			$(document).on("click", function(e){				
-
-		        if($("#branchSelectPop" !== currentTarget) { 
-
-		    	   $("#branchSelectPop").addClass("d-none");
-
-		       } 
-			    	
-			});
+				if(popupOpen == true) { // 팝업이 열려있다면 레이어 팝업 숨김
+					
+					$("#branchSelectPop").addClass("d-none");
+					
+					popupOpen = false;
+				} else {
+					
+					popupOpen = true;
+					
+					$("#branchSelectPop").removeClass("d-none");
+				}
+			});		
 			
 			$("#sDate").datetimepicker({
 				format: "Y년 m월 d일 H:i"
@@ -170,12 +179,7 @@
 			});
 			
 			$.datetimepicker.setLocale('kr');
-
-			
-			
-
-			
-			
+		
 		});
 	</script>
 </body>
