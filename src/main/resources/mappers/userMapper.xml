@@ -105,10 +105,31 @@
 	
 	<select id="selectCity" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch">
 		SELECT
-			`centerName`
+			`id`
+			, `centerName`
 		FROM 
 			`branch`
 		WHERE
 			`city` = #{city}
+	</select>
+	
+	<select id="selectCar" parameterType="map" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.RentalCar">
+		SELECT
+			`modelName`
+		FROM 
+			`rentalcar`
+		WHERE
+			`centerId` = #{centerId}
+			AND
+			`carGrade` = #{carGrade}
+	</select>
+	
+	<select id="selectCenterId" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch">
+		SELECT
+			`id`
+		FROM 
+			`branch`
+		WHERE
+			`centerName` = #{centerName }
 	</select>
 </mapper>

@@ -110,33 +110,56 @@ header .util_2  {
 	border-radius: 3px;
 }
 
+.reservation .font-margin {
+	margin-left: 5px;
+	margin-top: 3px;
+}
+
+.reservation .reservation_font{
+	font-weight: bold;
+    font-size: 18px;
+}
+
 .reservation .layerPopWrap {
 	position:absolute;
     background-color: #fff;
     border: 1px solid #666;
     box-shadow: 8px 8px 16px rgb(0 0 0 / 4%);
     border-radius: 4px;
-    width: 420px;
+    width: 457px;
     height: 370px;
-    z-index: 10;
+	z-index:10;
+}
+
+.reservation .rentCarLayer-margin {
+	margin-top: -350px;
 }
 
 .layerPopWrap > .selectWrap {
-	padding: 24px 0px 0px 30px;
+	padding : 24px 0px 0 30px;
 }
 
-.selectDepth1 {
+.selectWrap .selectDepth1 {
     width: 115px;
     height: 100%;
     border-right: 1px solid #eee;
 }
 
-.selectDepth2 {
-    flex: 1;
-    height: 100%;
+.reservation .revBtn_style{
+	font-weight: bold;
+    color: #fff;
+    font-size: 18px;
+    background: #FF7A00;
+    border-radius: 4px;
+    height: 56px;
 }
 
-.selectDepth1 .tabBtn {
+.reservation #jeju_input {
+	border: 1px solid #f8f8f8;
+    background-color: #f8f8f8;
+}
+
+.tabBtn {
     color: #222;
     font-size: 16px;
     font-weight: 500;

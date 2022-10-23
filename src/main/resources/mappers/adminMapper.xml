@@ -133,4 +133,5 @@
 		WHERE
 			`centerUserId` = #{	centerUserId}
 	</select>
+	
 </mapper>

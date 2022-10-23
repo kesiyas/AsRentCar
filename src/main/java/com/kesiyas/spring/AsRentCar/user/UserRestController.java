@@ -1,6 +1,7 @@
 package com.kesiyas.spring.AsRentCar.user;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,16 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kesiyas.spring.AsRentCar.user.admin.bo.AdminBO;
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
+import com.kesiyas.spring.AsRentCar.user.admin.model.RentalCar;
 import com.kesiyas.spring.AsRentCar.user.bo.EmailService;
 import com.kesiyas.spring.AsRentCar.user.bo.UserBO;
 import com.kesiyas.spring.AsRentCar.user.model.User;
@@ -81,23 +82,27 @@ public class UserRestController {
 			, @RequestParam("password") String password
 			, HttpServletRequest request)	{
 		
-		User user = userBO.signin(loginId, password);	
+		HttpSession session = request.getSession();
 		
-		int count = adminBO.selectAuthority(user.getId());
+		User user = userBO.signin(loginId, password);
 				
 		Map<String, String> result = new HashMap<>();
 		
 		if(user != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("userId", user.getId());
+			int userId = user.getId();
+		
+			session.setAttribute("userId", userId);
 			session.setAttribute("loginId", loginId);
 			
+			int count = adminBO.selectAuthority(userId);
+			
 			if(count == 1) {
-				Branch branch = adminBO.selectCenterId(user.getId());		
-				session.setAttribute("centerId", branch.getId());
 				
-				result.put("result", "success");
-			} else {}							
+				Branch branch = adminBO.selectCenterId(userId);		
+				session.setAttribute("centerId", branch.getId());
+			} else {}	
+			
+			result.put("result", "success");		
 		} else {
 			result.put("result", "fail");
 		}
@@ -218,7 +223,7 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/home/selectCity")
-	public Map<String, String> selectCity(@RequestParam("city") String city, Model model) {
+	public Map<String, String> selectCity(@RequestParam("city") String city) {
 		
 		List<Branch> regionList = userBO.selectCity(city);
 		Branch branch = new Branch();
@@ -232,6 +237,55 @@ public class UserRestController {
 			result.put("centerName" + i, centerName);
 		}
 	
+		return result;
+	}
+	
+	@PostMapping("/home/selectCar")
+	public Map<String, String> selectCar(
+			@RequestParam("centerName") String centerName
+			, @RequestParam("carGrade") String carGrade) {
+		
+		Branch branch = userBO.selectCenterId(centerName);
+		int centerId = branch.getId();
+		
+		List<RentalCar> rentCarList = userBO.selectCar(centerId, carGrade);
+		RentalCar rentCar = new RentalCar();
+				
+		Map<String, String> result = new HashMap<>();
+		
+		for(int i = 0; i < rentCarList.size(); i++) {
+			rentCar = rentCarList.get(i);
+			String modelName = rentCar.getModelName();
+		
+			result.put("modelName" + i, modelName);
+		}
+
+		return result;
+	}
+	
+	@PostMapping("/home/saveRev") 
+	public Map<String, String> selectCar(
+			@RequestParam("sDate") @DateTimeFormat(pattern="yyyy년 MM월 dd일 HH:mm") Date sDate
+			,@RequestParam("eDate")  @DateTimeFormat(pattern="yyyy년 MM월 dd일 HH:mm") Date eDate
+			,@RequestParam("centerName") String centerName
+			,@RequestParam("modelName") String modelName
+			,HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(sDate != null && eDate != null && centerName != null && modelName != null) {
+			session.setAttribute("startDate", sDate);
+			session.setAttribute("returnDate", eDate);
+			session.setAttribute("centerName", centerName);
+			session.setAttribute("modelName", modelName);
+			
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+
 		return result;
 	}
 }

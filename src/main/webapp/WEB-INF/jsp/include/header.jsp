@@ -3,10 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 		<header>
 			<div class="d-flex justify-content-between main-style">
-				<div class="d-flex main-logo-style">
-					<h3 class="text-danger">AS</h3>
-					<h3 class="text-info">렌터카</h3>
-				</div>
+				<h3><a href="/rent/user/home/view" class="main-logo-style text-danger">AS
+					<span class="text-info">렌터카</span></a></h3>			
 				
 				<nav class="main-menu col-7">
 					<ul class="nav justify-content-between">

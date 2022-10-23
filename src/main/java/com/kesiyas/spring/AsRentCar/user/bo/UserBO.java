@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kesiyas.spring.AsRentCar.common.EncryptUtils;
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
+import com.kesiyas.spring.AsRentCar.user.admin.model.RentalCar;
 import com.kesiyas.spring.AsRentCar.user.dao.UserDAO;
 import com.kesiyas.spring.AsRentCar.user.model.User;
 
@@ -71,5 +72,15 @@ public class UserBO {
 	public List<Branch> selectCity(String city) {
 		
 		return userDAO.selectCity(city);
+	}
+	
+	// 차량 선택
+	public List<RentalCar> selectCar(int centerId, String carGrade) {
+		
+		return userDAO.selectCar(centerId, carGrade);
+	}
+	
+	public Branch selectCenterId(String centerName) {
+		return userDAO.selectCenterId(centerName);
 	}
 }

@@ -94,7 +94,7 @@
 				, data:{"loginId":loginId, "password":password}				
 				, success:function(data){
 					if(data.result == "success"){
-						alert("로그인 성공");
+						location.href="/rent/user/home/view";
 					}else {
 						alert("로그인 실패");
 					}
