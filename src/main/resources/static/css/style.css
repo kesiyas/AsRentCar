@@ -167,6 +167,30 @@ header .util_2  {
     letter-spacing: -0.04em;
 }
 
+.short_rev .ul {
+	width: 100%;
+}
+
+.short_rev .tab_menu_style {
+	height: 62px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.tab-menu > ul {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tab-menu .selected {
+	border-color: #333;
+	background: #333;
+}
+
+.tab-menu .jeju_tab_radius {
+	border-top-left-radius: 8px;
+}
+
 footer {
 	width:1200px;
 	background: #333;

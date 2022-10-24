@@ -69,7 +69,7 @@
 								
 								<!-- 내륙 지점 -->
 								<div id="branch_inland" class="d-none">
-									<a href="#" class="input_style btn form-control mt-3 text-left d-flex align-items-center branch_select" id="inland_input"></a>
+									<input type="text" class="input_style btn form-control mt-3 text-left d-flex align-items-center branch_select" id="inland_input">
 								</div>
 							</div>
 							<!-- 지점 선택 -->
@@ -146,13 +146,15 @@
 			
 			var is_Check = false; // 지역이 선택 되어있는지 확인
 			var tabType = "제주";
-			$(".mainTab").on("click", function(e){				
+			$(".mainTab").on("click", function(e){		
 				
 				e.preventDefault();	
 				tabType = $(this).text();
 				
 				$(".rent_date").val("");
-				$("#rentCar_select").val("");
+				$("#inland_input").text("");
+				$("#rentCar_select").text("");
+				$("#rentCar_lis").html("");
 				
 				if(tabType == "제주") {				
 					
@@ -163,7 +165,7 @@
 					$("#inland").addClass("secondtab-font");
 					
 					$("#branch_jeju").removeClass("d-none");
-					$("#branch_inland").addClass("d-none");
+					$("#branch_inland").addClass("d-none");				
 							
 					tabType = "제주";
 				} else if(tabType == "내륙"){
@@ -172,8 +174,7 @@
 					$("#inland").removeClass("secondtab-font");
 					
 					$("#jeju").addClass("secondtab-font");
-					$("#jeju").removeClass("firsttab-font");	
-					$("#inland_input").html("");
+					$("#jeju").removeClass("firsttab-font");					
 					
 					$("#branch_jeju").addClass("d-none");
 					$("#branch_inland").removeClass("d-none");			
@@ -184,7 +185,7 @@
 				
 				let sDate = $("#sDate").val();
 				let eDate = $("#eDate").val();
-				let centerName = $("#branch_select").text();	
+				let centerName = $(".branch_select").text();	
 				let modelName = $("#rentCar_select").text();
 				
 				if(sDate == "") {
@@ -209,7 +210,7 @@
 				
 				$.ajax({
 					type:"post"
-					, url:"/rent/user/home/saveRev"
+					, url:"/rent/rentcar/home/saveRev"
 					, data:{"sDate":sDate, "eDate":eDate, "centerName":centerName, "modelName":modelName}
 					, success:function(data){
 						if(data.result == "success") {
@@ -240,7 +241,7 @@
 				let centerName = "";
 				
 				if(tabType == "내륙") {
-					centerName = $("#inland_input").text();	
+					centerName = $("#inland_input").val();	
 				} else {
 					centerName = "제주";
 				}
@@ -248,7 +249,7 @@
 				
 				$.ajax({
 					type:"post"
-					, url:"/rent/user/home/selectCar"
+					, url:"/rent/rentcar/home/selectCar"
 					, dataType:'json'
 					, data:{"centerName":centerName, "carGrade":carGrade}
 					, success:function(result){					
@@ -269,12 +270,12 @@
 					}
 				});			
 			});
-			
+						
 			// 대여차량 레이어 팝업 열고 닫기
 			$("#rentCar_select").on("click", function(e){		
 				e.preventDefault();
 
-				let centerName = $("#inland_input").text();
+				let centerName = $("#inland_input").val();
 				
 				if(centerName == "" && tabType == "내륙"){
 					
@@ -294,11 +295,17 @@
 			$("#region_lis").on("click", ".branch_btn", function(e){				
 				e.preventDefault();
 				
+				let prevBranch = $("#inland_input").val();
 				let branch = $(".branch_btn").text();
 				
-				$("#inland_input").text(branch);
+				if(prevBranch != branch) {
+					$("#rentCar_select").text("");
+					$("#rentCar_lis").html("");
+				}
+			
+				$("#inland_input").val(branch);
 				$("#branchSelectPop").addClass("d-none");
-			});			
+			});		
 								
 			$(".region_tabBtn").on("click", function(e){				
 				e.preventDefault();			
@@ -307,7 +314,7 @@
 				
 				$.ajax({
 					type:"post"
-					, url:"/rent/user/home/selectCity"
+					, url:"/rent/rentcar/home/selectCity"
 					, dataType:'json'
 					, data:{"city":city}
 					, success:function(result){		
@@ -335,8 +342,8 @@
 				
 				e.preventDefault();
 				
-				if(branch_popupOpen == false) { 
-					
+				if(branch_popupOpen == false) { 				
+								
 					$("#branchSelectPop").removeClass("d-none");	
 					branch_popupOpen = true;
 				} else {					

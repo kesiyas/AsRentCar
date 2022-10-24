@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kesiyas.spring.AsRentCar.rentcar.dao.RentcarDAO">
+
+	<select id="selectCity" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch">
+		SELECT
+			`id`
+			, `centerName`
+		FROM 
+			`branch`
+		WHERE
+			`city` = #{city}
+	</select>
+	
+	<select id="selectCar" parameterType="map" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.RentalCar">
+		SELECT
+			`modelName`
+		FROM 
+			`rentalcar`
+		WHERE
+			`centerId` = #{centerId}
+			AND
+			`carGrade` = #{carGrade}
+	</select>
+	
+	<select id="selectCenterId" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch">
+		SELECT
+			`id`
+		FROM 
+			`branch`
+		WHERE
+			`centerName` = #{centerName }
+	</select>
+
+</mapper>

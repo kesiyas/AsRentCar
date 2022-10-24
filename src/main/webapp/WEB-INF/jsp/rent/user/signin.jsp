@@ -94,7 +94,7 @@
 				, data:{"loginId":loginId, "password":password}				
 				, success:function(data){
 					if(data.result == "success"){
-						location.href="/rent/user/home/view";
+						location.href="/rent/rentcar/home/view";
 					}else {
 						alert("로그인 실패");
 					}

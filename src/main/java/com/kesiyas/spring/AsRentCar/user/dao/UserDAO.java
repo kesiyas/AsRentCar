@@ -32,15 +32,5 @@ public interface UserDAO {
 	public User selectPassowrdByLoginId(@Param("loginId") String loginId);
 	
 	public int updatePassword(@Param("userId") int userId, @Param("password") String password);
-	
-	public List<Branch> selectCity(@Param("city") String city);
-	
-	// 차량 선택
-	public List<RentalCar> selectCar(
-			@Param("centerId") int centerId
-			, @Param("carGrade") String carGrade);
-	
-	// centerId 찾기
-	public Branch selectCenterId(@Param("centerName") String centerName);
 		
 }

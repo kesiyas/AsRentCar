@@ -68,19 +68,4 @@ public class UserBO {
 		return userDAO.updatePassword(userId, encryptPassword);
 	}
 	
-	// 지역 선택
-	public List<Branch> selectCity(String city) {
-		
-		return userDAO.selectCity(city);
-	}
-	
-	// 차량 선택
-	public List<RentalCar> selectCar(int centerId, String carGrade) {
-		
-		return userDAO.selectCar(centerId, carGrade);
-	}
-	
-	public Branch selectCenterId(String centerName) {
-		return userDAO.selectCenterId(centerName);
-	}
 }
