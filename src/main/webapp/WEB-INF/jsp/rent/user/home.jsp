@@ -41,9 +41,10 @@
 				
 					<!-- 빠른 예약 -->
 					<div class="reservation d-flex flex-column">				
-						<div class="d-flex">
-							<a href="#" class="btn firsttab-font w-50" id="jeju">제주</a>
-							<a href="#" class="btn secondtab-font w-50" id="inland">내륙</a>
+						<div class="d-flex" id="main_tab">						
+							<a href="#" class="firsttab-font w-50 mainTab btn" id="jeju">제주</a>
+							
+							<a href="#" class="secondtab-font w-50 mainTab btn" id="inland">내륙</a>
 						</div>
 						
 						<div class="p-5" id="reservation_input">
@@ -51,8 +52,8 @@
 								<i class="bi bi-calendar2-check"></i>
 								<div class="font-margin reservation_font">언제 필요하세요?</div>
 							</div>
-							<input class="input_style btn form-control mt-3 text-left" id="sDate" placeholder="대여일시">
-							<input class="input_style btn form-control mt-3 text-left" id="eDate" placeholder="반납일시">
+							<input class="input_style btn form-control mt-3 text-left rent_date" id="sDate" placeholder="대여일시">
+							<input class="input_style btn form-control mt-3 text-left rent_date" id="eDate" placeholder="반납일시">
 						
 							<!-- 지점 선택 -->
 							<div class="font-weight-bold mt-4">
@@ -143,37 +144,40 @@
 	<script>
 		$(document).ready(function(){
 			
-			var is_Check = false; // 지역이 선택 되어있는지 확인할 변수
-			var is_jeju = true;
-			
-			$("#jeju").on("click", function(e){				
+			var is_Check = false; // 지역이 선택 되어있는지 확인
+			var tabType = "제주";
+			$(".mainTab").on("click", function(e){				
+				
 				e.preventDefault();	
+				tabType = $(this).text();
 				
-				$("#jeju").removeClass("secondtab-font");
-				$("#jeju").addClass("firsttab-font");
+				$(".rent_date").val("");
+				$("#rentCar_select").val("");
 				
-				$("#inland").removeClass("firsttab-font");
-				$("#inland").addClass("secondtab-font");
+				if(tabType == "제주") {				
+					
+					$("#jeju").removeClass("secondtab-font");
+					$("#jeju").addClass("firsttab-font");
+					
+					$("#inland").removeClass("firsttab-font");
+					$("#inland").addClass("secondtab-font");
+					
+					$("#branch_jeju").removeClass("d-none");
+					$("#branch_inland").addClass("d-none");
 							
-				$("#branch_jeju").removeClass("d-none");
-			  	$("#branch_inland").addClass("d-none");
-			  	
-			  	is_jeju = true;
-			});
-			
-			$("#inland").on("click", function(e){				
-				e.preventDefault();	
-				
-				$("#inland").removeClass("secondtab-font");
-				$("#inland").addClass("firsttab-font");
-				
-				$("#jeju").removeClass("firsttab-font");
-				$("#jeju").addClass("secondtab-font");
-				
-				$("#branch_jeju").addClass("d-none");
-				$("#branch_inland").removeClass("d-none");
-				
-				is_jeju = false;
+					tabType = "제주";
+				} else if(tabType == "내륙"){
+					
+					$("#inland").addClass("firsttab-font");
+					$("#inland").removeClass("secondtab-font");
+					
+					$("#jeju").addClass("secondtab-font");
+					$("#jeju").removeClass("firsttab-font");	
+					$("#inland_input").html("");
+					
+					$("#branch_jeju").addClass("d-none");
+					$("#branch_inland").removeClass("d-none");			
+				}
 			});
 			
 			$("#rev-btn").on("click", function(){
@@ -235,7 +239,7 @@
 				
 				let centerName = "";
 				
-				if(is_jeju == false) {
+				if(tabType == "내륙") {
 					centerName = $("#inland_input").text();	
 				} else {
 					centerName = "제주";
@@ -267,26 +271,23 @@
 			});
 			
 			// 대여차량 레이어 팝업 열고 닫기
-			var rentCar_popupOpen = false; // 차량 선택 팝업이 열려있는지 확인
 			$("#rentCar_select").on("click", function(e){		
 				e.preventDefault();
-				
+
 				let centerName = $("#inland_input").text();
 				
-				if(centerName == "" && is_jeju == false){
+				if(centerName == "" && tabType == "내륙"){
 					
 					alert("지점을 먼저 선택해주세요.");
 					return ;
 				}
-				
-				if(rentCar_popupOpen == true) { // 팝업이 열려있다면 레이어 팝업 숨김
+			
+				if($("#rentCarSelectPop").css("display") != 'none') { 
 					
 					$("#rentCarSelectPop").addClass("d-none");			
-					rentCar_popupOpen = false;
 				} else {					
 
-					rentCar_popupOpen = true;
-					$("#rentCarSelectPop").removeClass("d-none");			
+					$("#rentCarSelectPop").removeClass("d-none");
 				}
 			});	
 			
@@ -295,7 +296,7 @@
 				
 				let branch = $(".branch_btn").text();
 				
-				$(".branch_select").text(branch);
+				$("#inland_input").text(branch);
 				$("#branchSelectPop").addClass("d-none");
 			});			
 								
@@ -329,22 +330,20 @@
 			});
 			
 			// 지점 선택 팝업창 열고 닫기
-			var branch_popupOpen = false; // 지점 팝업이 열려있는지 확인
+			var branch_popupOpen = false;
 			$("#inland_input").on("click", function(e){
 				
 				e.preventDefault();
 				
-				if(branch_popupOpen == true) { // 팝업이 열려있다면 레이어 팝업 숨김
+				if(branch_popupOpen == false) { 
 					
-					$("#branchSelectPop").addClass("d-none");
-					
-					branch_popupOpen = false;
+					$("#branchSelectPop").removeClass("d-none");	
+					branch_popupOpen = true;
 				} else {					
 
-					branch_popupOpen = true;
-					
-					$("#branchSelectPop").removeClass("d-none");
-				}
+					$("#branchSelectPop").addClass("d-none");	
+					branch_popupOpen = false;
+				}			
 			});	
 			
 			$(document).mouseup(function(e){
