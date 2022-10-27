@@ -7,6 +7,7 @@ body {
 
 .container a {
 	text-decoration: none;
+	color:#666666;
 }
 
 header {	
@@ -171,15 +172,19 @@ header .util_2  {
 	width: 100%;
 }
 
-.short_rev .tab_menu_style {
+.short_rev .tab-menu .tab_menu_style{
 	height: 62px;
-    font-size: 20px;
-    text-align: center;
+    font-size: 20px;  
 }
 
-.tab-menu > ul {
+.short_rev .tab-menu > ul {
     width: 100%;
     border-collapse: collapse;
+}
+
+.tab-menu .tab_li {
+    border: 1px solid #ddd;
+    border-bottom-color: #333;
 }
 
 .tab-menu .selected {
@@ -187,8 +192,171 @@ header .util_2  {
 	background: #333;
 }
 
+.tab-menu .tab_li a {
+	color :666666;
+} 
+
+.tab-menu .selected a {
+	color: white;
+}
+
 .tab-menu .jeju_tab_radius {
 	border-top-left-radius: 8px;
+}
+
+.tab-menu .confirm_radius {
+	border-top-right-radius: 8px;
+}
+
+.header-group hr {
+	background:#333;
+    height:1px;
+    border:0;
+    margin-top: 26px;
+}
+
+.short_rev input {
+	height : 43px;
+}
+
+.short_rev .rent_content {
+	padding: 0 30px;
+}
+
+.rent_content .jeju_color {
+	background-color: #f5f5f5;
+}
+
+.rent_content .map_btn {
+	color: #fff;
+    background: #6C6259;
+}
+
+.rent_content .date {
+	text-align: center;
+	align-items: center;
+	display: flex;
+	border: 1px solid #ddd;
+	justify-content: center;
+}
+
+.rent_content .date_info {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 28px 30px; 
+}
+
+.rentCar .rent_content .selectCar-menu li {
+	border-radius: 5px;
+	border: 1px solid #ddd;
+}
+
+.rentCar .rent_content .selectCar-menu li a {
+	height: 42px;
+	color:#666;
+	font-size:13px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.rentCar .rent_content .tab-content {
+	margin-top: 15px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+    height: 200px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.rentCar .rent_content .tab-content ul {
+	position: relative;
+}
+
+.rentCar .rent_content .tab-content ul:before {
+    content: "";
+    position: absolute;
+    left:50%;
+    top:0;
+    width: 1px;
+    height: 100%;
+    min-height: 135px;
+    background: #ddd;
+    z-index: 1;
+}
+
+.rentCar .rent_content .tab-content a{
+	position: relative;
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 0;
+    max-width: 360px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #333;
+}
+
+.driverInfo .contractor_info > div{
+	width: 440px;
+}
+
+.driverInfo .contractor_info .input_wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.driverInfo .contractor_info h4 {
+	font-size: 18px;
+    margin-bottom: 28px;
+    color: #333;
+    font-weight: bold;
+    letter-spacing: -.25px;
+}
+
+.driverInfo .contractor_info .input_name {
+    width: 70px;
+    display: inline-block;
+    padding-top: 11px;
+    font-size: 14px;
+    display: flex;
+}
+
+.driverInfo .contractor_info .input {
+	width: 360px;
+    height: 42px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 14px;
+    margin-bottom: 12px;
+    border-radius: 5px;
+}
+
+.driverInfo .contractor_info .address-input {
+	width: 360px;
+}
+
+.driverInfo .contractor_info .address-input a {
+	background-color: #6C6259;
+	margin-left: 14px;
+    display: inline-block;
+    height: 42px;
+    line-height: 42px;
+    padding: 0 10px;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: top;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: white;
+    border-radius: 5px;
+}
+
+.driverInfo .contractor_info .license {
+	margin-left: 80px;
 }
 
 footer {
@@ -226,8 +394,7 @@ footer > .footer-info {
 	height: 52px;
 }
 
-.info {
-	
+.info {	
 	font-size: 14px;
 }
 
@@ -276,3 +443,37 @@ ul	{
 	list-style: none;
 }
 
+.fl {
+    float: left;
+}
+
+.disabled_input {
+	background: #f5f5f5!important;
+    color: #333;
+}
+
+.btn-color1 {
+	color: #fff;
+    background: #f68121;
+}
+
+.btn-color2 {
+	color: #333;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+
+.btn-large {
+	height: 50px;
+    line-height: 52px;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.btn-width1 {
+	width: 150px;
+}
+
+.mt1 {
+	margin-top: 86px;
+}
