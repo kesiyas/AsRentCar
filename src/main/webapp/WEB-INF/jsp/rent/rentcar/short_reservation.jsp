@@ -67,7 +67,7 @@
 							</div>
 							
 							<div class="col-5 mr-2"> 
-								<input class="input_style btn form-control mt-3 text-left rent_date" id="eDate" placeholder="반납일시">
+								<input class="input_style btn form-control mt-3 text-left rent_date" id="eDate" placeholder="반납일시" disabled="disabled">
 								<div class="mt-3 d-flex justify-content-between">
 									<span class="input_style form-control col-7 jeju_color d-flex align-items-center"><strong>제주/제주지점</strong></span>
 									<a href="#" class="map_btn btn d-flex align-items-center">지도보기</a>
@@ -77,7 +77,11 @@
 							<div class="date col-2 mt-3">
 								<div class="">
 									<strong>총 대여기간</strong>
-									<div>0일 0시간 0분</div>
+									<div>
+										<span id="date">0</span>일 
+										<span id="hour">0</span>시간 
+										<span id="min">0</span>분
+									</div>
 								</div>
 							</div>
 						</div>
@@ -140,6 +144,8 @@
 									<input class="input form-control text-left" id="birth_Input" placeholder="예) 19900101">
 								</div>
 								
+								<div class="color1 msg d-none" id="ageLimit_msg">만21세이상부터 예약 가능합니다.</div>
+								
 								<div class="input_wrap">
 									<label class="input_name">휴대폰번호</label>
 									<input class="input form-control text-left" id="phoneNumber_Input" placeholder="예) 01012345678.">
@@ -198,13 +204,36 @@
 	
 	<script>
 		$(document).ready(function(){
+			var now = new Date();
+			var year = now.getFullYear();
+			var month = now.getMonth();
 			
-			// 생년월일에 숫자만 들어가게 하기
+			// 발급일자에 숫자만 들어가게 하기
+			$("#license_IssueDate_Input").on("input", function(){
+				let license_IssueDate = $(this).val();
+				let checkNumber = /[0-9]+$/;
+				
+				if(!checkNumber.test(license_IssueDate)){				
+					$(this).val('');
+				}			
+			});
+			
+			// 면허번호에 숫자만 들어가게 하기
+			$("#licenseNumber_Input").on("input", function(){
+				let licenseNumber = $(this).val();
+				let checkNumber = /[0-9]+$/;
+				
+				if(!checkNumber.test(licenseNumber)){				
+					$(this).val('');
+				}			
+			});
+			
+			// 전화번호가 0으로 시작하지 않거나 숫자가 아닐 시 value 초기화
 			$("#phoneNumber_Input").on("input", function(){
 				let phoneNumber = $(this).val();
 				let checkNumber = /[0-9]+$/;
 				
-				if(!checkNumber.test(phoneNumber)){				
+				if(!phoneNumber.startsWith(0) || !checkNumber.test(phoneNumber)){				
 					$(this).val('');
 				}			
 			});
@@ -217,6 +246,20 @@
 				if(!checkNumber.test(birth)){				
 					$(this).val('');
 				}			
+			});
+			
+			// 만 21세 이상이 아닐 시 메시지 출력 기능
+			$("#birth_Input").on("change", function(){
+				
+				let birth = $(this).val();
+				let ageLimit = year - birth.substring(0, 4);
+				
+				if(ageLimit < 21) {
+					$("#ageLimit_msg").removeClass("d-none");
+
+				} else {
+					$("#ageLimit_msg").addClass("d-none");
+				}
 			});
 			
 			// 이름에 숫자가 들어가면 초기화
@@ -269,16 +312,90 @@
 					alert("대여날짜를 선택해주세요.");
 					return ;
 				}
-			
+						
 				if(name == "" || phoneNumber == "" || birth == "" || address == "" || license == "" || licenseNumber == "" || license_IssueDate == "") {
 					alert("예약정보를 입력해주세요.");
 					return ;
 				}
 				
+				if(ageLimit < 21) {
+					return;
+				}
+	
 				if(!checkPhone.test(phoneNumber)) {				
 					alert("전화 번호가 올바른 형식이 아닙니다.")				
 					return;
 				}
+			});
+			
+			$("#eDate").on("change", function(){
+				let startDate = $("#sDate").val();
+				let returnDate = $(this).val();
+				
+				let total = {"01":31, "02":28, "03":30, "04":30, "05":31, "06":30, "07":31, "08":31, "09":30, "10":31, "11":30, "12":31};
+				// 윤년일 경우
+				if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+					total[2] = 29;
+				} else {}	
+					
+				let startMonth = Number(startDate.substring(6, 8)); // 대여 월
+				let returnMonth = Number(returnDate.substring(6, 8)); // 반납 월
+				let rentMonth = returnMonth - startMonth;	
+				
+				let sDate = Number(startDate.substring(10, 12)); // 대여 일
+				let eDate = Number(returnDate.substring(10, 12)); // 반납 일				
+				let totalDate;
+				
+				if(rentMonth == 1) { // 반납 월이 다음 달일 경우				
+					sDate = Number(total[startMonth]) - sDate;	
+					totalDate = sDate + eDate;
+				}else if(rentMonth == 2) {			
+					sDate = Number(total[startMonth]) - sDate;	
+					totalDate = sDate + eDate + Number(total[startMont + 1]);
+				}else {	// 같은 달일 경우
+					if(sDate == eDate) {
+						totalDate = 0;
+					} else {
+						totalDate = eDate - sDate;
+					}
+				}
+				$("#date").text(totalDate);
+				
+				let startHour = Number(startDate.substring(13, 15));
+				let returnHour = Number(startDate.substring(13, 15));
+				let totalHour;
+				
+				let startMin = Number(startDate.substring(16, 18));
+				let returnMin = Number(startDate.substring(16, 18));
+				let totalMin;
+				
+				if(startHour > returnHour) {
+					if(startMin == 30 || returnMin == 0) {
+						totalHour = (24 - (startHour + 1)) + returnHour;
+						totalMin = startMin;
+					}else {
+						totalHour = (24 - (startHour)) + returnHour;
+						totalMin = returnMin;
+					}
+				} else if(startHour < returnHour){
+					if(startMin == 30 || returnMin == 0) {
+						totalHour = (returnHour - startHour) - 1;
+						totalMin = startMin;
+					}else {
+						totalHour = returnHour - startHour;
+						totalMin = returnMin;
+					} 
+				}			
+				$("#hour").text(totalHour);
+				$("#min").text(totalMiN);
+			});
+			
+			$("#sDate").on("change", function(){			
+				let startDate = $(this).val();
+				
+				if(startDate != "") {
+					$("#eDate").attr("disabled", false);
+				}	
 			});
 			
 			$("#sDate").datetimepicker({
@@ -292,7 +409,7 @@
 				,minDateTime : 0 // 시작 날짜, 시간을 현재 날짜, 시간으로	
 				,onShow:function(ct){
 					this.setOptions({
-						maxTime:jQuery('#eDate').val()?jQuery('#eDate').val():false
+						maxDateTime:jQuery('#eDate').val()?jQuery('#eDate').val():false
 					})
 				}
 			});

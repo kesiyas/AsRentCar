@@ -335,6 +335,14 @@ header .util_2  {
     border-radius: 5px;
 }
 
+.driverInfo .contractor_info .msg {
+ 	display: block;
+    margin-left: 80px;
+    margin-top: -7px;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
 .driverInfo .contractor_info .address-input {
 	width: 360px;
 }
@@ -437,6 +445,10 @@ footer > .footer-info {
 	font-weight: bold;
 	color: rgba(255,255,255,0.7);
 	background: #785e4c;
+}    
+
+.color1 {
+	color: #f68121!important;
 }
 
 ul	{
