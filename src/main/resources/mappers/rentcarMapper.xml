@@ -27,6 +27,15 @@
 			`carGrade` = #{carGrade}
 	</select>
 	
+	<select id="selectAllCar" parameterType="int" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.RentalCar">
+		SELECT
+			`modelName`
+		FROM 
+			`rentalcar`
+		WHERE
+			`centerId` = #{centerId}
+	</select>
+	
 	<select id="selectCenterId" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch">
 		SELECT
 			`id`

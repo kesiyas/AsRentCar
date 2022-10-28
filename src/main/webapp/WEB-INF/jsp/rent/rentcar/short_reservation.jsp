@@ -104,18 +104,16 @@
 					<div class="rent_content">
 						<div class="mt-5 selectCar-menu">
 							<ul class="nav d-flex justify-content-between">
-								<li class="nav-items col-2"><a href="#" class="nav-link">전체</a></li>
-								<li class="nav-items col-2"><a href="#" class="nav-link">경차</a></li>
-								<li class="nav-items col-2"><a href="#" class="nav-link">소형차</a></li>
-								<li class="nav-items col-2"><a href="#" class="nav-link">중형차</a></li>
-								<li class="nav-items col-2"><a href="#" class="nav-link">대형차</a></li>
+								<li class="nav-items col-2"><a href="#" class="nav-link car_tabBtn">전체</a></li>
+								<li class="nav-items col-2"><a href="#" class="nav-link car_tabBtn">경차</a></li>
+								<li class="nav-items col-2"><a href="#" class="nav-link car_tabBtn">소형차</a></li>
+								<li class="nav-items col-2"><a href="#" class="nav-link car_tabBtn">중형차</a></li>
+								<li class="nav-items col-2"><a href="#" class="nav-link car_tabBtn">대형차</a></li>
 							</ul>
 						</div>
 						<div class="tab-content">
-							<ul class="d-flex flex-wrap mt-3">
-								<li class="nav-items col-6"><a href="#" class="nav-link">캐스퍼</a></li>
-								<li class="nav-items col-6"><a href="#" class="nav-link">11111111</a></li>
-								<li class="nav-items col-6"><a href="#" class="nav-link">11111111</a></li>
+							<ul class="d-flex flex-wrap mt-3" id="rentCar_lis">
+								
 					
 							</ul>
 						</div>
@@ -207,6 +205,36 @@
 			var now = new Date();
 			var year = now.getFullYear();
 			var month = now.getMonth();
+			
+			$(".car_tabBtn").on("click", function(e){				
+				e.preventDefault();			
+				
+				let centerName = "제주점";
+				let carGrade = $(this).text();
+				
+				$.ajax({
+					type:"post"
+					, url:"/rent/rentcar/home/selectCar"
+					, dataType:'json'
+					, data:{"centerName":centerName, "carGrade":carGrade}
+					, success:function(result){					
+						if(result != null) {
+							// 새로 고침					
+							$("#rentCar_lis").html("");
+							
+							$.each(result, function(){		
+								$("#rentCar_lis").append("<li class=mb-3 nav-items><a href='#' class='nav-link rentCar_btn text-dark'>"
+										+ this + "</a></li>");
+				            });			
+						} else {
+							alert("차량 불러오기 실패");
+						}
+					}
+					, error:function(){
+						alert("차량 불러오기 에러");
+					}
+				});			
+			});
 			
 			// 발급일자에 숫자만 들어가게 하기
 			$("#license_IssueDate_Input").on("input", function(){
@@ -331,63 +359,42 @@
 			$("#eDate").on("change", function(){
 				let startDate = $("#sDate").val();
 				let returnDate = $(this).val();
+						
+				let sDate = new Date(startDate);
+				let eDate = new Date(returnDate);
 				
-				let total = {"01":31, "02":28, "03":30, "04":30, "05":31, "06":30, "07":31, "08":31, "09":30, "10":31, "11":30, "12":31};
-				// 윤년일 경우
-				if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-					total[2] = 29;
-				} else {}	
-					
-				let startMonth = Number(startDate.substring(6, 8)); // 대여 월
-				let returnMonth = Number(returnDate.substring(6, 8)); // 반납 월
-				let rentMonth = returnMonth - startMonth;	
+				let sHour = sDate.getHours();
+				let eHour = eDate.getHours();
 				
-				let sDate = Number(startDate.substring(10, 12)); // 대여 일
-				let eDate = Number(returnDate.substring(10, 12)); // 반납 일				
-				let totalDate;
+				let sMin = sDate.getMinutes();
+				let eMin = eDate.getMinutes();
 				
-				if(rentMonth == 1) { // 반납 월이 다음 달일 경우				
-					sDate = Number(total[startMonth]) - sDate;	
-					totalDate = sDate + eDate;
-				}else if(rentMonth == 2) {			
-					sDate = Number(total[startMonth]) - sDate;	
-					totalDate = sDate + eDate + Number(total[startMont + 1]);
-				}else {	// 같은 달일 경우
-					if(sDate == eDate) {
-						totalDate = 0;
+				let totalDate = eDate.getTime() - sDate.getTime();
+				let date = parseInt(totalDate / (1000 * 60 * 60 * 24));
+				let hour;
+				let min = Math.abs(sMin - eMin);
+				
+				if(sHour > eHour) {
+	
+					hour = (24 - sHour) + eHour;
+				} else {
+					if((24 - sHour) + eHour  >= 24) {
+						
+						hour = (24 - sHour) + eHour - 24
 					} else {
-						totalDate = eDate - sDate;
+						hour = sHour + eHour;
 					}
 				}
-				$("#date").text(totalDate);
-				
-				let startHour = Number(startDate.substring(13, 15));
-				let returnHour = Number(startDate.substring(13, 15));
-				let totalHour;
-				
-				let startMin = Number(startDate.substring(16, 18));
-				let returnMin = Number(startDate.substring(16, 18));
-				let totalMin;
-				
-				if(startHour > returnHour) {
-					if(startMin == 30 || returnMin == 0) {
-						totalHour = (24 - (startHour + 1)) + returnHour;
-						totalMin = startMin;
-					}else {
-						totalHour = (24 - (startHour)) + returnHour;
-						totalMin = returnMin;
-					}
-				} else if(startHour < returnHour){
-					if(startMin == 30 || returnMin == 0) {
-						totalHour = (returnHour - startHour) - 1;
-						totalMin = startMin;
-					}else {
-						totalHour = returnHour - startHour;
-						totalMin = returnMin;
-					} 
-				}			
-				$("#hour").text(totalHour);
-				$("#min").text(totalMiN);
+			
+				if(sMin > eMin) {
+					hour = hour - 1;
+					min = sMin;
+				}
+				hour = Math.abs(parseInt(hour));
+
+				$("#date").html(date);
+				$("#hour").html(hour);
+				$("#min").html(min);
 			});
 			
 			$("#sDate").on("change", function(){			
@@ -399,7 +406,7 @@
 			});
 			
 			$("#sDate").datetimepicker({
-				format: "Y년 m월 d일 H:i"
+				format: "Y-m-d H:i"
 				,allowTimes:[
 					  '08:00', '08:30', '09:00', '09:30','10:00', '10:30',
 					  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
@@ -415,7 +422,7 @@
 			});
 			
 			$("#eDate").datetimepicker({
-				format: "Y년 m월 d일 H:i"	
+				format: "Y-m-d H:i"	
 				,allowTimes:[
 					  '08:00', '08:30', '09:00', '09:30','10:00', '10:30',
 					  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',

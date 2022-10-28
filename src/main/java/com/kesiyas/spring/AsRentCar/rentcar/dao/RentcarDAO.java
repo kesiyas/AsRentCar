@@ -18,6 +18,8 @@ public interface RentcarDAO {
 			@Param("centerId") int centerId
 			, @Param("carGrade") String carGrade);
 	
+	public List<RentalCar> selectAllCar(@Param("centerId") int centerId);
+	
 	// centerId 찾기
 	public Branch selectCenterId(@Param("centerName") String centerName);
 }

@@ -1,5 +1,6 @@
 package com.kesiyas.spring.AsRentCar.rentcar;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,14 @@ public class RentcarRestController {
 		Branch branch = rentcarBO.selectCenterId(centerName);
 		int centerId = branch.getId();
 		
-		List<RentalCar> rentCarList = rentcarBO.selectCar(centerId, carGrade);
+		List<RentalCar> rentCarList = new ArrayList<>();
+		
+		if(carGrade == "전체") {
+			rentCarList = rentcarBO.selectAllCar(centerId);
+		} else{
+			rentCarList = rentcarBO.selectCar(centerId, carGrade);
+		}
+		
 		RentalCar rentCar = new RentalCar();
 				
 		Map<String, String> result = new HashMap<>();

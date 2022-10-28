@@ -27,6 +27,12 @@ public class RentcarBO {
 		return rentcarDAO.selectCar(centerId, carGrade);
 	}
 	
+	// 차량 선택
+	public List<RentalCar> selectAllCar(int centerId) {
+		
+		return rentcarDAO.selectAllCar(centerId);
+	}
+	
 	public Branch selectCenterId(String centerName) {
 		return rentcarDAO.selectCenterId(centerName);
 	}
