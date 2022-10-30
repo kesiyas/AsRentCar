@@ -162,7 +162,7 @@ header .util_2  {
 
 .tabBtn {
     color: #222;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     line-height: 18px;
     letter-spacing: -0.04em;
@@ -208,7 +208,7 @@ header .util_2  {
 	border-top-right-radius: 8px;
 }
 
-.header-group hr {
+.rentDate .header-group hr {
 	background:#333;
     height:1px;
     border:0;
@@ -223,16 +223,29 @@ header .util_2  {
 	padding: 0 30px;
 }
 
-.rent_content .jeju_color {
+.rent_content .rentCenterLayer {
+	overflow-y: scroll;
+    height: 278px;
+    top: 100%;
+    left: 0;
+    z-index: 11;
+    width: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+    border: 1px solid #f68121;
+    background-color: #fff;
+}
+
+.rentDate .rent_content .jeju {
 	background-color: #f5f5f5;
 }
 
-.rent_content .map_btn {
+.rentDate .rent_content .map_btn {
 	color: #fff;
     background: #6C6259;
 }
 
-.rent_content .date {
+.rentDate .rent_content .date {
 	text-align: center;
 	align-items: center;
 	display: flex;
@@ -240,18 +253,18 @@ header .util_2  {
 	justify-content: center;
 }
 
-.rent_content .date_info {
+.rentDate .rent_content .date_info {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 28px 30px; 
 }
 
-.rentCar .rent_content .selectCar-menu li {
+.rentCar .rent_content .selectCar-menu ul li {
 	border-radius: 5px;
 	border: 1px solid #ddd;
 }
 
-.rentCar .rent_content .selectCar-menu li a {
+.rentCar .rent_content .selectCar-menu ul li a {
 	height: 42px;
 	color:#666;
 	font-size:13px;
@@ -285,15 +298,17 @@ header .util_2  {
     z-index: 1;
 }
 
+.rentCar .rent_content .tab-content ul li {  
+    width: 50%;
+    overflow: hidden;
+}
+
 .rentCar .rent_content .tab-content a{
 	position: relative;
-    display: inline-block;
     font-size: 14px;
     margin-right: 0;
     max-width: 360px;
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     color: #333;
 }
 
@@ -489,3 +504,7 @@ ul	{
 .mt1 {
 	margin-top: 86px;
 }
+
+.input_size_46{
+	height: 46px;
+};

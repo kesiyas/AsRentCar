@@ -46,21 +46,15 @@ public class RentcarRestController {
 	}
 	
 	@PostMapping("/home/selectCar")
-	public Map<String, String> selectCar(
-			@RequestParam("centerName") String centerName
-			, @RequestParam("carGrade") String carGrade) {
+	public Map<String, String> selectCar(@RequestParam("centerName") String centerName 
+			,@RequestParam("carGrade") String carGrade) {
 		
-		Branch branch = rentcarBO.selectCenterId(centerName);
-		int centerId = branch.getId();
+		int centerId = rentcarBO.selectCenterId(centerName);
 		
 		List<RentalCar> rentCarList = new ArrayList<>();
 		
-		if(carGrade == "전체") {
-			rentCarList = rentcarBO.selectAllCar(centerId);
-		} else{
-			rentCarList = rentcarBO.selectCar(centerId, carGrade);
-		}
-		
+		rentCarList = rentcarBO.selectCar(centerId, carGrade);
+				
 		RentalCar rentCar = new RentalCar();
 				
 		Map<String, String> result = new HashMap<>();
@@ -68,17 +62,16 @@ public class RentcarRestController {
 		for(int i = 0; i < rentCarList.size(); i++) {
 			rentCar = rentCarList.get(i);
 			String modelName = rentCar.getModelName();
-		
-			result.put("modelName" + i, modelName);
-		}
 
+			result.put("modelName" + i, modelName);			
+		}
 		return result;
 	}
 	
 	@PostMapping("/home/saveRev") 
 	public Map<String, String> selectCar(
-			@RequestParam("sDate") @DateTimeFormat(pattern="yyyy년 MM월 dd일 HH:mm") Date sDate
-			,@RequestParam("eDate")  @DateTimeFormat(pattern="yyyy년 MM월 dd일 HH:mm") Date eDate
+			@RequestParam("sDate") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date sDate
+			,@RequestParam("eDate")  @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date eDate
 			,@RequestParam("centerName") String centerName
 			,@RequestParam("modelName") String modelName
 			,HttpServletRequest request) {
@@ -99,5 +92,38 @@ public class RentcarRestController {
 		}
 
 		return result;
+	}
+	
+	@PostMapping("/short_rent_jeju") 
+	public Map<String, String> addShortRent(
+			@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date startDate
+			, @RequestParam("returnDate") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date returnDate
+			, @RequestParam("rentCenter") String rentCenter
+			, @RequestParam("rentCar") String rentCar
+			, @RequestParam("name") String name
+			, @RequestParam("birth") String birth
+			, @RequestParam("phoneNumber") String phoneNumber
+			, @RequestParam("address") String address
+			, @RequestParam("license") String license
+			, @RequestParam("licenseNumber") String licenseNumber
+			, @RequestParam("license_IssueDate") String license_IssueDate
+			, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		int userId = (Integer)session.getAttribute("userId");
+		
+		int rentCenterId = rentcarBO.selectCenterId(rentCenter);
+
+		
+		int count = rentcarBO.addShortRent(userId, rentCenterId, startDate, returnDate, rentCar, name, birth, phoneNumber, address, license, licenseNumber, license_IssueDate);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		return result;	
 	}
 }

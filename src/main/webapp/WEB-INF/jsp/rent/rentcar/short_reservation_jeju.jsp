@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AS렌터카 - 단기렌터카 예약</title>
+<title>AS렌터카 - 단기렌터카 예약_제주</title>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>	
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -36,11 +36,11 @@
 				<div class="tab-menu mt-5">
 					<ul class="nav nav-fill font-weight-bold">
 						<li class="nav-items selected jeju_tab_radius col-4 tab_li">
-							<a href="#" class="tab_menu_style nav-link d-flex align-items-center justify-content-center">제주 예약</a>
+							<a href="/rent/rentcar/short_rent_jeju/view" class="tab_menu_style nav-link d-flex align-items-center justify-content-center">제주 예약</a>
 						</li>
 						
 						<li class="nav-items col-4 tab_li">
-							<a href="#" class="tab_menu_style nav-link d-flex align-items-center justify-content-center">내륙 예약</a>
+							<a href="/rent/rentcar/short_rent_inland/view" class="tab_menu_style nav-link d-flex align-items-center justify-content-center">내륙 예약</a>
 						</li>
 						
 						<li class="nav-items confirm_radius col-4 tab_li">
@@ -61,7 +61,7 @@
 							<div class="col-5">
 								<input class="input_style btn form-control mt-3 text-left rent_date" id="sDate" placeholder="대여일시">
 								<div class="mt-3 d-flex justify-content-between">
-									<span class="input_style form-control col-7 jeju_color d-flex align-items-center"><strong>제주/제주지점</strong></span>
+									<span class="input_style form-control col-7 jeju d-flex align-items-center"><strong>제주/제주지점</strong></span>
 									<a href="#" class="map_btn btn d-flex align-items-center">지도보기</a>
 								</div>
 							</div>
@@ -69,7 +69,7 @@
 							<div class="col-5 mr-2"> 
 								<input class="input_style btn form-control mt-3 text-left rent_date" id="eDate" placeholder="반납일시" disabled="disabled">
 								<div class="mt-3 d-flex justify-content-between">
-									<span class="input_style form-control col-7 jeju_color d-flex align-items-center"><strong>제주/제주지점</strong></span>
+									<span class="input_style form-control col-7 jeju d-flex align-items-center"><strong>제주/제주지점</strong></span>
 									<a href="#" class="map_btn btn d-flex align-items-center">지도보기</a>
 								</div>
 							</div>
@@ -112,9 +112,8 @@
 							</ul>
 						</div>
 						<div class="tab-content">
-							<ul class="d-flex flex-wrap mt-3" id="rentCar_lis">
+							<ul class="d-flex flex-wrap mt-4" id="rentCar_lis">
 								
-					
 							</ul>
 						</div>
 					</div>
@@ -134,12 +133,12 @@
 							<div>
 								<div class="input_wrap">
 									<label class="input_name">이름</label>
-									<input class="input form-control text-left" id="driverName_Input" placeholder="이름을 입력해주세요.">
+									<input class="input form-control text-left disabled_input" id="driverName_Input" placeholder="이름을 입력해주세요." disabled="disabled">
 								</div>
 								
 								<div class="input_wrap">
 									<label class="input_name">생년월일</label>
-									<input class="input form-control text-left" id="birth_Input" placeholder="예) 19900101">
+									<input class="input form-control text-left disabled_input" id="birth_Input" placeholder="예) 19900101" disabled="disabled">
 								</div>
 								
 								<div class="color1 msg d-none" id="ageLimit_msg">만21세이상부터 예약 가능합니다.</div>
@@ -206,11 +205,25 @@
 			var year = now.getFullYear();
 			var month = now.getMonth();
 			
+			var selectedCar = "";
+			// 선택된 렌트카
+			$("#rentCar_lis").on("click", '.rentCar_btn', function(e){		
+				e.preventDefault();
+				
+				$(".rentCar_btn").css("color", "#333");	
+				$(".rentCar_btn").removeClass("font-weight-bold");		
+				
+				selectedCar = $(this).text();
+				
+				$(this).addClass("font-weight-bold");
+				$(this).css("color", "#f68121");			
+			});
+			
 			$(".car_tabBtn").on("click", function(e){				
 				e.preventDefault();			
 				
-				let centerName = "제주점";
 				let carGrade = $(this).text();
+				let centerName = "제주점";
 				
 				$.ajax({
 					type:"post"
@@ -221,9 +234,9 @@
 						if(result != null) {
 							// 새로 고침					
 							$("#rentCar_lis").html("");
-							
+
 							$.each(result, function(){		
-								$("#rentCar_lis").append("<li class=mb-3 nav-items><a href='#' class='nav-link rentCar_btn text-dark'>"
+								$("#rentCar_lis").append("<li class=nav-items><a href='#' class='nav-link rentCar_btn'>"
 										+ this + "</a></li>");
 				            });			
 						} else {
@@ -304,17 +317,19 @@
 			$("#confirm-btn").on("click", function(){	
 				let startDate = $("#sDate").val();
 				let returnDate = $("#eDate").val();
-				let centerName = "제주";
-				// let rentCar	= $();		
+				let rentCenter = "제주점";
+				let returnCenter = "제주점"
+				let rentCar	= selectedCar;
 				let name = $("#driverName_Input").val();
 				let birth = $("#birth_Input").val();
 				let phoneNumber = $("#phoneNumber_Input").val();						
-				let address = $("#address_Input").val() + $("#detail_address_Input").val();
+				let address = $("#detail_address_Input").val();
 				let license = $("select[name='license']").val();
 				let	licenseNumber = $("#licenseNumber_Input").val();
 				let license_IssueDate = $("#license_IssueDate_Input").val();
 				
 				let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+				let ageLimit = year - birth.substring(0, 4);
 				
 				if(startDate == "") {
 					alert("대여하실 날짜를 선택해주세요.");
@@ -326,10 +341,10 @@
 					return ;
 				}
 				
-				//if(rentCar == "") {
-				//	alert("대여챠량을 선택해주세요.");
-				//	return ;
-				//}
+				if(rentCar == "") {
+					alert("대여챠량을 선택해주세요.");
+					return ;
+				}
 				
 				if(startDate == "") {
 					alert("대여날짜를 선택해주세요.");
@@ -354,11 +369,27 @@
 					alert("전화 번호가 올바른 형식이 아닙니다.")				
 					return;
 				}
+				
+				$.ajax({
+					type:"post"
+					, url:"/rent/rentcar/short_rent_jeju"
+					, data:{"rentCenter":rentCenter, "returnCenter":returnCenter, "startDate":startDate
+						, "returnDate":returnDate, "rentCar":rentCar, "name":name, "birth":birth
+						, "phoneNumber":phoneNumber, "address":address, "license":license, "licenseNumber":licenseNumber, "license_IssueDate":license_IssueDate}
+					, success:function(data){
+						if(data.result == "success") {
+							alert("예약 성공");
+						}else {
+							alert("예약 실패");
+						}
+					}
+					, error:function(){
+						alert("예약 오류");
+					}
+				});
 			});
 			
-			$("#eDate").on("change", function(){
-				let startDate = $("#sDate").val();
-				let returnDate = $(this).val();
+			function date(startDate, returnDate) {
 						
 				let sDate = new Date(startDate);
 				let eDate = new Date(returnDate);
@@ -395,6 +426,20 @@
 				$("#date").html(date);
 				$("#hour").html(hour);
 				$("#min").html(min);
+			}
+			
+			$("#eDate").on("change", function(){
+				let startDate = $("#sDate").val();
+				let retrunDate = $("#eDate").val();
+				
+				date(startDate, retrunDate);
+			});
+			
+			$("#sDate").on("change", function(){
+				let startDate = $("#sDate").val();
+				let retrunDate = $("#eDate").val();
+				
+				date(startDate, retrunDate);
 			});
 			
 			$("#sDate").on("change", function(){			
@@ -402,6 +447,13 @@
 				
 				if(startDate != "") {
 					$("#eDate").attr("disabled", false);
+					
+					$("#driverName_Input").attr("disabled", false);
+					$("#driverName_Input").removeClass("disabled_input");
+					$("#birth_Input").attr("disabled", false);
+					$("#birth_Input").removeClass("disabled_input");
+					$("#licenseNumber_Input").attr("disabled", false);
+					$("#licenseNumber_Input").removeClass("disabled_input");
 				}	
 			});
 			

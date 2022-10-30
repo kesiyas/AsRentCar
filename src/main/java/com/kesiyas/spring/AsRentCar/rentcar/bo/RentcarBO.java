@@ -1,5 +1,6 @@
 package com.kesiyas.spring.AsRentCar.rentcar.bo;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,24 @@ public class RentcarBO {
 	// 차량 선택
 	public List<RentalCar> selectCar(int centerId, String carGrade) {
 		
-		return rentcarDAO.selectCar(centerId, carGrade);
+		if(carGrade.equals("전체")) {
+			
+			return rentcarDAO.selectAllCar(centerId);
+		}else {
+			
+			return rentcarDAO.selectCar(centerId, carGrade);
+		}
 	}
 	
-	// 차량 선택
-	public List<RentalCar> selectAllCar(int centerId) {
-		
-		return rentcarDAO.selectAllCar(centerId);
-	}
-	
-	public Branch selectCenterId(String centerName) {
+	public int selectCenterId(String centerName) {
 		return rentcarDAO.selectCenterId(centerName);
+	}
+	
+	public int addShortRent(
+			int userId , int rentCenterId, Date startDate, Date returnDate 
+			, String rentCar, String name, String birth, String phoneNumber
+			, String address, String license, String licenseNumber, String license_IssueDate) {
+		
+		return rentcarDAO.insertReservation(userId, rentCenterId, startDate, returnDate, rentCar, name, birth, phoneNumber, address, license, licenseNumber, license_IssueDate);
 	}
 }

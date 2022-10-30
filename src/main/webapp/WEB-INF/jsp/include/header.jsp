@@ -8,7 +8,7 @@
 				
 				<nav class="main-menu col-7">
 					<ul class="nav justify-content-between">
-						<li class="nav-item"><a href=/rent/rentcar/short_rent/view class="nav-link text-dark">단기렌터카</a></li>
+						<li class="nav-item"><a href=/rent/rentcar/short_rent_jeju/view class="nav-link text-dark">단기렌터카</a></li>
 						<li class="nav-item"><a href=# class="nav-link text-dark">장기렌터카</a></li>
 						<li class="nav-item"><a href=# class="nav-link text-dark">고객센터</a></li>			
 					</ul>

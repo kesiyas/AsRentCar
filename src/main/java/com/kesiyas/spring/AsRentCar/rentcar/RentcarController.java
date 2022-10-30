@@ -15,9 +15,15 @@ public class RentcarController {
 		return "rent/rentcar/home";
 	}
 	
-	// 단기렌터카 예약 화면
-	@GetMapping("/short_rent/view")
-	public String short_reservation() {
-		return "rent/rentcar/short_reservation";
+	// 단기렌터카 예약 화면_제주
+	@GetMapping("/short_rent_jeju/view")
+	public String short_reservation_jeju() {
+		return "rent/rentcar/short_reservation_jeju";
+	}
+	
+	// 단기렌터카 예약 화면_내륙
+	@GetMapping("/short_rent_inland/view")
+	public String short_reservation_inland() {
+		return "rent/rentcar/short_reservation_inland";
 	}
 }

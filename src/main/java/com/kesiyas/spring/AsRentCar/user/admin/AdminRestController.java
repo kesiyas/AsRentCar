@@ -84,7 +84,6 @@ public class AdminRestController {
 		
 		if(count == 1) {
 			session.removeAttribute("centerUserId");
-			
 			result.put("result", "success");
 		}else {			
 			result.put("result", "fail");
@@ -115,11 +114,10 @@ public class AdminRestController {
 		if(count == 1) {
 			
 			result.put("result", "success");			
-		}else {			
+		}else {		
+			
 			result.put("result", "fail");
-		}
-		
-		return result;	
-		
+		}		
+		return result;			
 	}
 }

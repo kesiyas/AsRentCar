@@ -36,7 +36,7 @@
 			`centerId` = #{centerId}
 	</select>
 	
-	<select id="selectCenterId" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch">
+	<select id="selectCenterId" parameterType="String" resultType="int">
 		SELECT
 			`id`
 		FROM 
@@ -45,4 +45,43 @@
 			`centerName` = #{centerName }
 	</select>
 
+	<insert id="insertReservation" parameterType="map">
+		INSERT INTO 
+			`Reservation`
+		(
+			`userId`
+			, `rentCenterId`
+			, `startDate`
+			, `returnDate`
+			, `rentCar`
+			, `name`
+			, `birth`
+			, `phoneNumber`
+			, `address`
+			, `license`
+			, `licenseNumber`
+			, `license_IssueDate`
+			, `createdAt`
+			, `updatedAt`
+		) 
+		VALUES
+		(
+			#{userId}
+			, #{rentCenterId}
+			, #{startDate}
+			, #{returnDate}
+			, #{rentCar}
+			, #{name}
+			, #{birth}
+			, #{phoneNumber}
+			, #{address}
+			, #{license}
+			, #{licenseNumber}
+			, #{license_IssueDate}
+			, now()
+			, now()		
+		)
+		
+		
+	</insert>
 </mapper>
