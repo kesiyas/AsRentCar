@@ -61,6 +61,7 @@
 			, `license`
 			, `licenseNumber`
 			, `license_IssueDate`
+			, `reservationNumber`
 			, `createdAt`
 			, `updatedAt`
 		) 
@@ -78,10 +79,18 @@
 			, #{license}
 			, #{licenseNumber}
 			, #{license_IssueDate}
+			, #{reservationNumber}
 			, now()
 			, now()		
-		)
-		
-		
+		)	
 	</insert>
+	
+	<select id="selectReservationNumber">
+		SELECT
+			count(1)
+		FROM
+			`reservation`
+		WHERE
+			`reservationNumber` = #{reservationNumber}
+	</select>
 </mapper>

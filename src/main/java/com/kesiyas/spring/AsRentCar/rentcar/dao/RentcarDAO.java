@@ -39,5 +39,8 @@ public interface RentcarDAO {
 			, @Param("address") String address
 			, @Param("license") String license
 			, @Param("licenseNumber") String licenseNumber
-			, @Param("license_IssueDate") String license_IssueDate);
+			, @Param("license_IssueDate") String license_IssueDate
+			, @Param("reservationNumber") String reservationNumber);
+	
+	public int selectReservationNumber(@Param("reservationNumber") String reservationNumber);
 }

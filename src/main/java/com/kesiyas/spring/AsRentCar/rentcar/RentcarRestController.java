@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -107,15 +108,15 @@ public class RentcarRestController {
 			, @RequestParam("license") String license
 			, @RequestParam("licenseNumber") String licenseNumber
 			, @RequestParam("license_IssueDate") String license_IssueDate
+			, @RequestParam("reservationNumber") String reservationNumber
 			, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		int userId = (Integer)session.getAttribute("userId");
 		
 		int rentCenterId = rentcarBO.selectCenterId(rentCenter);
-
-		
-		int count = rentcarBO.addShortRent(userId, rentCenterId, startDate, returnDate, rentCar, name, birth, phoneNumber, address, license, licenseNumber, license_IssueDate);
+	
+		int count = rentcarBO.addShortRent(userId, rentCenterId, startDate, returnDate, rentCar, name, birth, phoneNumber, address, license, licenseNumber, license_IssueDate, reservationNumber);
 		
 		Map<String, String> result = new HashMap<>();
 		
@@ -125,5 +126,20 @@ public class RentcarRestController {
 			result.put("result", "fail");
 		}
 		return result;	
+	}
+	
+	// 아이디 중복 체크
+	@GetMapping("/is_duplicate")
+	public Map<String, Boolean> is_duplicate(@RequestParam("reservationNumber") String reservationNumber){
+		
+		Map<String, Boolean> result = new HashMap<>();
+		
+		if(rentcarBO.is_Duplicate(reservationNumber)) {
+			result.put("result", true);
+		} else {
+			result.put("result", false);			
+		}
+		
+		return result;
 	}
 }

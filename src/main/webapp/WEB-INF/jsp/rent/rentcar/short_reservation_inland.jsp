@@ -11,6 +11,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 		
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		
 	<!-- 플러그인에서 제공해주는 css 로딩 -->
 	<link rel="stylesheet" href="/static/css/jquery.datetimepicker.min.css" />
 	<!-- jquery 로딩 -->
@@ -44,7 +46,7 @@
 						</li>
 						
 						<li class="nav-items confirm_radius col-4 tab_li">
-							<a href="#" class="tab_menu_style nav-link d-flex align-items-center justify-content-center">예약 확인</a>
+							<a href="/rent/rentcar/short_rent_confirm/view" class="tab_menu_style nav-link d-flex align-items-center justify-content-center">예약 확인</a>
 						</li>
 					</ul>
 				</div>
@@ -175,7 +177,7 @@
 									<div class="address-input">
 										<div class="d-flex justify-content-between">
 											<input class="input form-control text-left w-50 disabled_input" id="postalCod_Input" placeholder="우편번호 검색" disabled="disabled">
-											<a href="#" class="w-50">주소검색</a>
+											<a href="#" class="w-50" id="search_address">주소검색</a>
 										</div>
 										<input class="input form-control text-left disabled_input" id="address_Input" placeholder="주소 입력" disabled="disabled">
 										<input class="input form-control text-left" id="detail_address_Input" placeholder="나머지 주소를 입력해주세요.">
@@ -211,8 +213,8 @@
 					</div>
 					
 					<div class="d-flex justify-content-center mt1">
-						<button type="button" class="btn btn-color2 mr-2 btn-width1 btn-large d-flex align-items-center justify-content-center" id="cancle-btn">취소</button>
-						<button type="button" class="btn btn-color1 btn-width1 btn-large d-flex align-items-center justify-content-center" id="confirm-btn">예약하기</button>
+						<button type="button" class="btn btn-color2 mr-2 btn-width1 btn-large btn_text" id="cancle-btn">취소</button>
+						<button type="button" class="btn btn-color1 btn-width1 btn-large btn_text" id="confirm-btn">예약하기</button>
 					</div>
 				</div>	
 			</div>
@@ -228,6 +230,38 @@
 			var month = now.getMonth();
 			
 			var selectedCar = "";
+			
+			$("#search_address").on("click", function(e){
+				e.preventDefault();
+				
+				searchAddress();
+			});
+			
+			function searchAddress() {
+		        new daum.Postcode({
+		            oncomplete: function(data) {
+		                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+		                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+		                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+		                var addr = ''; // 주소 변수
+		                var extraAddr = ''; // 참고항목 변수
+
+		                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+		                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+		                    addr = data.roadAddress;
+		                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+		                    addr = data.jibunAddress;
+		                }         
+
+		                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+		                document.getElementById("postalCod_Input").value = data.zonecode;
+		                document.getElementById("address_Input").value = addr;
+		                // 커서를 상세주소 필드로 이동한다.
+		                document.getElementById("detail_address_Input").focus();
+		            }
+		        }).open();
+		    }
 			
 			$("#region_lis").on("click", ".branch_btn", function(e){				
 				e.preventDefault();
@@ -410,6 +444,58 @@
 				}
 			});
 			
+			function is_duplicate(number) {
+				
+				let reservationNumber = String(number);
+
+				$.ajax({
+					type:"get"
+					, url:"/rent/rentcar/is_duplicate"
+					, date:{"reservationNumber":reservationNumber}
+					, success:function(data){
+						if(data.result) {
+							number = randomNumber(now);
+							is_duplicate(number);
+						} else {
+							return number;
+						}
+					}
+					,error:function(){
+						alert("예약번호 중복체크 에러");
+					}
+				});
+			}
+			
+			function randomNumber(date) {
+				
+				let yyyy = String(date.getFullYear());
+				let mm = String(date.getMonth() + 1);
+				let dd = String(date.getDate());
+				
+				let reservationNumber;
+				
+				if(mm < 10) {
+					mm = "0" + mm;
+				}
+				
+				if(dd < 10) {
+					dd = "0" + dd; 
+				}
+				
+				let today = yyyy + mm + dd;		
+				let resultNumber = "1111";
+				
+				return today + resultNumber;
+			}
+			
+			$("#cancle-btn").on("click", function(){
+				
+				let reservationNumber = randomNumber(now);
+				is_duplicate(reservationNumber);
+				
+				console.log(reservationNumber);
+			});
+			
 			// 예약 버튼
 			$("#confirm-btn").on("click", function(){	
 				let startDate = $("#sDate").val();
@@ -419,10 +505,13 @@
 				let name = $("#driverName_Input").val();
 				let birth = $("#birth_Input").val();
 				let phoneNumber = $("#phoneNumber_Input").val();						
-				let address = $("#detail_address_Input").val();
+				let address = $("#address_Input").val() + " " + $("#detail_address_Input").val();
 				let license = $("select[name='license']").val();
 				let	licenseNumber = $("#licenseNumber_Input").val();
 				let license_IssueDate = $("#license_IssueDate_Input").val();
+				
+				let reservationNumber = randomNumber(now);
+				is_duplicate(reservationNumber);
 				
 				let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 				let ageLimit = year - birth.substring(0, 4);
@@ -475,7 +564,7 @@
 					type:"post"
 					, url:"/rent/rentcar/short_rent_jeju"
 					, data:{"rentCenter":rentCenter, "startDate":startDate, "returnDate":returnDate, "rentCar":rentCar, "name":name, "birth":birth
-						, "phoneNumber":phoneNumber, "address":address, "license":license, "licenseNumber":licenseNumber, "license_IssueDate":license_IssueDate}
+						, "phoneNumber":phoneNumber, "address":address, "license":license, "licenseNumber":licenseNumber, "license_IssueDate":license_IssueDate, "reservationNumber":reservationNumber}
 					, success:function(data){
 						if(data.result == "success") {
 							alert("예약 성공");

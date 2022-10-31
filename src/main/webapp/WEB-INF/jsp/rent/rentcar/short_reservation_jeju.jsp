@@ -44,7 +44,7 @@
 						</li>
 						
 						<li class="nav-items confirm_radius col-4 tab_li">
-							<a href="#" class="tab_menu_style nav-link d-flex align-items-center justify-content-center">예약 확인</a>
+							<a href="/rent/rentcar/short_rent_confirm/view" class="tab_menu_style nav-link d-flex align-items-center justify-content-center">예약 확인</a>
 						</li>
 					</ul>
 				</div>
@@ -61,7 +61,7 @@
 							<div class="col-5">
 								<input class="input_style btn form-control mt-3 text-left rent_date" id="sDate" placeholder="대여일시">
 								<div class="mt-3 d-flex justify-content-between">
-									<span class="input_style form-control col-7 jeju d-flex align-items-center"><strong>제주/제주지점</strong></span>
+									<span class="input_style form-control col-7 jeju d-flex align-items-center input_size_46"><strong>제주/제주지점</strong></span>
 									<a href="#" class="map_btn btn d-flex align-items-center">지도보기</a>
 								</div>
 							</div>
@@ -69,7 +69,7 @@
 							<div class="col-5 mr-2"> 
 								<input class="input_style btn form-control mt-3 text-left rent_date" id="eDate" placeholder="반납일시" disabled="disabled">
 								<div class="mt-3 d-flex justify-content-between">
-									<span class="input_style form-control col-7 jeju d-flex align-items-center"><strong>제주/제주지점</strong></span>
+									<span class="input_style form-control col-7 jeju d-flex align-items-center input_size_46"><strong>제주/제주지점</strong></span>
 									<a href="#" class="map_btn btn d-flex align-items-center">지도보기</a>
 								</div>
 							</div>
@@ -153,7 +153,7 @@
 									<div class="address-input">
 										<div class="d-flex justify-content-between">
 											<input class="input form-control text-left w-50 disabled_input" id="postalCod_Input" placeholder="우편번호 검색" disabled="disabled">
-											<a href="#" class="w-50">주소검색</a>
+											<a href="#" class="w-50" id="search_address">주소검색</a>
 										</div>
 										<input class="input form-control text-left disabled_input" id="address_Input" placeholder="주소 입력" disabled="disabled">
 										<input class="input form-control text-left" id="detail_address_Input" placeholder="나머지 주소를 입력해주세요.">
@@ -189,8 +189,8 @@
 					</div>
 					
 					<div class="d-flex justify-content-center mt1">
-						<button type="button" class="btn btn-color2 mr-2 btn-width1 btn-large d-flex align-items-center justify-content-center" id="cancle-btn">취소</button>
-						<button type="button" class="btn btn-color1 btn-width1 btn-large d-flex align-items-center justify-content-center" id="confirm-btn">예약하기</button>
+						<button type="button" class="btn btn-color2 mr-2 btn-width1 btn-large btn_text" id="cancle-btn">취소</button>
+						<button type="button" class="btn btn-color1 btn-width1 btn-large btn_text" id="confirm-btn">예약하기</button>
 					</div>
 				</div>	
 			</div>
@@ -206,6 +206,39 @@
 			var month = now.getMonth();
 			
 			var selectedCar = "";
+			
+			$("#search_address").on("click", function(e){
+				e.preventDefault();
+				
+				searchAddress();
+			});
+			
+			function searchAddress() {
+		        new daum.Postcode({
+		            oncomplete: function(data) {
+		                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+		                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+		                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+		                var addr = ''; // 주소 변수
+		                var extraAddr = ''; // 참고항목 변수
+
+		                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+		                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+		                    addr = data.roadAddress;
+		                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+		                    addr = data.jibunAddress;
+		                }         
+
+		                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+		                document.getElementById("postalCod_Input").value = data.zonecode;
+		                document.getElementById("address_Input").value = addr;
+		                // 커서를 상세주소 필드로 이동한다.
+		                document.getElementById("detail_address_Input").focus();
+		            }
+		        }).open();
+		    }
+			
 			// 선택된 렌트카
 			$("#rentCar_lis").on("click", '.rentCar_btn', function(e){		
 				e.preventDefault();
@@ -312,24 +345,50 @@
 					$(this).val('');
 				}
 			});
+		
+			function randomNumber(date) {
 			
+				let yyyy = String(date.getFullYear());
+				let mm = String(date.getMonth() + 1);
+				let dd = String(date.getDate());
+				
+				let reservationNumber;
+				
+				if(mm < 10) {
+					mm = "0" + mm;
+				}
+				
+				if(dd < 10) {
+					dd = "0" + dd; 
+				}
+				
+				let today = yyyy + mm + dd;		
+				let resultNumber = "";
+				
+				for (let i = 0; i < 5; i++) { 
+					resultNumber += String(Math.floor(Math.random() * 10));
+				}	
+				
+				return today + resultNumber;
+			}
+						
 			// 예약 버튼
 			$("#confirm-btn").on("click", function(){	
 				let startDate = $("#sDate").val();
 				let returnDate = $("#eDate").val();
 				let rentCenter = "제주점";
-				let returnCenter = "제주점"
 				let rentCar	= selectedCar;
 				let name = $("#driverName_Input").val();
 				let birth = $("#birth_Input").val();
 				let phoneNumber = $("#phoneNumber_Input").val();						
-				let address = $("#detail_address_Input").val();
+				let address = $("#address_Input").val() + $("#detail_address_Input").val();
 				let license = $("select[name='license']").val();
 				let	licenseNumber = $("#licenseNumber_Input").val();
 				let license_IssueDate = $("#license_IssueDate_Input").val();
+				let reservationNumber = randomNumber(now);
 				
 				let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-				let ageLimit = year - birth.substring(0, 4);
+				let ageLimit = year - birth.substring(0, 4);				
 				
 				if(startDate == "") {
 					alert("대여하실 날짜를 선택해주세요.");
@@ -373,9 +432,9 @@
 				$.ajax({
 					type:"post"
 					, url:"/rent/rentcar/short_rent_jeju"
-					, data:{"rentCenter":rentCenter, "returnCenter":returnCenter, "startDate":startDate
-						, "returnDate":returnDate, "rentCar":rentCar, "name":name, "birth":birth
-						, "phoneNumber":phoneNumber, "address":address, "license":license, "licenseNumber":licenseNumber, "license_IssueDate":license_IssueDate}
+					, data:{"rentCenter":rentCenter, "startDate":startDate
+						, "returnDate":returnDate, "rentCar":rentCar, "name":name, "birth":birth, "phoneNumber":phoneNumber
+						, "address":address, "license":license, "licenseNumber":licenseNumber, "license_IssueDate":license_IssueDate, "reservationNumber":reservationNumber}
 					, success:function(data){
 						if(data.result == "success") {
 							alert("예약 성공");
@@ -436,24 +495,33 @@
 			});
 			
 			$("#sDate").on("change", function(){
-				let startDate = $("#sDate").val();
+				let startDate = $(this).val();
 				let retrunDate = $("#eDate").val();
 				
 				date(startDate, retrunDate);
+				
+				$("#eDate").attr("disabled", false);
 			});
 			
-			$("#sDate").on("change", function(){			
-				let startDate = $(this).val();
+			$("#eDate").on("change", function(){			
+				let startDate = $("#sDate").val();			
+				let retrunDate = $(this).val();
 				
-				if(startDate != "") {
-					$("#eDate").attr("disabled", false);
+				date(startDate, retrunDate);
+				
+				if(retrunDate != "") {
 					
 					$("#driverName_Input").attr("disabled", false);
 					$("#driverName_Input").removeClass("disabled_input");
+					
 					$("#birth_Input").attr("disabled", false);
 					$("#birth_Input").removeClass("disabled_input");
+					
 					$("#licenseNumber_Input").attr("disabled", false);
 					$("#licenseNumber_Input").removeClass("disabled_input");
+					
+					$("#rentCenter_Input").attr("disabled", false);
+					$("#rentCenter_Input").removeClass("disabled_input");
 				}	
 			});
 			

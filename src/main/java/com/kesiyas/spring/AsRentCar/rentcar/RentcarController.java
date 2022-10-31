@@ -26,4 +26,9 @@ public class RentcarController {
 	public String short_reservation_inland() {
 		return "rent/rentcar/short_reservation_inland";
 	}
+	
+	@GetMapping("/short_rent_confirm/view")
+	public String rent_confirm() {
+		return "rent/rentcar/rent_confirm";
+	}
 }

@@ -1,11 +1,14 @@
 package com.kesiyas.spring.AsRentCar.rentcar.bo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
 import com.kesiyas.spring.AsRentCar.rentcar.dao.RentcarDAO;
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
 import com.kesiyas.spring.AsRentCar.user.admin.model.RentalCar;
@@ -41,8 +44,13 @@ public class RentcarBO {
 	public int addShortRent(
 			int userId , int rentCenterId, Date startDate, Date returnDate 
 			, String rentCar, String name, String birth, String phoneNumber
-			, String address, String license, String licenseNumber, String license_IssueDate) {
+			, String address, String license, String licenseNumber, String license_IssueDate, String reservationNumber) {
 		
-		return rentcarDAO.insertReservation(userId, rentCenterId, startDate, returnDate, rentCar, name, birth, phoneNumber, address, license, licenseNumber, license_IssueDate);
+		return rentcarDAO.insertReservation(userId, rentCenterId, startDate, returnDate, rentCar, name, birth, phoneNumber, address, license, licenseNumber, license_IssueDate, reservationNumber);
+	}
+	
+	public boolean is_Duplicate(String reservationNumber) {
+		
+		return (rentcarDAO.selectReservationNumber(reservationNumber) != 0)?true:false;
 	}
 }

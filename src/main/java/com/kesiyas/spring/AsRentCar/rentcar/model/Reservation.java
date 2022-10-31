@@ -18,6 +18,8 @@ public class Reservation {
 	private String license;
 	private String licenseNumber;
 	private String license_IssueDate;
+	private String reservationNumber;
+
 	private Date createdAt;
 	private Date updatedAt;
 	
@@ -105,6 +107,14 @@ public class Reservation {
 	public void setLicense_IssueDate(String license_IssueDate) {
 		this.license_IssueDate = license_IssueDate;
 	}
+	
+	public String getReservationNumber() {
+		return reservationNumber;
+	}
+	public void setReservationNumber(String reservationNumber) {
+		this.reservationNumber = reservationNumber;
+	}
+	
 	public Date getCreatedAt() {
 		return createdAt;
 	}

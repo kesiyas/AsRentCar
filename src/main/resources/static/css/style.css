@@ -378,6 +378,15 @@ header .util_2  {
     border-radius: 5px;
 }
 
+.short_rev .confirm {
+	
+}
+
+.short_rev .confirm input {
+	
+	height: 52px;
+}
+
 .driverInfo .contractor_info .license {
 	margin-left: 80px;
 }
@@ -508,3 +517,13 @@ ul	{
 .input_size_46{
 	height: 46px;
 };
+
+.info-deafult {
+    font-size: 15px;
+    color: #333;
+    line-height: 52px;
+}
+
+.btn_text {
+	padding: 0 10px;
+}

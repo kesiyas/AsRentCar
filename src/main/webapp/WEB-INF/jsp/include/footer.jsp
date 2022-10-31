@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-		<footer>
+		<footer class="mt-5">
 			<div class="d-flex footer-info justify-content-between">
 				<div class="d-flex align-items-center">
 					<div class="main-logo-style d-flex mr-5">
