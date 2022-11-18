@@ -45,7 +45,8 @@
 			`centerName` = #{centerName }
 	</select>
 
-	<insert id="insertReservation" parameterType="map">
+	<insert id="insertReservation" parameterType="com.kesiyas.spring.AsRentCar.rentcar.model.Reservation"
+	useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO 
 			`Reservation`
 		(
@@ -85,12 +86,53 @@
 		)	
 	</insert>
 	
-	<select id="selectReservationNumber">
+	<select id="selectReservationNumber" resultType="int" parameterType="String">
 		SELECT
 			count(1)
 		FROM
 			`reservation`
 		WHERE
 			`reservationNumber` = #{reservationNumber}
+	</select>
+	
+	<select id="selectReservation" parameterType="String" resultType="com.kesiyas.spring.AsRentCar.rentcar.model.Reservation">
+		SELECT
+			`id`
+			,`rentCenterId`
+			, `reservationNumber`
+			, `startDate`
+			, `returnDate`
+			, `rentCar`
+			, `name`
+		FROM 
+			`reservation`
+		WHERE
+			`reservationNumber` = #{reservationNumber}
+			AND
+			`name` = #{name}
+			AND
+			`phoneNumber` = #{phoneNumber}
+	</select>
+
+	<select id="selectReservationById" parameterType="int" resultType="com.kesiyas.spring.AsRentCar.rentcar.model.Reservation">
+		SELECT		
+			`reservationNumber`
+			, `startDate`
+			, `returnDate`
+			, `rentCar`
+			, `name`
+		FROM 
+			`reservation`
+		WHERE
+			`id` = #{reservationId}
+	</select>
+	
+	<select id="selectIdByUserId" parameterType="int" resultType="com.kesiyas.spring.AsRentCar.rentcar.model.Reservation">
+		SELECT
+			`id`
+		FROM 
+			`reservation`
+		WHERE
+			`userId` = #{userId}
 	</select>
 </mapper>

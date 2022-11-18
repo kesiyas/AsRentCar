@@ -131,7 +131,15 @@
 		FROM
 			`branch`
 		WHERE
-			`centerUserId` = #{	centerUserId}
+			`centerUserId` = #{centerUserId}
 	</select>
 	
+	<select id="selectCenterById" parameterType="int" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Branch">
+		SELECT
+			`centerName`
+		FROM
+			`branch`
+		WHERE
+			`id` = #{rentCenterId}	
+	</select>	
 </mapper>

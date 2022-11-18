@@ -437,7 +437,8 @@
 						, "address":address, "license":license, "licenseNumber":licenseNumber, "license_IssueDate":license_IssueDate, "reservationNumber":reservationNumber}
 					, success:function(data){
 						if(data.result == "success") {
-							alert("예약 성공");
+							
+							location.href = "/rent/rentcar/short_rent_info/view";									
 						}else {
 							alert("예약 실패");
 						}

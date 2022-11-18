@@ -444,28 +444,6 @@
 				}
 			});
 			
-			function is_duplicate(number) {
-				
-				let reservationNumber = String(number);
-
-				$.ajax({
-					type:"get"
-					, url:"/rent/rentcar/is_duplicate"
-					, date:{"reservationNumber":reservationNumber}
-					, success:function(data){
-						if(data.result) {
-							number = randomNumber(now);
-							is_duplicate(number);
-						} else {
-							return number;
-						}
-					}
-					,error:function(){
-						alert("예약번호 중복체크 에러");
-					}
-				});
-			}
-			
 			function randomNumber(date) {
 				
 				let yyyy = String(date.getFullYear());
@@ -483,9 +461,8 @@
 				}
 				
 				let today = yyyy + mm + dd;		
-				let resultNumber = "1111";
 				
-				return today + resultNumber;
+				return today;
 			}
 			
 			$("#cancle-btn").on("click", function(){
@@ -508,10 +485,8 @@
 				let address = $("#address_Input").val() + " " + $("#detail_address_Input").val();
 				let license = $("select[name='license']").val();
 				let	licenseNumber = $("#licenseNumber_Input").val();
-				let license_IssueDate = $("#license_IssueDate_Input").val();
-				
+				let license_IssueDate = $("#license_IssueDate_Input").val();			
 				let reservationNumber = randomNumber(now);
-				is_duplicate(reservationNumber);
 				
 				let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 				let ageLimit = year - birth.substring(0, 4);
@@ -562,13 +537,16 @@
 				
 				$.ajax({
 					type:"post"
-					, url:"/rent/rentcar/short_rent_jeju"
+					, url:"/rent/rentcar/short_rent"
 					, data:{"rentCenter":rentCenter, "startDate":startDate, "returnDate":returnDate, "rentCar":rentCar, "name":name, "birth":birth
 						, "phoneNumber":phoneNumber, "address":address, "license":license, "licenseNumber":licenseNumber, "license_IssueDate":license_IssueDate, "reservationNumber":reservationNumber}
 					, success:function(data){
-						if(data.result == "success") {
-							alert("예약 성공");
+						if(data.result == "success") {				
+							let reservationId = data.reservationId;
+							
+							location.href = "/rent/rentcar/short_rent_info/view?rentCenter=" + rentCenter + "&reservationId=" + reservationId;									
 						}else {
+							
 							alert("예약 실패");
 						}
 					}

@@ -84,5 +84,10 @@ public class AdminBO {
 		
 		return adminDAO.selectCenterId(centerUserId);
 	}
+	
+	public Branch selectCenterById(int rentCenterId) {
+		
+		return adminDAO.selectCenterById(rentCenterId);
+	}
 
 }

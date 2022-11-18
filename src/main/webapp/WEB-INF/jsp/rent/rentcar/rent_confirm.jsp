@@ -93,13 +93,13 @@
 		});
 		
 		$("#confirm-btn").on("click", function(){
-			let revNumber = $("#revNumber_Input").val();
+			let reservationNumber = $("#revNumber_Input").val();
 			let name = $("#name_Input").val();
 			let phoneNumber = $("#phoneNumber_Input").val();
 			
 			let checkPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
-			if(revNumber == "") {
+			if(reservationNumber == "") {
 				alert("예약번호를 입력해주세요.");
 				return;
 			}
@@ -119,6 +119,26 @@
 				return;
 			}
 			
+			$.ajax({
+				type:"post"
+				, url:"/rent/rentcar/short_rent_confirm"
+				, data:{"reservationNumber":reservationNumber, "name":name, "phoneNumber":phoneNumber}
+				, success:function(data) {
+					if(data.reservationId != 0) {
+						
+						let reservationId = data.reservationId;
+						let rentCenter = data.centerName;
+						
+						location.href = "/rent/rentcar/short_rent_info/view?reservationId=" + reservationId + "&rentCenter=" + rentCenter;									
+					} else {
+						
+						alert("예약확인 실패");
+					}
+				}
+				, error:function(){
+					alert("예약확인 에러");
+				}
+			});
 		});
 		
 	});

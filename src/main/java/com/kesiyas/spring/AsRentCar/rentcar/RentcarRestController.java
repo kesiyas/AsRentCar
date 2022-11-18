@@ -11,13 +11,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kesiyas.spring.AsRentCar.rentcar.bo.RentcarBO;
+import com.kesiyas.spring.AsRentCar.rentcar.model.Reservation;
+import com.kesiyas.spring.AsRentCar.user.admin.bo.AdminBO;
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
 import com.kesiyas.spring.AsRentCar.user.admin.model.RentalCar;
 
@@ -27,6 +28,9 @@ public class RentcarRestController {
 	
 	@Autowired
 	private RentcarBO rentcarBO;
+	
+	@Autowired
+	private AdminBO adminBO;
 	
 	@PostMapping("/home/selectCity")
 	public Map<String, String> selectCity(@RequestParam("city") String city) {
@@ -95,8 +99,8 @@ public class RentcarRestController {
 		return result;
 	}
 	
-	@PostMapping("/short_rent_jeju") 
-	public Map<String, String> addShortRent(
+	@PostMapping("/short_rent") 
+	public Map<String, Object> addShortRent(
 			@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date startDate
 			, @RequestParam("returnDate") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date returnDate
 			, @RequestParam("rentCenter") String rentCenter
@@ -115,31 +119,55 @@ public class RentcarRestController {
 		int userId = (Integer)session.getAttribute("userId");
 		
 		int rentCenterId = rentcarBO.selectCenterId(rentCenter);
-	
-		int count = rentcarBO.addShortRent(userId, rentCenterId, startDate, returnDate, rentCar, name, birth, phoneNumber, address, license, licenseNumber, license_IssueDate, reservationNumber);
 		
-		Map<String, String> result = new HashMap<>();
+		Reservation reservation = new Reservation();
+		reservation.setUserId(userId);
+		reservation.setStartDate(startDate);
+		reservation.setReturnDate(returnDate);
+		reservation.setRentCenterId(rentCenterId);
+		reservation.setRentCar(rentCar);
+		reservation.setName(name);
+		reservation.setBirth(birth);
+		reservation.setPhoneNumber(phoneNumber);
+		reservation.setAddress(address);
+		reservation.setLicense(license);
+		reservation.setLicenseNumber(licenseNumber);
+		reservation.setLicense_IssueDate(license_IssueDate);
+	
+		int count = rentcarBO.addShortRent(reservation, reservationNumber);
+		int reservationId = reservation.getId();
+		
+		Map<String, Object> result = new HashMap<>();
 		
 		if(count == 1) {
 			result.put("result", "success");
+			result.put("reservationId", reservationId);
 		} else {
 			result.put("result", "fail");
 		}
 		return result;	
 	}
 	
-	// 아이디 중복 체크
-	@GetMapping("/is_duplicate")
-	public Map<String, Boolean> is_duplicate(@RequestParam("reservationNumber") String reservationNumber){
+	@PostMapping("/short_rent_confirm")
+	public Map<String, Object> reservationConfirm(
+			@RequestParam("reservationNumber") String reservationNumber
+			, @RequestParam("name") String name
+			, @RequestParam("phoneNumber") String phoneNumber) {
 		
-		Map<String, Boolean> result = new HashMap<>();
+		Reservation rev = rentcarBO.reservationConfirm(reservationNumber, name, phoneNumber);
 		
-		if(rentcarBO.is_Duplicate(reservationNumber)) {
-			result.put("result", true);
+		Branch branch = adminBO.selectCenterById(rev.getRentCenterId());
+		String centerName = branch.getCenterName();
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		if(rev != null) {
+			result.put("reservationId", rev.getId());
+			result.put("centerName", centerName);
 		} else {
-			result.put("result", false);			
+			result.put("reservationId", null);
 		}
-		
-		return result;
+		return result;	
 	}
+	
 }

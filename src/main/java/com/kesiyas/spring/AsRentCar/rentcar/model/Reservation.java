@@ -7,9 +7,8 @@ public class Reservation {
 	private int id;
 	private int userId;
 	private int rentCenterId;
-	private int returnCenterId;
 	private Date startDate;
-	private Date reuturnDate;
+	private Date returnDate;
 	private String rentCar;
 	private String name;
 	private String birth;
@@ -19,7 +18,6 @@ public class Reservation {
 	private String licenseNumber;
 	private String license_IssueDate;
 	private String reservationNumber;
-
 	private Date createdAt;
 	private Date updatedAt;
 	
@@ -41,23 +39,18 @@ public class Reservation {
 	public void setRentCenterId(int rentCenterId) {
 		this.rentCenterId = rentCenterId;
 	}
-	public int getReturnCenterId() {
-		return returnCenterId;
-	}
-	public void setReturnCenterId(int returnCenterId) {
-		this.returnCenterId = returnCenterId;
-	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public Date getReuturnDate() {
-		return reuturnDate;
+	public Date getReturnDate() {
+		return returnDate;
 	}
-	public void setReuturnDate(Date reuturnDate) {
-		this.reuturnDate = reuturnDate;
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
 	}
 	public String getRentCar() {
 		return rentCar;
