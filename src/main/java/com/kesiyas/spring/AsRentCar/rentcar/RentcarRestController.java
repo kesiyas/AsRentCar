@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kesiyas.spring.AsRentCar.rentcar.bo.RentcarBO;
+import com.kesiyas.spring.AsRentCar.rentcar.model.EarlyReservation;
 import com.kesiyas.spring.AsRentCar.rentcar.model.Reservation;
 import com.kesiyas.spring.AsRentCar.user.admin.bo.AdminBO;
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
@@ -74,7 +75,7 @@ public class RentcarRestController {
 	}
 	
 	@PostMapping("/home/saveRev") 
-	public Map<String, String> selectCar(
+	public Map<String, Object> selectCar(
 			@RequestParam("sDate") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date sDate
 			,@RequestParam("eDate")  @DateTimeFormat(pattern="yyyy-MM-dd HH:mm") Date eDate
 			,@RequestParam("centerName") String centerName
@@ -83,15 +84,22 @@ public class RentcarRestController {
 		
 		HttpSession session = request.getSession();
 		
-		Map<String, String> result = new HashMap<>();
+		Map<String, Object> result = new HashMap<>();
 		
 		if(sDate != null && eDate != null && centerName != null && modelName != null) {
-			session.setAttribute("startDate", sDate);
-			session.setAttribute("returnDate", eDate);
-			session.setAttribute("centerName", centerName);
-			session.setAttribute("modelName", modelName);
+//			session.setAttribute("startDate", sDate);
+//			session.setAttribute("returnDate", eDate);
+//			session.setAttribute("centerName", centerName);
+//			session.setAttribute("modelName", modelName);
+			
+			EarlyReservation earlyReservation = new EarlyReservation();
+			earlyReservation.setStartDate(sDate);
+			earlyReservation.setReturnDate(eDate);
+			earlyReservation.setCenterName(centerName);
+			earlyReservation.setModelName(modelName);
 			
 			result.put("result", "success");
+			result.put("earlyReservation", earlyReservation);
 		} else {
 			result.put("result", "fail");
 		}

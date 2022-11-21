@@ -32,7 +32,7 @@ public class UserController {
 		HttpSession session = request.getSession();
 		
 		session.removeAttribute("userId");
-		session.removeAttribute("loginId");
+		session.removeAttribute("authority");
 		
 		return "redirect:/rent/user/signin/view";
 	}

@@ -25,6 +25,7 @@ public class AdminRestController {
 	@Autowired
 	private AdminBO adminBO;
 	
+	// 관리자 회원가입 기능
 	@PostMapping("/signup")
 	public Map<String, String> addAdmin(
 			@RequestParam("loginId") String loginId
@@ -46,7 +47,8 @@ public class AdminRestController {
 		int addUserCount = adminBO.addAdminUser(user, password);
 		
 		int centerUserId = user.getId(); 
-		// 관리자 계정 권한 부여
+		
+		// 관리자 계정 권한 생성
 		int addAdminCount = adminBO.addAdmin(centerUserId, authority);
 		
 		Map<String, String> result = new HashMap<>();

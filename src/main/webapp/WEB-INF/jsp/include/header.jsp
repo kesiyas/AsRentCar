@@ -14,17 +14,26 @@
 					</ul>
 				</nav>
 				
-				<div class="mt-4">
+				<div class="mt-4 d-flex align-items-center justify-content-center">
 					<c:choose>
 						<c:when test="${empty userId }">
 							<a href="/rent/user/signin/view" class="util">로그인</a>
-							<span><a href="/rent/user/signin/view" class="util_2">My렌터카</a></span>
 						</c:when>
 						<c:otherwise>
 							<a href="/rent/user/signout" class="util">로그 아웃</a>
-							<span><a href=# class="util_2">My렌터카</a></span>
 						</c:otherwise>
 					</c:choose>
+					
+					<div class="ml-2">
+						<c:choose>
+							<c:when test="${not empty authority }">
+								<div class="info"><a href="/rent/user/admin/car/view" class="util_2">차량 등록</a></div>
+							</c:when>
+							<c:otherwise></c:otherwise>
+						</c:choose>				
+						
+						<span><a href=# class="util_2">My렌터카</a></span>
+					</div>					
 				</div>
 			</div>
 		</header>

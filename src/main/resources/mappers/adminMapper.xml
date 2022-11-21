@@ -107,9 +107,10 @@
 		)	
 	</insert>
 	
-	<select id="selectAuthority" parameterType="int" resultType="int">
+	<select id="selectAuthority" parameterType="int" resultType="com.kesiyas.spring.AsRentCar.user.admin.model.Admin">
 		SELECT 
-			count(1)
+			`id`
+			, `authority`
 		FROM
 			`admin`
 		WHERE

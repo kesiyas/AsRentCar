@@ -73,14 +73,5 @@
 		<c:import url="/WEB-INF/jsp/include/footer.jsp"></c:import>
 	</div>
 
-	<script>
-		$(document).ready(function(){
-			
-			
-				
-				
-		
-		});
-	</script>
 </body>
 </html>

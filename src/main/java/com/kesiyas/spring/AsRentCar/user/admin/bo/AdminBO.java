@@ -1,7 +1,5 @@
 package com.kesiyas.spring.AsRentCar.user.admin.bo;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,8 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kesiyas.spring.AsRentCar.common.EncryptUtils;
 import com.kesiyas.spring.AsRentCar.common.FileManagerService;
 import com.kesiyas.spring.AsRentCar.user.admin.dao.AdminDAO;
+import com.kesiyas.spring.AsRentCar.user.admin.model.Admin;
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
-import com.kesiyas.spring.AsRentCar.user.admin.model.RentalCar;
 import com.kesiyas.spring.AsRentCar.user.model.User;
 
 @Service
@@ -74,8 +72,8 @@ public class AdminBO {
 		return adminDAO.insertBranchCar(centerUserId, centerId, carGrade, modelName, carNumber, modelYear, rentalFee, imgPath);
 	}
 	
-	// 권한설정 여부
-	public int selectAuthority(int centerUserId) {
+	// 권한이 설정되어 있는지 확인
+	public Admin selectAuthority(int centerUserId) {
 		
 		return adminDAO.selectAuthority(centerUserId);
 	}

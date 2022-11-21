@@ -1,9 +1,9 @@
 package com.kesiyas.spring.AsRentCar.user;
 
 import java.io.UnsupportedEncodingException;
-
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kesiyas.spring.AsRentCar.user.admin.bo.AdminBO;
+import com.kesiyas.spring.AsRentCar.user.admin.model.Admin;
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
 import com.kesiyas.spring.AsRentCar.user.bo.EmailService;
 import com.kesiyas.spring.AsRentCar.user.bo.UserBO;
@@ -88,14 +89,14 @@ public class UserRestController {
 			int userId = user.getId();
 		
 			session.setAttribute("userId", userId);
-			session.setAttribute("loginId", loginId);
 			
-			int count = adminBO.selectAuthority(userId);
+			Admin admin = adminBO.selectAuthority(userId);
 			
-			if(count == 1) {
+			if(admin != null) {					
+				Branch branch = adminBO.selectCenterId(userId);	
 				
-				Branch branch = adminBO.selectCenterId(userId);		
 				session.setAttribute("centerId", branch.getId());
+				session.setAttribute("authority", admin.getAuthority());
 			} else {}	
 			
 			result.put("result", "success");		
@@ -151,6 +152,7 @@ public class UserRestController {
 		return result;
 	}
 	
+	// 인증 코드 확인
 	@PostMapping("/codeCheck")
 	public Map<String, String> codeCheck(HttpServletRequest request
 			, @RequestParam("code") int code){
@@ -173,6 +175,7 @@ public class UserRestController {
 		return result;
 	}
 	
+	// 비밀번호 찾기
 	@GetMapping("/pw_search")
 	public Map<String, String> searchPw(HttpServletRequest request
 			, @RequestParam("loginId") String loginId){

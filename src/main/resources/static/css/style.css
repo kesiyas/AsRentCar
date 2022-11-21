@@ -479,16 +479,16 @@ footer > .footer-info {
     line-height: 48px;
 }
 
-.firsttab-font {
+#main_tab .firsttab-font {
 	font-size: 20px;
 	font-weight: bold;
 	color:#ffc107;
 }
 
-.secondtab-font {
+#main_tab .secondtab-font {
 	font-size: 20px;
 	font-weight: bold;
-	color: rgba(255,255,255,0.7);
+	color : white;
 	background: #785e4c;
 }    
 
@@ -548,3 +548,17 @@ ul	{
 .btn_text {
 	padding: 0 10px;
 }
+
+.map_style{
+	position:fixed;
+    width: 800px;
+ 	margin-left:-150px;
+    background: #fff;
+    height:750px;
+}
+
+#map {
+	width:700px;
+	height:290px;
+}
+

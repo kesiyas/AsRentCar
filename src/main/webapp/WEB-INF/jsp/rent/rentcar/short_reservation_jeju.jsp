@@ -436,9 +436,10 @@
 						, "returnDate":returnDate, "rentCar":rentCar, "name":name, "birth":birth, "phoneNumber":phoneNumber
 						, "address":address, "license":license, "licenseNumber":licenseNumber, "license_IssueDate":license_IssueDate, "reservationNumber":reservationNumber}
 					, success:function(data){
-						if(data.result == "success") {
+						if(data.result == "success") {						
+							let reservationId = data.reservationId;
 							
-							location.href = "/rent/rentcar/short_rent_info/view";									
+							location.href = "/rent/rentcar/short_rent_info/view?rentCenter=" + rentCenter + "&reservationId=" + reservationId;									
 						}else {
 							alert("예약 실패");
 						}

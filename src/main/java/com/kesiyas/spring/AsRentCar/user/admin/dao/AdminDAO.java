@@ -4,8 +4,8 @@ package com.kesiyas.spring.AsRentCar.user.admin.dao;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.kesiyas.spring.AsRentCar.user.admin.model.Admin;
 import com.kesiyas.spring.AsRentCar.user.admin.model.Branch;
-
 import com.kesiyas.spring.AsRentCar.user.model.User;
 
 @Repository
@@ -34,7 +34,7 @@ public interface AdminDAO {
 			, @Param("rentalFee") int rentalFee
 			, @Param("imgPath") String imgPath);
 	
-	public int selectAuthority(@Param("centerUserId") int centerUserId);
+	public Admin selectAuthority(@Param("centerUserId") int centerUserId);
 	
 	public Branch selectCenterId(@Param("centerUserId") int centerUserId);
 	

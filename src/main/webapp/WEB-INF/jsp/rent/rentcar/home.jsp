@@ -128,8 +128,9 @@
 									</div>
 								</div>
 							</div>
-							<!-- 차량 선택 레이어 팝업-->		
-							<button class="btn mt-4 col-7 float-right revBtn_style" id="rev-btn">빠른 예약</button>					
+							<!-- 차량 선택 레이어 팝업-->	
+								
+							<button class="btn mt-4 col-7 float-right revBtn_style" id="reservation-btn">빠른 예약</button>					
 						</div>						
 										
 					</div>
@@ -145,7 +146,8 @@
 		$(document).ready(function(){
 			
 			var is_Check = false; // 지역이 선택 되어있는지 확인
-			var tabType = "제주";
+			var tabType = "제주"; // 메인 탭
+			
 			$(".mainTab").on("click", function(e){		
 				
 				e.preventDefault();	
@@ -181,8 +183,8 @@
 				}
 			});
 			
-			$("#rev-btn").on("click", function(){
-				
+			// 빠른예약 버튼
+			$("#reservation-btn").on("click", function(){		
 				let sDate = $("#sDate").val();
 				let eDate = $("#eDate").val();
 				let centerName = $(".branch_select").text();	
@@ -214,7 +216,21 @@
 					, data:{"sDate":sDate, "eDate":eDate, "centerName":centerName, "modelName":modelName}
 					, success:function(data){
 						if(data.result == "success") {
-							alert("성공");
+							let earlyReservation = data.earlyReservation;
+							
+							if(${userId == null}) {
+								if(tabType == "제주") {
+									location.href = "/rent/user/signin/view?tabType=제주";
+								}else {
+									location.href = "/rent/user/signin/view?tabType=내륙";
+								}
+							}else {
+								if(tabType == "제주"){	
+									location.href = "/rent/rentcar/short_rent_jeju/view";
+								}else {
+									location.href = "/rent/rentcar/short_rent_inland/view";
+								}
+							}
 						}else {
 							alert("빠른예약 정보저장 실패");
 						}
@@ -228,9 +244,9 @@
 			$("#rentCar_lis").on("click", ".rentCar_btn", function(e){				
 				e.preventDefault();
 				
-				let branch = $(".rentCar_btn").text();
+				let rentCar = $(".rentCar_btn").text();
 				
-				$("#rentCar_select").text(branch);
+				$("#rentCar_select").text(rentCar);
 				$("#rentCarSelectPop").addClass("d-none");
 			});	
 			

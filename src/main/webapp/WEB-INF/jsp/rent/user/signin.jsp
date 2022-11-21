@@ -94,7 +94,15 @@
 				, data:{"loginId":loginId, "password":password}				
 				, success:function(data){
 					if(data.result == "success"){
+						
+						if(tabType == "제주") {
+							location.href="/rent/rentcar/short_rent/jeju/view";
+						}else {
+							location.href="/rent/rentcar/short_rent/inland/view";
+						}
+						
 						location.href="/rent/rentcar/home/view";
+						
 					}else {
 						alert("로그인 실패");
 					}
